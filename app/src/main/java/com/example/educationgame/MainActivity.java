@@ -1,14 +1,14 @@
-package com.example.edugames;
+package com.example.educationgame;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button schedulerButton, logicButton;
+    LinearLayout schedulerButton, logicButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
