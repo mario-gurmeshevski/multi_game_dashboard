@@ -4,84 +4,80 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#121212"
-    android:padding="24dp">
+    android:background="@color/background"
+    android:paddingStart="48dp"
+    android:paddingEnd="48dp"
+    android:paddingTop="32dp"
+    android:paddingBottom="32dp">
 
     <TextView
         android:id="@+id/titleText"
+        style="@style/TextStyle.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Educational Games"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        android:textColor="#FFFFFF"
-        android:layout_gravity="center"
-        android:layout_marginBottom="32dp"/>
+        android:layout_gravity="start"
+        android:layout_marginBottom="8dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_weight="0"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:clipToPadding="false">
 
-        <!-- OS Scheduler Game -->
         <LinearLayout
             android:id="@+id/schedulerButton"
-            android:layout_width="200dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0"
-            android:layout_marginEnd="80dp"
+            android:layout_width="240dp"
+            android:layout_height="200dp"
+            android:layout_marginEnd="24dp"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/card_background"
+            android:background="@drawable/card_background_ripple"
             android:clickable="true"
-            android:focusable="true">
+            android:focusable="true"
+            android:padding="24dp">
 
             <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@android:drawable/ic_menu_sort_by_size"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_scheduler"
                 android:layout_marginBottom="16dp"/>
 
             <TextView
+                style="@style/TextStyle.CardTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="OS Scheduler"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
-
+                android:layout_marginBottom="4dp"/>
 
         </LinearLayout>
 
-        <!-- Logic Circuit Game -->
         <LinearLayout
             android:id="@+id/logicButton"
-            android:layout_width="200dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0"
-            android:layout_marginStart="12dp"
+            android:layout_width="240dp"
+            android:layout_height="200dp"
+            android:layout_marginStart="24dp"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/card_background"
+            android:background="@drawable/card_background_ripple"
             android:clickable="true"
-            android:focusable="true">
+            android:focusable="true"
+            android:padding="24dp">
 
             <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@android:drawable/ic_menu_share"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_logic_circuit"
                 android:layout_marginBottom="16dp"/>
 
             <TextView
+                style="@style/TextStyle.CardTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Logic Circuit"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
-
+                android:layout_marginBottom="4dp"/>
 
         </LinearLayout>
 
