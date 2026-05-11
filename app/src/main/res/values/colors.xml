@@ -2,4 +2,31 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="background">#FFF7F7F8</color>
+    <color name="surface">#FFFFFFFF</color>
+    <color name="surface_variant">#FFF0F0F2</color>
+
+    <color name="primary">#FF4A5568</color>
+    <color name="primary_light">#FF718096</color>
+    <color name="accent">#FF5A67D8</color>
+    <color name="accent_light">#FF7F9CF5</color>
+
+    <color name="text_primary">#FF1A202C</color>
+    <color name="text_secondary">#FF718096</color>
+    <color name="text_hint">#FFA0AEC0</color>
+    <color name="text_on_accent">#FFFFFFFF</color>
+
+    <color name="divider">#FFE2E8F0</color>
+    <color name="border">#FFE2E8F0</color>
+    <color name="card_stroke">#FFEDF2F7</color>
+
+    <color name="ripple">#1A4A5568</color>
+    <color name="scrim">#99000000</color>
+
+    <color name="error">#FFE53E3E</color>
+    <color name="success">#FF38A169</color>
+
+    <color name="scheduler_icon">#FF5A67D8</color>
+    <color name="logic_icon">#FFD69E2E</color>
 </resources>
