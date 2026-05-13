@@ -1,5 +1,6 @@
 package com.example.educationgame.data.local.entity;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -9,12 +10,16 @@ import com.example.educationgame.data.enums.GameTypeEnum;
 public class GameEntity {
 
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
     private int id;
 
+    @ColumnInfo(name = "type")
     private GameTypeEnum type;
 
+    @ColumnInfo(name = "title")
     private String title;
 
+    @ColumnInfo(name = "description")
     private String description;
 
     public GameEntity() {}
