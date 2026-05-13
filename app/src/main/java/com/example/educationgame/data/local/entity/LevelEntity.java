@@ -1,10 +1,10 @@
 package com.example.educationgame.data.local.entity;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
-
-import com.example.educationgame.data.enums.GameTypeEnum;
 
 import static androidx.room.ForeignKey.CASCADE;
 
@@ -15,19 +15,25 @@ import static androidx.room.ForeignKey.CASCADE;
         parentColumns = "id",
         childColumns = "gameId",
         onDelete = CASCADE
-    )
+    ),
+    indices = {@Index(value = "gameId")}
 )
 public class LevelEntity {
 
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
     private int id;
 
+    @ColumnInfo(name = "levelNumber")
     private int levelNumber;
 
+    @ColumnInfo(name = "name")
     private String name;
 
+    @ColumnInfo(name = "description")
     private String description;
 
+    @ColumnInfo(name = "gameId")
     private int gameId;
 
     public LevelEntity() {}

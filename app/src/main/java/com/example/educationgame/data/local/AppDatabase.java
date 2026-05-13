@@ -10,20 +10,17 @@ import androidx.room.TypeConverters;
 import com.example.educationgame.data.local.dao.GameDao;
 import com.example.educationgame.data.local.dao.LevelDao;
 import com.example.educationgame.data.local.dao.LevelProgressDao;
-import com.example.educationgame.data.local.dao.UserDao;
 import com.example.educationgame.data.local.entity.GameEntity;
 import com.example.educationgame.data.local.entity.LevelEntity;
 import com.example.educationgame.data.local.entity.LevelProgressEntity;
-import com.example.educationgame.data.local.entity.UserEntity;
 
 @Database(
     entities = {
-        UserEntity.class,
         GameEntity.class,
         LevelEntity.class,
         LevelProgressEntity.class
     },
-    version = 3,
+    version = 5,
     exportSchema = false
 )
 @TypeConverters(Converters.class)
@@ -31,7 +28,6 @@ public abstract class AppDatabase extends RoomDatabase {
 
     private static volatile AppDatabase INSTANCE;
 
-    public abstract UserDao userDao();
     public abstract GameDao gameDao();
     public abstract LevelDao levelDao();
     public abstract LevelProgressDao levelProgressDao();
@@ -44,7 +40,10 @@ public abstract class AppDatabase extends RoomDatabase {
                         context.getApplicationContext(),
                         AppDatabase.class,
                         "education_game_db"
-                    ).fallbackToDestructiveMigration().build();
+                    )
+                        .fallbackToDestructiveMigrationFrom(1, 2, 3)
+                        .addMigrations(DatabaseMigrations.MIGRATION_4_5)
+                        .build();
                 }
             }
         }

@@ -1,7 +1,9 @@
 package com.example.educationgame.data.local.entity;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
@@ -16,32 +18,32 @@ import static androidx.room.ForeignKey.CASCADE;
             parentColumns = "id",
             childColumns = "levelId",
             onDelete = CASCADE
-        ),
-        @ForeignKey(
-            entity = UserEntity.class,
-            parentColumns = "id",
-            childColumns = "userId",
-            onDelete = CASCADE
         )
-    }
+    },
+    indices = {@Index(value = "levelId")}
 )
 public class LevelProgressEntity {
 
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
     private int id;
 
+    @ColumnInfo(name = "levelId")
     private int levelId;
 
-    private int userId;
-
+    @ColumnInfo(name = "isFinished")
     private boolean isFinished = false;
 
+    @ColumnInfo(name = "score")
     private Integer score;
 
+    @ColumnInfo(name = "completionTime")
     private Integer completionTime;
 
+    @ColumnInfo(name = "attempts")
     private int attempts = 1;
 
+    @ColumnInfo(name = "finishedAt")
     private Date finishedAt;
 
     public LevelProgressEntity() {}
@@ -51,9 +53,6 @@ public class LevelProgressEntity {
 
     public int getLevelId() { return levelId; }
     public void setLevelId(int levelId) { this.levelId = levelId; }
-
-    public int getUserId() { return userId; }
-    public void setUserId(int userId) { this.userId = userId; }
 
     public boolean isFinished() { return isFinished; }
     public void setFinished(boolean finished) { isFinished = finished; }

@@ -23,12 +23,6 @@ public interface LevelProgressDao {
     @Delete
     void delete(LevelProgressEntity progress);
 
-    @Query("SELECT * FROM level_progress WHERE userId = :userId")
-    List<LevelProgressEntity> getProgressByUserId(int userId);
-
     @Query("SELECT * FROM level_progress WHERE levelId = :levelId")
     List<LevelProgressEntity> getProgressByLevelId(int levelId);
-
-    @Query("SELECT * FROM level_progress WHERE userId = :userId AND levelId = :levelId")
-    LevelProgressEntity getProgressByUserAndLevel(int userId, int levelId);
 }
