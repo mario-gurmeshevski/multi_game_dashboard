@@ -25,4 +25,14 @@
 
     <color name="scheduler_icon">#FF7F9CF5</color>
     <color name="logic_icon">#FFECC94B</color>
+
+    <color name="game_bg">#FF101820</color>
+    <color name="game_panel_bg">#FF162330</color>
+    <color name="game_text">#FFFFFFFF</color>
+    <color name="game_level_bg">#FF1E2D3B</color>
+    <color name="game_level_bg_stroke">#FF2F4A5F</color>
+    <color name="game_progress_track">#FF2A3B4D</color>
+    <color name="game_progress_fill">#FF4CAF50</color>
+    <color name="star_color">#FFFFD700</color>
+    <color name="locked_text">#FFAAAAAA</color>
 </resources>

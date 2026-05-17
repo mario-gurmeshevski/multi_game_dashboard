@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:background="#101820">
+    android:background="@color/game_bg">
 
     <!-- LEFT PANEL -->
     <LinearLayout
@@ -15,45 +15,54 @@
         android:orientation="vertical"
         android:gravity="center_horizontal"
         android:padding="16dp"
-        android:background="#162330">
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/panel_bg">
 
-        <!-- BACK BUTTON -->
-        <ImageView
-            android:id="@+id/backButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_back_arrow"
-            android:layout_gravity="start"/>
-
-        <!-- STARS -->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp">
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
 
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:src="@drawable/ic_star"/>
+                android:id="@+id/backButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_back_arrow"/>
 
-            <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginHorizontal="8dp"
-                android:src="@drawable/ic_star"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="16dp">
 
-            <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:src="@drawable/ic_star"/>
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ic_star"/>
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:src="@drawable/ic_star"/>
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ic_star"/>
+            </LinearLayout>
+
         </LinearLayout>
 
         <!-- PROGRESS -->
         <FrameLayout
-            android:layout_width="170dp"
-            android:layout_height="170dp">
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
             <ProgressBar
                 android:id="@+id/progressCircle"
@@ -63,6 +72,7 @@
                 android:max="100"
                 android:progress="45"
                 android:rotation="270"
+                android:padding="16dp"
                 android:progressDrawable="@drawable/circular_progress"/>
 
             <TextView
@@ -71,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="45%"
-                android:textColor="@android:color/white"
+                android:textColor="@color/game_text"
                 android:textSize="26sp"
                 android:textStyle="bold"/>
         </FrameLayout>
@@ -79,10 +89,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Completed Levels"
-            android:textColor="@android:color/white"
+            android:text="@string/completed_levels"
+            android:textColor="@color/game_text"
             android:textSize="16sp"
-            android:layout_marginTop="15dp"/>
+            android:layout_marginTop="8dp"/>
 
     </LinearLayout>
 
@@ -119,15 +129,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Level 1"
-                        android:textColor="@android:color/white"
+                        android:text="@string/level_1"
+                        android:textColor="@color/game_text"
                         android:textStyle="bold"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="★★★"
-                        android:textColor="#FFD700"/>
+                        android:text="@string/stars_three"
+                        android:textColor="@color/star_color"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -142,15 +152,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Level 2"
-                        android:textColor="@android:color/white"
+                        android:text="@string/level_2"
+                        android:textColor="@color/game_text"
                         android:textStyle="bold"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="★★☆"
-                        android:textColor="#FFD700"/>
+                        android:text="@string/stars_two"
+                        android:textColor="@color/star_color"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -165,15 +175,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Level 3"
-                        android:textColor="@android:color/white"
+                        android:text="@string/level_3"
+                        android:textColor="@color/game_text"
                         android:textStyle="bold"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="★☆☆"
-                        android:textColor="#FFD700"/>
+                        android:text="@string/stars_one"
+                        android:textColor="@color/star_color"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -198,15 +208,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Level 4"
-                        android:textColor="@android:color/white"
+                        android:text="@string/level_4"
+                        android:textColor="@color/game_text"
                         android:textStyle="bold"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Locked"
-                        android:textColor="#AAAAAA"/>
+                        android:text="@string/level_locked"
+                        android:textColor="@color/locked_text"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -221,15 +231,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Level 5"
-                        android:textColor="@android:color/white"
+                        android:text="@string/level_5"
+                        android:textColor="@color/game_text"
                         android:textStyle="bold"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Locked"
-                        android:textColor="#AAAAAA"/>
+                        android:text="@string/level_locked"
+                        android:textColor="@color/locked_text"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -244,15 +254,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Level 6"
-                        android:textColor="@android:color/white"
+                        android:text="@string/level_6"
+                        android:textColor="@color/game_text"
                         android:textStyle="bold"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Locked"
-                        android:textColor="#AAAAAA"/>
+                        android:text="@string/level_locked"
+                        android:textColor="@color/locked_text"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -277,15 +287,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Level 7"
-                        android:textColor="@android:color/white"
+                        android:text="@string/level_7"
+                        android:textColor="@color/game_text"
                         android:textStyle="bold"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Locked"
-                        android:textColor="#AAAAAA"/>
+                        android:text="@string/level_locked"
+                        android:textColor="@color/locked_text"/>
                 </LinearLayout>
 
                 <!-- LEVEL 8 -->
@@ -301,15 +311,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Level 8"
-                        android:textColor="@android:color/white"
+                        android:text="@string/level_8"
+                        android:textColor="@color/game_text"
                         android:textStyle="bold"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Locked"
-                        android:textColor="#AAAAAA"/>
+                        android:text="@string/level_locked"
+                        android:textColor="@color/locked_text"/>
                 </LinearLayout>
 
                 <!-- LEVEL 9 -->
@@ -325,15 +335,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Level 9"
-                        android:textColor="@android:color/white"
+                        android:text="@string/level_9"
+                        android:textColor="@color/game_text"
                         android:textStyle="bold"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Locked"
-                        android:textColor="#AAAAAA"/>
+                        android:text="@string/level_locked"
+                        android:textColor="@color/locked_text"/>
                 </LinearLayout>
 
             </LinearLayout>
