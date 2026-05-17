@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">Logic OS</string>
+
+    <string name="completed_levels">Completed Levels</string>
+    <string name="level_locked">Locked</string>
+    <string name="stars_three">★★★</string>
+    <string name="stars_two">★★☆</string>
+    <string name="stars_one">★☆☆</string>
+
+    <string name="level_1">Level 1</string>
+    <string name="level_2">Level 2</string>
+    <string name="level_3">Level 3</string>
+    <string name="level_4">Level 4</string>
+    <string name="level_5">Level 5</string>
+    <string name="level_6">Level 6</string>
+    <string name="level_7">Level 7</string>
+    <string name="level_8">Level 8</string>
+    <string name="level_9">Level 9</string>
+
+    <string name="percent_format">%1$d%%</string>
 </resources>
