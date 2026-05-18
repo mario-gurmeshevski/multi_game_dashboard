@@ -30,11 +30,11 @@
     <color name="scheduler_icon">#FF5A67D8</color>
     <color name="logic_icon">#FFD69E2E</color>
 
-    <color name="game_bg">#FFF0F4F8</color>
-    <color name="game_panel_bg">#FFE2E8F0</color>
+    <color name="game_bg">#FFF7F7F8</color>
+    <color name="game_panel_bg">#FFF0F0F2</color>
     <color name="game_text">#FF1A202C</color>
     <color name="game_level_bg">#FFFFFFFF</color>
-    <color name="game_level_bg_stroke">#FFE2E8F0</color>
+    <color name="game_level_bg_stroke">#FFEDF2F7</color>
     <color name="game_progress_track">#FFD1D5DB</color>
     <color name="game_progress_fill">#FF4CAF50</color>
     <color name="star_color">#FFFFD700</color>

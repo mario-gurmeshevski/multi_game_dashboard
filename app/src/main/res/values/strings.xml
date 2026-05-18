@@ -18,4 +18,10 @@
     <string name="level_9">Level 9</string>
 
     <string name="percent_format">%1$d%%</string>
+    <string name="dialog_title">Level %1$d</string>
+    <string name="dialog_hint">Enter time (MM:SS)</string>
+    <string name="dialog_submit">Submit</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_invalid_time">Please enter a valid time in MM:SS format</string>
+    <string name="stars_result">You earned %1$s</string>
 </resources>
