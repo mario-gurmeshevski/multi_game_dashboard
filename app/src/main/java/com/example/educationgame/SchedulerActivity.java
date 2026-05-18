@@ -198,10 +198,10 @@ public class SchedulerActivity extends AppCompatActivity {
         }
         int levelNum = index + 1;
         levelCards[index].setOnClickListener(v -> {
-            Intent intent = new Intent(SchedulerActivity.this, LevelPlayActivity.class);
-            intent.putExtra(LevelPlayActivity.EXTRA_LEVEL_NUMBER, levelNum);
-            intent.putExtra(LevelPlayActivity.EXTRA_LEVEL_ID, levelIds[index]);
-            intent.putExtra(LevelPlayActivity.EXTRA_GAME_TYPE, GameTypeEnum.SCHEDULER.name());
+            Intent intent = new Intent(SchedulerActivity.this, LevelSchedulerPlayActivity.class);
+            intent.putExtra(LevelSchedulerPlayActivity.EXTRA_LEVEL_NUMBER, levelNum);
+            intent.putExtra(LevelSchedulerPlayActivity.EXTRA_LEVEL_ID, levelIds[index]);
+            intent.putExtra(LevelSchedulerPlayActivity.EXTRA_GAME_TYPE, GameTypeEnum.SCHEDULER.name());
             startActivityForResult(intent, REQUEST_LEVEL_PLAY);
         });
     }
