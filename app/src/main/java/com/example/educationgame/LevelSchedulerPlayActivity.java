@@ -24,7 +24,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.Date;
 import java.util.Locale;
 
-public class LevelPlayActivity extends AppCompatActivity {
+public class LevelSchedulerPlayActivity extends AppCompatActivity {
 
     public static final String EXTRA_LEVEL_NUMBER = "level_number";
     public static final String EXTRA_LEVEL_ID = "level_id";
