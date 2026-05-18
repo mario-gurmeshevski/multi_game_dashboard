@@ -8,13 +8,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.Nullable;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.educationgame.data.LevelStarConfig;
+import com.example.educationgame.data.SchedulerLevels;
 import com.example.educationgame.data.enums.GameTypeEnum;
 import com.example.educationgame.data.local.AppDatabase;
 import com.example.educationgame.data.local.AppExecutors;
@@ -26,18 +28,35 @@ import java.util.List;
 
 public class SchedulerActivity extends AppCompatActivity {
 
-    private static final int REQUEST_LEVEL_PLAY = 100;
-
     private AppDatabase db;
-    private int gameId = -1;
-    private int[] levelIds = new int[9];
-    private int[] levelStars = new int[9];
+    private int levelCount;
+    private int[] levelIds;
+    private int[] levelStars;
 
     private ProgressBar progressCircle;
     private TextView txtPercent;
-    private TextView[] levelStatusViews = new TextView[9];
-    private LinearLayout[] levelCards = new LinearLayout[9];
-    private ImageView[] sidebarStars = new ImageView[3];
+    private TextView[] levelStatusViews;
+    private LinearLayout[] levelCards;
+    private final ImageView[] sidebarStars = new ImageView[3];
+
+    private final ActivityResultLauncher<Intent> levelPlayLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    seedAndLoad();
+                }
+            });
+
+    private static final int[] LEVEL_CARD_IDS = {
+            R.id.levelCard1, R.id.levelCard2, R.id.levelCard3,
+            R.id.levelCard4, R.id.levelCard5, R.id.levelCard6,
+            R.id.levelCard7, R.id.levelCard8, R.id.levelCard9
+    };
+
+    private static final int[] LEVEL_STATUS_IDS = {
+            R.id.levelStatus1, R.id.levelStatus2, R.id.levelStatus3,
+            R.id.levelStatus4, R.id.levelStatus5, R.id.levelStatus6,
+            R.id.levelStatus7, R.id.levelStatus8, R.id.levelStatus9
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,16 +74,13 @@ public class SchedulerActivity extends AppCompatActivity {
         backButton.setOnClickListener(v -> finish());
 
         db = AppDatabase.getInstance(this);
+        levelCount = SchedulerLevels.getLevelCount();
+        levelIds = new int[levelCount];
+        levelStars = new int[levelCount];
+        levelStatusViews = new TextView[levelCount];
+        levelCards = new LinearLayout[levelCount];
         bindViews();
         seedAndLoad();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_LEVEL_PLAY && resultCode == RESULT_OK) {
-            seedAndLoad();
-        }
     }
 
     private void bindViews() {
@@ -75,12 +91,9 @@ public class SchedulerActivity extends AppCompatActivity {
         sidebarStars[1] = findViewById(R.id.sidebarStar2);
         sidebarStars[2] = findViewById(R.id.sidebarStar3);
 
-        for (int i = 0; i < 9; i++) {
-            int num = i + 1;
-            int cardId = getResources().getIdentifier("levelCard" + num, "id", getPackageName());
-            int statusId = getResources().getIdentifier("levelStatus" + num, "id", getPackageName());
-            levelCards[i] = findViewById(cardId);
-            levelStatusViews[i] = findViewById(statusId);
+        for (int i = 0; i < levelCount; i++) {
+            levelCards[i] = findViewById(LEVEL_CARD_IDS[i]);
+            levelStatusViews[i] = findViewById(LEVEL_STATUS_IDS[i]);
             levelStars[i] = 0;
         }
     }
@@ -90,7 +103,7 @@ public class SchedulerActivity extends AppCompatActivity {
             seedDatabase();
 
             int totalEarned = 0;
-            for (int i = 0; i < 9; i++) {
+            for (int i = 0; i < levelCount; i++) {
                 int bestStars = 0;
                 if (levelIds[i] > 0) {
                     LevelProgressEntity best = db.levelProgressDao().getBestProgressByLevelId(levelIds[i]);
@@ -112,6 +125,7 @@ public class SchedulerActivity extends AppCompatActivity {
 
     private void seedDatabase() {
         List<GameEntity> existing = db.gameDao().getGamesByType(GameTypeEnum.SCHEDULER);
+        int gameId;
         if (existing.isEmpty()) {
             GameEntity game = new GameEntity();
             game.setType(GameTypeEnum.SCHEDULER);
@@ -124,7 +138,7 @@ public class SchedulerActivity extends AppCompatActivity {
 
         List<LevelEntity> levels = db.levelDao().getLevelsByGameId(gameId);
         if (levels.isEmpty()) {
-            for (int i = 1; i <= 9; i++) {
+            for (int i = 1; i <= levelCount; i++) {
                 LevelEntity level = new LevelEntity();
                 level.setLevelNumber(i);
                 level.setName("Level " + i);
@@ -135,7 +149,7 @@ public class SchedulerActivity extends AppCompatActivity {
         } else {
             for (LevelEntity level : levels) {
                 int idx = level.getLevelNumber() - 1;
-                if (idx >= 0 && idx < 9) {
+                if (idx >= 0 && idx < levelCount) {
                     levelIds[idx] = level.getId();
                 }
             }
@@ -144,7 +158,7 @@ public class SchedulerActivity extends AppCompatActivity {
 
     private void updateUI(int percent, int totalEarned, int totalPossible) {
         progressCircle.setProgress(percent);
-        txtPercent.setText(percent + "%");
+        txtPercent.setText(getString(R.string.percent_format, percent));
         updateSidebarStars(totalEarned, totalPossible);
         renderLevelCards();
     }
@@ -166,7 +180,7 @@ public class SchedulerActivity extends AppCompatActivity {
     }
 
     private void renderLevelCards() {
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < levelCount; i++) {
             boolean unlocked = isLevelUnlocked(i);
             TextView statusView = levelStatusViews[i];
 
@@ -175,7 +189,7 @@ public class SchedulerActivity extends AppCompatActivity {
                 statusView.setTextColor(getColor(R.color.star_color));
                 setCardClickListener(i, true);
             } else if (unlocked) {
-                statusView.setText("Play");
+                statusView.setText(R.string.level_play);
                 statusView.setTextColor(getColor(R.color.game_text));
                 setCardClickListener(i, true);
             } else {
@@ -202,15 +216,15 @@ public class SchedulerActivity extends AppCompatActivity {
             intent.putExtra(LevelSchedulerPlayActivity.EXTRA_LEVEL_NUMBER, levelNum);
             intent.putExtra(LevelSchedulerPlayActivity.EXTRA_LEVEL_ID, levelIds[index]);
             intent.putExtra(LevelSchedulerPlayActivity.EXTRA_GAME_TYPE, GameTypeEnum.SCHEDULER.name());
-            startActivityForResult(intent, REQUEST_LEVEL_PLAY);
+            levelPlayLauncher.launch(intent);
         });
     }
 
     private String starsToString(int count) {
         switch (count) {
-            case 3: return "\u2605\u2605\u2605";
-            case 2: return "\u2605\u2605\u2606";
-            case 1: return "\u2605\u2606\u2606";
+            case 3: return "★★★";
+            case 2: return "★★☆";
+            case 1: return "★☆☆";
             default: return "";
         }
     }

@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/background"
     android:paddingStart="48dp"
     android:paddingEnd="48dp"
     android:paddingTop="32dp"
@@ -15,17 +14,18 @@
         style="@style/TextStyle.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Educational Games"
+        android:text="@string/app_title"
         android:layout_gravity="start"
         android:layout_marginBottom="8dp"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:clipToPadding="false">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:baselineAligned="false"
+            android:gravity="center"
+            android:clipToPadding="false">
 
         <LinearLayout
             android:id="@+id/schedulerButton"
@@ -43,13 +43,14 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:src="@drawable/ic_scheduler"
+                android:contentDescription="@string/content_desc_scheduler"
                 android:layout_marginBottom="16dp"/>
 
             <TextView
                 style="@style/TextStyle.CardTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="OS Scheduler"
+                android:text="@string/game_scheduler"
                 android:layout_marginBottom="4dp"/>
 
         </LinearLayout>
@@ -70,13 +71,14 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:src="@drawable/ic_logic_circuit"
+                android:contentDescription="@string/content_desc_logic"
                 android:layout_marginBottom="16dp"/>
 
             <TextView
                 style="@style/TextStyle.CardTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Logic Circuit"
+                android:text="@string/game_logic"
                 android:layout_marginBottom="4dp"/>
 
         </LinearLayout>

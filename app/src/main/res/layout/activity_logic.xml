@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:background="@color/game_bg">
+    android:baselineAligned="false">
 
     <!-- LEFT PANEL -->
     <LinearLayout
@@ -13,6 +13,7 @@
         android:layout_height="match_parent"
         android:layout_weight="3"
         android:orientation="vertical"
+        android:baselineAligned="false"
         android:gravity="center_horizontal"
         android:padding="16dp"
         android:layout_marginStart="12dp"
@@ -31,7 +32,8 @@
                 android:id="@+id/backButton"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/ic_back_arrow"/>
+                android:src="@drawable/ic_back_arrow"
+                android:contentDescription="@string/content_desc_back"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -42,18 +44,21 @@
                 <ImageView
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:src="@drawable/ic_star"/>
+                    android:src="@drawable/ic_star"
+                    android:contentDescription="@string/content_desc_star"/>
 
                 <ImageView
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_marginHorizontal="8dp"
-                    android:src="@drawable/ic_star"/>
+                    android:src="@drawable/ic_star"
+                    android:contentDescription="@string/content_desc_star"/>
 
                 <ImageView
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:src="@drawable/ic_star"/>
+                    android:src="@drawable/ic_star"
+                    android:contentDescription="@string/content_desc_star"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -80,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="45%"
+                android:text="@string/percent_zero"
                 android:textColor="@color/game_text"
                 android:textSize="26sp"
                 android:textStyle="bold"/>
@@ -114,6 +119,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:baselineAligned="false"
                 android:weightSum="3"
                 android:gravity="center">
 
@@ -193,6 +199,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:baselineAligned="false"
                 android:weightSum="3"
                 android:gravity="center">
 
@@ -271,6 +278,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:baselineAligned="false"
                 android:weightSum="3"
                 android:gravity="center">
 

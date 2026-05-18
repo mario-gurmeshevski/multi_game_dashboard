@@ -21,18 +21,27 @@ public class LevelStarConfig {
 
     private static final int DEFAULT_THREE_STAR_SECONDS = 90;
     private static final int DEFAULT_TWO_STAR_SECONDS = 180;
-    private static final int DEFAULT_LEVEL_COUNT = 9;
 
     private static final Map<GameTypeEnum, List<Thresholds>> CONFIGS = new HashMap<>();
 
     static {
-        CONFIGS.put(GameTypeEnum.SCHEDULER, buildDefaultThresholds());
+        CONFIGS.put(GameTypeEnum.SCHEDULER, buildSchedulerThresholds());
         CONFIGS.put(GameTypeEnum.LOGIC, buildDefaultThresholds());
+    }
+
+    private static List<Thresholds> buildSchedulerThresholds() {
+        int count = SchedulerLevels.getLevelCount();
+        List<Thresholds> list = new ArrayList<>();
+        list.add(new Thresholds(45, 75));
+        for (int i = 1; i < count; i++) {
+            list.add(new Thresholds(DEFAULT_THREE_STAR_SECONDS, DEFAULT_TWO_STAR_SECONDS));
+        }
+        return list;
     }
 
     private static List<Thresholds> buildDefaultThresholds() {
         List<Thresholds> list = new ArrayList<>();
-        for (int i = 0; i < DEFAULT_LEVEL_COUNT; i++) {
+        for (int i = 0; i < 9; i++) {
             list.add(new Thresholds(DEFAULT_THREE_STAR_SECONDS, DEFAULT_TWO_STAR_SECONDS));
         }
         return list;
@@ -55,20 +64,7 @@ public class LevelStarConfig {
 
     public static int getTotalPossibleStars(GameTypeEnum gameType) {
         List<Thresholds> thresholds = CONFIGS.get(gameType);
-        if (thresholds == null) return DEFAULT_LEVEL_COUNT * 3;
+        if (thresholds == null) return 9 * 3;
         return thresholds.size() * 3;
-    }
-
-    public static int getLevelCount(GameTypeEnum gameType) {
-        List<Thresholds> thresholds = CONFIGS.get(gameType);
-        if (thresholds == null) return DEFAULT_LEVEL_COUNT;
-        return thresholds.size();
-    }
-
-    public static void setThresholds(GameTypeEnum gameType, int levelNumber, int threeStarSeconds, int twoStarSeconds) {
-        List<Thresholds> thresholds = CONFIGS.get(gameType);
-        if (thresholds != null && levelNumber >= 1 && levelNumber <= thresholds.size()) {
-            thresholds.set(levelNumber - 1, new Thresholds(threeStarSeconds, twoStarSeconds));
-        }
     }
 }
