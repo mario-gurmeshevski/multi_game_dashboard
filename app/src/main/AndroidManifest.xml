@@ -12,6 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EducationGame">
         <activity
+            android:name=".LevelPlayActivity"
+            android:screenOrientation="landscape"
+            android:exported="false" />
+        <activity
             android:name=".LogicActivity"
             android:screenOrientation="landscape"
             android:exported="false" />

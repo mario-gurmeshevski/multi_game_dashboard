@@ -40,20 +40,30 @@
                 android:layout_marginStart="16dp">
 
                 <ImageView
+                    android:id="@+id/sidebarStar1"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:src="@drawable/ic_star"/>
+                    android:src="@drawable/ic_star"
+                    android:textColor="@color/star_color"
+                    android:alpha="0.3"/>
+
 
                 <ImageView
+                    android:id="@+id/sidebarStar2"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_marginHorizontal="8dp"
-                    android:src="@drawable/ic_star"/>
+                    android:src="@drawable/ic_star"
+                    android:textColor="@color/star_color"
+                    android:alpha="0.3"/>
 
                 <ImageView
+                    android:id="@+id/sidebarStar3"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:src="@drawable/ic_star"/>
+                    android:src="@drawable/ic_star"
+                    android:textColor="@color/star_color"
+                    android:alpha="0.3"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -70,7 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:max="100"
-                android:progress="45"
+                android:progress="0"
                 android:rotation="270"
                 android:padding="16dp"
                 android:progressDrawable="@drawable/circular_progress"/>
@@ -80,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="45%"
+                android:text="0%"
                 android:textColor="@color/game_text"
                 android:textSize="26sp"
                 android:textStyle="bold"/>
@@ -118,13 +128,16 @@
                 android:gravity="center">
 
                 <LinearLayout
+                    android:id="@+id/levelCard1"
                     android:layout_width="0dp"
                     android:layout_height="130dp"
                     android:layout_weight="1"
                     android:layout_margin="6dp"
                     android:gravity="center"
                     android:background="@drawable/level_bg"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:clickable="true"
+                    android:focusable="true">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -134,20 +147,23 @@
                         android:textStyle="bold"/>
 
                     <TextView
+                        android:id="@+id/levelStatus1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/stars_three"
                         android:textColor="@color/star_color"/>
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/levelCard2"
                     android:layout_width="0dp"
                     android:layout_height="130dp"
                     android:layout_weight="1"
                     android:layout_margin="6dp"
                     android:gravity="center"
                     android:background="@drawable/level_bg"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:clickable="true"
+                    android:focusable="true">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -157,20 +173,23 @@
                         android:textStyle="bold"/>
 
                     <TextView
+                        android:id="@+id/levelStatus2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/stars_two"
                         android:textColor="@color/star_color"/>
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/levelCard3"
                     android:layout_width="0dp"
                     android:layout_height="130dp"
                     android:layout_weight="1"
                     android:layout_margin="6dp"
                     android:gravity="center"
                     android:background="@drawable/level_bg"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:clickable="true"
+                    android:focusable="true">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -180,9 +199,9 @@
                         android:textStyle="bold"/>
 
                     <TextView
+                        android:id="@+id/levelStatus3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/stars_one"
                         android:textColor="@color/star_color"/>
                 </LinearLayout>
 
@@ -197,13 +216,16 @@
                 android:gravity="center">
 
                 <LinearLayout
+                    android:id="@+id/levelCard4"
                     android:layout_width="0dp"
                     android:layout_height="130dp"
                     android:layout_weight="1"
                     android:layout_margin="6dp"
                     android:gravity="center"
                     android:background="@drawable/level_bg"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:clickable="true"
+                    android:focusable="true">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -213,20 +235,23 @@
                         android:textStyle="bold"/>
 
                     <TextView
+                        android:id="@+id/levelStatus4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/level_locked"
-                        android:textColor="@color/locked_text"/>
+                        android:textColor="@color/star_color"/>
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/levelCard5"
                     android:layout_width="0dp"
                     android:layout_height="130dp"
                     android:layout_weight="1"
                     android:layout_margin="6dp"
                     android:gravity="center"
                     android:background="@drawable/level_bg"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:clickable="true"
+                    android:focusable="true">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -236,20 +261,23 @@
                         android:textStyle="bold"/>
 
                     <TextView
+                        android:id="@+id/levelStatus5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/level_locked"
-                        android:textColor="@color/locked_text"/>
+                        android:textColor="@color/star_color"/>
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/levelCard6"
                     android:layout_width="0dp"
                     android:layout_height="130dp"
                     android:layout_weight="1"
                     android:layout_margin="6dp"
                     android:gravity="center"
                     android:background="@drawable/level_bg"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:clickable="true"
+                    android:focusable="true">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -259,13 +287,14 @@
                         android:textStyle="bold"/>
 
                     <TextView
+                        android:id="@+id/levelStatus6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/level_locked"
-                        android:textColor="@color/locked_text"/>
+                        android:textColor="@color/star_color"/>
                 </LinearLayout>
 
             </LinearLayout>
+
             <!-- ROW 3 -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -274,15 +303,17 @@
                 android:weightSum="3"
                 android:gravity="center">
 
-                <!-- LEVEL 7 -->
                 <LinearLayout
+                    android:id="@+id/levelCard7"
                     android:layout_width="0dp"
                     android:layout_height="130dp"
                     android:layout_weight="1"
                     android:layout_margin="6dp"
                     android:gravity="center"
                     android:background="@drawable/level_bg"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:clickable="true"
+                    android:focusable="true">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -292,21 +323,23 @@
                         android:textStyle="bold"/>
 
                     <TextView
+                        android:id="@+id/levelStatus7"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/level_locked"
-                        android:textColor="@color/locked_text"/>
+                        android:textColor="@color/star_color"/>
                 </LinearLayout>
 
-                <!-- LEVEL 8 -->
                 <LinearLayout
+                    android:id="@+id/levelCard8"
                     android:layout_width="0dp"
                     android:layout_height="130dp"
                     android:layout_weight="1"
                     android:layout_margin="6dp"
                     android:gravity="center"
                     android:background="@drawable/level_bg"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:clickable="true"
+                    android:focusable="true">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -316,21 +349,23 @@
                         android:textStyle="bold"/>
 
                     <TextView
+                        android:id="@+id/levelStatus8"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/level_locked"
-                        android:textColor="@color/locked_text"/>
+                        android:textColor="@color/star_color"/>
                 </LinearLayout>
 
-                <!-- LEVEL 9 -->
                 <LinearLayout
+                    android:id="@+id/levelCard9"
                     android:layout_width="0dp"
                     android:layout_height="130dp"
                     android:layout_weight="1"
                     android:layout_margin="6dp"
                     android:gravity="center"
                     android:background="@drawable/level_bg"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:clickable="true"
+                    android:focusable="true">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -340,10 +375,10 @@
                         android:textStyle="bold"/>
 
                     <TextView
+                        android:id="@+id/levelStatus9"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/level_locked"
-                        android:textColor="@color/locked_text"/>
+                        android:textColor="@color/star_color"/>
                 </LinearLayout>
 
             </LinearLayout>

@@ -25,4 +25,10 @@ public interface LevelProgressDao {
 
     @Query("SELECT * FROM level_progress WHERE levelId = :levelId")
     List<LevelProgressEntity> getProgressByLevelId(int levelId);
+
+    @Query("SELECT lp.* FROM level_progress lp INNER JOIN levels l ON lp.levelId = l.id WHERE l.gameId = :gameId")
+    List<LevelProgressEntity> getProgressByGameId(int gameId);
+
+    @Query("SELECT * FROM level_progress WHERE levelId = :levelId ORDER BY score DESC LIMIT 1")
+    LevelProgressEntity getBestProgressByLevelId(int levelId);
 }
