@@ -41,7 +41,7 @@ public abstract class AppDatabase extends RoomDatabase {
                         AppDatabase.class,
                         "education_game_db"
                     )
-                        .fallbackToDestructiveMigrationFrom(1, 2, 3)
+                        .fallbackToDestructiveMigration(true)
                         .addMigrations(DatabaseMigrations.MIGRATION_4_5)
                         .build();
                 }

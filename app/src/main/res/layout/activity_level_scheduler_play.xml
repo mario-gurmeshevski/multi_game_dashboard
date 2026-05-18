@@ -4,22 +4,22 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/game_bg"
-    android:gravity="center_horizontal">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:padding="16dp">
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp">
 
         <ImageView
             android:id="@+id/backButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_back_arrow"/>
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_back_arrow"
+            android:contentDescription="@string/content_desc_back" />
 
         <TextView
             android:id="@+id/levelTitle"
@@ -28,77 +28,97 @@
             android:layout_weight="1"
             android:gravity="center"
             android:textColor="@color/game_text"
-            android:textSize="28sp"
+            android:textSize="22sp"
             android:textStyle="bold"
-            android:layout_marginEnd="40dp"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:paddingHorizontal="48dp">
-
-        <TextView
-            android:id="@+id/thresholdThreeStar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/star_color"
-            android:textSize="20sp"
-            android:layout_marginBottom="8dp"/>
-
-        <TextView
-            android:id="@+id/thresholdTwoStar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/star_color"
-            android:textSize="20sp"
-            android:layout_marginBottom="8dp"/>
-
-        <TextView
-            android:id="@+id/thresholdOneStar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/star_color"
-            android:textSize="20sp"
-            android:layout_marginBottom="32dp"/>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.EducationGame.TextInputLayout"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/timeInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/dialog_hint"
-                android:inputType="text"
-                android:textSize="18sp"
-                android:gravity="center"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginEnd="36dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/submitButton"
             style="@style/Widget.EducationGame.Button.Primary"
-            android:layout_width="200dp"
-            android:layout_height="48dp"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
             android:text="@string/dialog_submit"
-            android:textSize="16sp"/>
+            android:textSize="13sp"
+            android:minWidth="80dp"
+            android:visibility="gone"
+            android:layout_marginEnd="8dp" />
+
+        <TextView
+            android:id="@+id/timerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_secondary"
+            android:textSize="16sp"
+            android:fontFamily="monospace" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/gameContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp">
+
+        <TextView
+            android:id="@+id/instructionText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_marginBottom="4dp" />
+
+        <HorizontalScrollView
+            android:id="@+id/poolScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/poolContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:paddingHorizontal="8dp" />
+        </HorizontalScrollView>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/slotsContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:paddingHorizontal="8dp" />
+        </HorizontalScrollView>
+
+        <com.example.educationgame.scheduler.GanttChartView
+            android:id="@+id/ganttChart"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:paddingHorizontal="8dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="4dp"
+            android:layout_marginBottom="4dp" />
 
         <TextView
             android:id="@+id/errorText"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/error"
-            android:textSize="14sp"
+            android:textSize="13sp"
             android:visibility="gone"
-            android:layout_marginTop="8dp"/>
+            android:gravity="center"
+            android:layout_marginTop="4dp" />
 
     </LinearLayout>
 

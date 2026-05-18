@@ -5,28 +5,22 @@
     <color name="surface_variant">#FF22223A</color>
 
     <color name="primary">#FFB0BEC5</color>
-    <color name="primary_light">#FF78909C</color>
     <color name="accent">#FF7F9CF5</color>
     <color name="accent_light">#FF5A67D8</color>
 
     <color name="text_primary">#FFE2E8F0</color>
     <color name="text_secondary">#FFA0AEC0</color>
-    <color name="text_hint">#FF718096</color>
     <color name="text_on_accent">#FFFFFFFF</color>
 
-    <color name="divider">#FF2D2D44</color>
-    <color name="border">#FF2D2D44</color>
     <color name="card_stroke">#FF2D2D44</color>
 
     <color name="ripple">#1AB0BEC5</color>
 
     <color name="error">#FFFC8181</color>
-    <color name="success">#FF68D391</color>
 
     <color name="scheduler_icon">#FF7F9CF5</color>
     <color name="logic_icon">#FFECC94B</color>
 
-    <color name="game_bg">#FF111118</color>
     <color name="game_panel_bg">#FF22223A</color>
     <color name="game_text">#FFE2E8F0</color>
     <color name="game_level_bg">#FF1A1A2E</color>

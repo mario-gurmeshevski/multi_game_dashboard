@@ -27,8 +27,4 @@ public final class AppExecutors {
     public ExecutorService diskIO() {
         return diskIO;
     }
-
-    public void shutdown() {
-        diskIO.shutdown();
-    }
 }
