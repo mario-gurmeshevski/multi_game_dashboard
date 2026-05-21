@@ -5,8 +5,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/target_slot_bg"
-    android:minWidth="90dp"
-    android:minHeight="56dp">
+    android:padding="2dp"
+    android:minWidth="120dp"
+    android:minHeight="78dp">
 
     <TextView
         android:id="@+id/slotLabel"
@@ -14,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textColor="@color/accent_light"
-        android:textSize="14sp"
+        android:textSize="17sp"
         android:textStyle="bold"
         android:alpha="0.6" />
 </FrameLayout>

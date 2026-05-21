@@ -9,42 +9,42 @@
     android:paddingHorizontal="12dp"
     android:paddingVertical="6dp"
     android:background="@drawable/process_square_bg"
-    android:minWidth="90dp"
-    android:minHeight="56dp">
+    android:minWidth="120dp"
+    android:minHeight="78dp">
 
     <TextView
         android:id="@+id/processName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/game_text"
-        android:textSize="13sp"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
     <View
         android:id="@+id/processColorBar"
-        android:layout_width="50dp"
-        android:layout_height="5dp"
-        android:layout_marginVertical="2dp" />
+        android:layout_width="66dp"
+        android:layout_height="7dp"
+        android:layout_marginVertical="3dp" />
 
     <TextView
         android:id="@+id/processArrival"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/text_secondary"
-        android:textSize="11sp" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/processBurst"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/text_secondary"
-        android:textSize="11sp" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/processPriority"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/text_secondary"
-        android:textSize="11sp"
+        android:textSize="14sp"
         android:visibility="gone" />
 </LinearLayout>
