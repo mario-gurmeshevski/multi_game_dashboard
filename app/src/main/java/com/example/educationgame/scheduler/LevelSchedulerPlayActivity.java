@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -54,8 +53,6 @@ public class LevelSchedulerPlayActivity extends AppCompatActivity implements Sch
     private TextView timerText;
     private TextView errorText;
     private MaterialButton submitButton;
-    private LinearLayout poolContainer;
-    private LinearLayout slotsContainer;
 
     private final List<ProcessInfo> allProcesses = new ArrayList<>();
     private ProcessInfo[] slotProcesses;
@@ -69,9 +66,6 @@ public class LevelSchedulerPlayActivity extends AppCompatActivity implements Sch
     private long startTimeMs;
     private boolean timerRunning = false;
     private boolean completed = false;
-
-    private ProcessSquareFactory viewFactory;
-    private SchedulerDragController dragController;
 
     private final Runnable timerRunnable = new Runnable() {
         @Override
@@ -128,8 +122,8 @@ public class LevelSchedulerPlayActivity extends AppCompatActivity implements Sch
         errorText = findViewById(R.id.errorText);
         submitButton = findViewById(R.id.submitButton);
         submitButton.setOnClickListener(v -> onSubmit());
-        poolContainer = findViewById(R.id.poolContainer);
-        slotsContainer = findViewById(R.id.slotsContainer);
+        LinearLayout poolContainer = findViewById(R.id.poolContainer);
+        LinearLayout slotsContainer = findViewById(R.id.slotsContainer);
         TextView instructionText = findViewById(R.id.instructionText);
 
         instructionText.setText(getInstructionText(algorithm));
@@ -158,8 +152,8 @@ public class LevelSchedulerPlayActivity extends AppCompatActivity implements Sch
 
         slotProcesses = new ProcessInfo[totalSlots];
 
-        viewFactory = new ProcessSquareFactory(this, algorithm);
-        dragController = new SchedulerDragController(
+        ProcessSquareFactory viewFactory = new ProcessSquareFactory(this, algorithm);
+        SchedulerDragController dragController = new SchedulerDragController(
                 slotsContainer, poolContainer, viewFactory, isRoundRobin,
                 slotProcesses, correctStartTimes, correctEndTimes,
                 android.view.ViewConfiguration.get(this).getScaledTouchSlop(), this

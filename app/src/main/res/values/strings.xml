@@ -38,7 +38,6 @@
     <string name="process_arrival">Arrival: %1$d</string>
     <string name="process_burst">Burst: %1$d</string>
     <string name="process_priority">Priority: %1$d</string>
-    <string name="process_quantum">Q: %1$d</string>
     <string name="slot_time_range">t=%1$d–%2$d</string>
     <string name="timer_format">%1$02d:%2$02d</string>
     <string name="wrong_order">Wrong order — a process with earlier arrival should run first</string>

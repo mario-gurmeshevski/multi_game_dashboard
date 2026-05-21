@@ -70,8 +70,7 @@ public class SchedulerSolver {
         for (int i = 0; i < n; i++) {
             indicesByArrival.add(i);
         }
-        Collections.sort(indicesByArrival, (a, b) ->
-                Integer.compare(allProcesses.get(a).getArrivalTime(), allProcesses.get(b).getArrivalTime()));
+        indicesByArrival.sort(Comparator.comparingInt(a -> allProcesses.get(a).getArrivalTime()));
 
         LinkedList<Integer> readyQueue = new LinkedList<>();
         List<ProcessInfo> schedule = new ArrayList<>();
