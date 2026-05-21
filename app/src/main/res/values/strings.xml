@@ -23,6 +23,9 @@
     <string name="level_7">Level 7</string>
     <string name="level_8">Level 8</string>
     <string name="level_9">Level 9</string>
+    <string name="level_10">Level 10</string>
+    <string name="level_11">Level 11</string>
+    <string name="level_12">Level 12</string>
     <string name="level_title">Level %1$d</string>
 
     <string name="dialog_submit">Submit</string>
@@ -31,14 +34,18 @@
     <string name="sjf_instruction">Arrange the processes in SJF order (shortest burst among arrived first)</string>
     <string name="ljf_instruction">Arrange the processes in LJF order (longest burst among arrived first)</string>
     <string name="priority_instruction">Arrange the processes in Priority order (highest priority among arrived first)</string>
+    <string name="rr_instruction">Fill each time slot with the correct process for Round Robin (quantum = %1$d)</string>
     <string name="process_arrival">Arrival: %1$d</string>
     <string name="process_burst">Burst: %1$d</string>
     <string name="process_priority">Priority: %1$d</string>
+    <string name="process_quantum">Q: %1$d</string>
+    <string name="slot_time_range">t=%1$d–%2$d</string>
     <string name="timer_format">%1$02d:%2$02d</string>
     <string name="wrong_order">Wrong order — a process with earlier arrival should run first</string>
     <string name="wrong_order_sjf">Wrong order — among arrived processes, the shortest burst should run first</string>
     <string name="wrong_order_ljf">Wrong order — among arrived processes, the longest burst should run first</string>
     <string name="wrong_order_priority">Wrong order — among arrived processes, the highest priority should run first</string>
+    <string name="wrong_order_rr">Wrong process in this slot — follow Round Robin order</string>
 
     <string name="content_desc_back">Back</string>
     <string name="content_desc_star">Star</string>

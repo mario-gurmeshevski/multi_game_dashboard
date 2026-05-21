@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EducationGame">
         <activity
-            android:name=".LevelSchedulerPlayActivity"
+            android:name=".scheduler.LevelSchedulerPlayActivity"
             android:screenOrientation="landscape"
             android:exported="false" />
         <activity
@@ -20,7 +20,7 @@
             android:screenOrientation="landscape"
             android:exported="false" />
         <activity
-            android:name=".SchedulerActivity"
+            android:name=".scheduler.SchedulerActivity"
             android:screenOrientation="landscape"
             android:exported="false" />
         <activity

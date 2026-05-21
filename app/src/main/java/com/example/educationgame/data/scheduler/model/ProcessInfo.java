@@ -1,4 +1,4 @@
-package com.example.educationgame.data.model;
+package com.example.educationgame.data.scheduler.model;
 
 public class ProcessInfo {
 

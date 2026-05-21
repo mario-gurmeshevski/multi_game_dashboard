@@ -1,6 +1,7 @@
-package com.example.educationgame.data;
+package com.example.educationgame.data.scheduler;
 
 import com.example.educationgame.data.enums.GameTypeEnum;
+import com.example.educationgame.data.scheduler.model.LevelConfig;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,9 +33,13 @@ public class LevelStarConfig {
     private static List<Thresholds> buildSchedulerThresholds() {
         int count = SchedulerLevels.getLevelCount();
         List<Thresholds> list = new ArrayList<>();
-        list.add(new Thresholds(45, 75));
-        for (int i = 1; i < count; i++) {
-            list.add(new Thresholds(DEFAULT_THREE_STAR_SECONDS, DEFAULT_TWO_STAR_SECONDS));
+        for (int i = 1; i <= count; i++) {
+            LevelConfig config = SchedulerLevels.getLevel(i);
+            if (config != null && config.hasStarThresholds()) {
+                list.add(new Thresholds(config.getThreeStarSeconds(), config.getTwoStarSeconds()));
+            } else {
+                list.add(new Thresholds(DEFAULT_THREE_STAR_SECONDS, DEFAULT_TWO_STAR_SECONDS));
+            }
         }
         return list;
     }

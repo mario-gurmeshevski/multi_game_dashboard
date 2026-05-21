@@ -4,5 +4,6 @@ public enum SchedulingAlgorithm {
     FCFS,
     SJF,
     LJF,
-    PRIORITY
+    PRIORITY,
+    ROUND_ROBIN
 }

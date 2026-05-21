@@ -1,4 +1,6 @@
-package com.example.educationgame;
+package com.example.educationgame.scheduler;
+
+import com.example.educationgame.R;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,8 +17,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.educationgame.data.LevelStarConfig;
-import com.example.educationgame.data.SchedulerLevels;
+import com.example.educationgame.data.scheduler.LevelStarConfig;
+import com.example.educationgame.data.scheduler.SchedulerLevels;
 import com.example.educationgame.data.enums.GameTypeEnum;
 import com.example.educationgame.data.local.AppDatabase;
 import com.example.educationgame.data.local.AppExecutors;
@@ -49,13 +51,15 @@ public class SchedulerActivity extends AppCompatActivity {
     private static final int[] LEVEL_CARD_IDS = {
             R.id.levelCard1, R.id.levelCard2, R.id.levelCard3,
             R.id.levelCard4, R.id.levelCard5, R.id.levelCard6,
-            R.id.levelCard7, R.id.levelCard8, R.id.levelCard9
+            R.id.levelCard7, R.id.levelCard8, R.id.levelCard9,
+            R.id.levelCard10, R.id.levelCard11, R.id.levelCard12
     };
 
     private static final int[] LEVEL_STATUS_IDS = {
             R.id.levelStatus1, R.id.levelStatus2, R.id.levelStatus3,
             R.id.levelStatus4, R.id.levelStatus5, R.id.levelStatus6,
-            R.id.levelStatus7, R.id.levelStatus8, R.id.levelStatus9
+            R.id.levelStatus7, R.id.levelStatus8, R.id.levelStatus9,
+            R.id.levelStatus10, R.id.levelStatus11, R.id.levelStatus12
     };
 
     @Override
@@ -151,6 +155,16 @@ public class SchedulerActivity extends AppCompatActivity {
                 int idx = level.getLevelNumber() - 1;
                 if (idx >= 0 && idx < levelCount) {
                     levelIds[idx] = level.getId();
+                }
+            }
+            for (int i = 0; i < levelCount; i++) {
+                if (levelIds[i] == 0) {
+                    LevelEntity level = new LevelEntity();
+                    level.setLevelNumber(i + 1);
+                    level.setName("Level " + (i + 1));
+                    level.setDescription("Scheduler Level " + (i + 1));
+                    level.setGameId(gameId);
+                    levelIds[i] = (int) db.levelDao().insert(level);
                 }
             }
         }
