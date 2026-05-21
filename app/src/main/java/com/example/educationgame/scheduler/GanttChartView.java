@@ -8,7 +8,7 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.example.educationgame.data.model.ProcessInfo;
+import com.example.educationgame.data.scheduler.model.ProcessInfo;
 
 import java.util.ArrayList;
 import java.util.List;

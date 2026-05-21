@@ -391,6 +391,95 @@
 
             </LinearLayout>
 
+            <!-- ROW 4 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:baselineAligned="false"
+                android:weightSum="3"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:id="@+id/levelCard10"
+                    android:layout_width="0dp"
+                    android:layout_height="130dp"
+                    android:layout_weight="1"
+                    android:layout_margin="6dp"
+                    android:gravity="center"
+                    android:background="@drawable/level_bg"
+                    android:orientation="vertical"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/level_10"
+                        android:textColor="@color/game_text"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/levelStatus10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/star_color"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/levelCard11"
+                    android:layout_width="0dp"
+                    android:layout_height="130dp"
+                    android:layout_weight="1"
+                    android:layout_margin="6dp"
+                    android:gravity="center"
+                    android:background="@drawable/level_bg"
+                    android:orientation="vertical"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/level_11"
+                        android:textColor="@color/game_text"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/levelStatus11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/star_color"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/levelCard12"
+                    android:layout_width="0dp"
+                    android:layout_height="130dp"
+                    android:layout_weight="1"
+                    android:layout_margin="6dp"
+                    android:gravity="center"
+                    android:background="@drawable/level_bg"
+                    android:orientation="vertical"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/level_12"
+                        android:textColor="@color/game_text"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/levelStatus12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/star_color"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 

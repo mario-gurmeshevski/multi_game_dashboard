@@ -6,6 +6,8 @@ import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.educationgame.scheduler.SchedulerActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     LinearLayout schedulerButton, logicButton;

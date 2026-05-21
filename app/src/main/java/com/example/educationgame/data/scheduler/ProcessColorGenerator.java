@@ -1,4 +1,4 @@
-package com.example.educationgame.data;
+package com.example.educationgame.data.scheduler;
 
 import android.content.Context;
 import android.content.res.Configuration;
