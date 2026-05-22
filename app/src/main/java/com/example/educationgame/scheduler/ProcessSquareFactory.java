@@ -17,10 +17,12 @@ public class ProcessSquareFactory {
 
     private final Context context;
     private final SchedulingAlgorithm algorithm;
+    private boolean isRoundRobin;
 
     public ProcessSquareFactory(Context context, SchedulingAlgorithm algorithm) {
         this.context = context;
         this.algorithm = algorithm;
+        this.isRoundRobin = algorithm == SchedulingAlgorithm.ROUND_ROBIN;
     }
 
     public void bindProcessSquare(View square, ProcessInfo process) {
@@ -32,7 +34,8 @@ public class ProcessSquareFactory {
 
         name.setText(process.getName());
         arrival.setText(context.getString(R.string.process_arrival, process.getArrivalTime()));
-        burst.setText(context.getString(R.string.process_burst, process.getBurstTime()));
+        int burstValue = isRoundRobin ? process.getRemainingBurstTime() : process.getBurstTime();
+        burst.setText(context.getString(R.string.process_burst, burstValue));
         colorBar.setBackgroundColor(process.getColor());
 
         if (algorithm == SchedulingAlgorithm.PRIORITY) {
@@ -87,11 +90,52 @@ public class ProcessSquareFactory {
 
     public View createPlacedProcessSquare(ProcessInfo process, int slotIndex) {
         View square = LayoutInflater.from(context).inflate(R.layout.item_process_square, (ViewGroup) null, false);
-        bindProcessSquare(square, process);
+
+        TextView name = square.findViewById(R.id.processName);
+        TextView arrival = square.findViewById(R.id.processArrival);
+        TextView burst = square.findViewById(R.id.processBurst);
+        View colorBar = square.findViewById(R.id.processColorBar);
+        TextView priority = square.findViewById(R.id.processPriority);
+
+        name.setText(process.getName());
+        arrival.setText(context.getString(R.string.process_arrival, process.getArrivalTime()));
+        if (isRoundRobin) {
+            burst.setText(context.getString(R.string.process_burst, process.getRemainingBurstTime()));
+        } else {
+            burst.setText(context.getString(R.string.process_burst, process.getBurstTime()));
+        }
+        colorBar.setBackgroundColor(process.getColor());
+
+        if (algorithm == SchedulingAlgorithm.PRIORITY) {
+            priority.setVisibility(View.VISIBLE);
+            priority.setText(context.getString(R.string.process_priority, process.getPriority()));
+        } else {
+            priority.setVisibility(View.GONE);
+        }
+
         square.setTag("placed_square");
         square.setTag(R.id.tag_process_info, process);
         square.setTag(R.id.tag_slot_index, slotIndex);
         return square;
+    }
+
+    public View findPoolSquare(LinearLayout poolContainer, ProcessInfo process) {
+        for (int i = 0; i < poolContainer.getChildCount(); i++) {
+            View child = poolContainer.getChildAt(i);
+            ProcessInfo tag = (ProcessInfo) child.getTag(R.id.tag_process_info);
+            if (tag != null && tag.getName().equals(process.getName())) {
+                return child;
+            }
+        }
+        return null;
+    }
+
+    public void updatePoolBurstDisplay(LinearLayout poolContainer, ProcessInfo process) {
+        View poolSquare = findPoolSquare(poolContainer, process);
+        if (poolSquare != null) {
+            TextView burst = poolSquare.findViewById(R.id.processBurst);
+            burst.setText(context.getString(R.string.process_burst, process.getRemainingBurstTime()));
+        }
     }
 
     private String getOrdinal(int index) {
