@@ -156,7 +156,8 @@ public class LevelSchedulerPlayActivity extends AppCompatActivity implements Sch
         SchedulerDragController dragController = new SchedulerDragController(
                 slotsContainer, poolContainer, viewFactory, isRoundRobin,
                 slotProcesses, correctStartTimes, correctEndTimes,
-                android.view.ViewConfiguration.get(this).getScaledTouchSlop(), this
+                android.view.ViewConfiguration.get(this).getScaledTouchSlop(),
+                timeQuantum, this
         );
 
         List<ProcessInfo> shuffled = new ArrayList<>(allProcesses);

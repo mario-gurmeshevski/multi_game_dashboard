@@ -27,6 +27,7 @@ public class SchedulerDragController implements ProcessSquareFactory.ProcessSqua
     private final Callback callback;
 
     private final ProcessInfo[] slotProcesses;
+    private final int timeQuantum;
     private float dragStartX, dragStartY;
     private boolean isDragging = false;
 
@@ -39,7 +40,8 @@ public class SchedulerDragController implements ProcessSquareFactory.ProcessSqua
     public SchedulerDragController(LinearLayout slotsContainer, LinearLayout poolContainer,
                                     ProcessSquareFactory viewFactory, boolean isRoundRobin,
                                     ProcessInfo[] slotProcesses, int[] correctStartTimes,
-                                    int[] correctEndTimes, int touchSlop, Callback callback) {
+                                    int[] correctEndTimes, int touchSlop, int timeQuantum,
+                                    Callback callback) {
         this.slotsContainer = slotsContainer;
         this.poolContainer = poolContainer;
         this.viewFactory = viewFactory;
@@ -48,6 +50,7 @@ public class SchedulerDragController implements ProcessSquareFactory.ProcessSqua
         this.correctStartTimes = correctStartTimes;
         this.correctEndTimes = correctEndTimes;
         this.touchSlop = touchSlop;
+        this.timeQuantum = timeQuantum;
         this.callback = callback;
     }
 
@@ -59,7 +62,7 @@ public class SchedulerDragController implements ProcessSquareFactory.ProcessSqua
                     dragStartX = event.getRawX();
                     dragStartY = event.getRawY();
                     isDragging = false;
-                    v.animate().scaleX(0.92f).scaleY(0.92f).setDuration(100).start();
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
                     return true;
                 case MotionEvent.ACTION_MOVE:
                     if (!isDragging) {
@@ -67,7 +70,6 @@ public class SchedulerDragController implements ProcessSquareFactory.ProcessSqua
                         float dy = Math.abs(event.getRawY() - dragStartY);
                         if (dx > touchSlop / 2f || dy > touchSlop / 2f) {
                             isDragging = true;
-                            v.animate().scaleX(1f).scaleY(1f).setDuration(0).start();
                             startDrag(v, DRAG_TAG_PROCESS + poolIndex);
                             if (!isRoundRobin) {
                                 v.setVisibility(View.INVISIBLE);
@@ -77,9 +79,6 @@ public class SchedulerDragController implements ProcessSquareFactory.ProcessSqua
                     return true;
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
-                    if (!isDragging) {
-                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
-                    }
                     isDragging = false;
                     return false;
             }
@@ -95,15 +94,15 @@ public class SchedulerDragController implements ProcessSquareFactory.ProcessSqua
                     dragStartX = event.getRawX();
                     dragStartY = event.getRawY();
                     isDragging = false;
-                    v.animate().scaleX(0.92f).scaleY(0.92f).setDuration(100).start();
+                    v.getParent().requestDisallowInterceptTouchEvent(false);
                     return true;
                 case MotionEvent.ACTION_MOVE:
                     if (!isDragging) {
                         float dx = Math.abs(event.getRawX() - dragStartX);
                         float dy = Math.abs(event.getRawY() - dragStartY);
-                        if (dx > touchSlop / 2f || dy > touchSlop / 2f) {
+                        if (dx > touchSlop || dy > touchSlop) {
                             isDragging = true;
-                            v.animate().scaleX(1f).scaleY(1f).setDuration(0).start();
+                            v.getParent().requestDisallowInterceptTouchEvent(true);
                             startDrag(v, DRAG_TAG_PROCESS + "_slot_" + slotIndex);
                             v.setVisibility(View.INVISIBLE);
                         }
@@ -111,9 +110,6 @@ public class SchedulerDragController implements ProcessSquareFactory.ProcessSqua
                     return true;
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
-                    if (!isDragging) {
-                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
-                    }
                     isDragging = false;
                     return false;
             }
@@ -148,9 +144,7 @@ public class SchedulerDragController implements ProcessSquareFactory.ProcessSqua
                         return true;
                     case DragEvent.ACTION_DRAG_ENDED:
                         v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
-                        if (!isRoundRobin) {
-                            restoreDragViewVisibility(event);
-                        }
+                        restoreDragViewVisibility(event);
                         return true;
                 }
                 return true;
@@ -164,9 +158,7 @@ public class SchedulerDragController implements ProcessSquareFactory.ProcessSqua
                     handleDropOnPool(event);
                     return true;
                 case DragEvent.ACTION_DRAG_ENDED:
-                    if (!isRoundRobin) {
-                        restoreDragViewVisibility(event);
-                    }
+                    restoreDragViewVisibility(event);
                     return true;
             }
             return true;
@@ -174,10 +166,31 @@ public class SchedulerDragController implements ProcessSquareFactory.ProcessSqua
     }
 
     private void restoreDragViewVisibility(DragEvent event) {
+        if (event.getResult()) return;
         View dragView = (View) event.getLocalState();
         if (dragView != null && dragView.getVisibility() != View.VISIBLE) {
             dragView.setVisibility(View.VISIBLE);
         }
+    }
+
+    private boolean isValidPlacement(ProcessInfo process, int slotIndex) {
+        int slotDuration = correctEndTimes[slotIndex] - correctStartTimes[slotIndex];
+        int expected = Math.min(process.getRemainingBurstTime(), timeQuantum);
+        return slotDuration == expected;
+    }
+
+    private void setSlotError(int slotIndex, boolean error) {
+        ViewGroup slotView = (ViewGroup) slotsContainer.getChildAt(slotIndex);
+        if (slotView == null) return;
+        if (error) {
+            slotView.setBackgroundResource(R.drawable.target_slot_error_bg);
+        } else {
+            slotView.setBackgroundResource(R.drawable.target_slot_bg);
+        }
+    }
+
+    private void resetSlotBackground(int slotIndex) {
+        setSlotError(slotIndex, false);
     }
 
     private void handleDropOnSlot(int slotIndex, DragEvent event) {
@@ -195,6 +208,22 @@ public class SchedulerDragController implements ProcessSquareFactory.ProcessSqua
             slotProcesses[slotIndex] = draggedProcess;
             slotProcesses[fromSlot] = existingInTarget;
 
+            boolean draggedValid = true;
+            boolean existingValid = true;
+
+            if (isRoundRobin) {
+                int fromSlotDuration = correctEndTimes[fromSlot] - correctStartTimes[fromSlot];
+                int toSlotDuration = correctEndTimes[slotIndex] - correctStartTimes[slotIndex];
+                draggedProcess.restoreBurst(fromSlotDuration);
+                draggedValid = isValidPlacement(draggedProcess, slotIndex);
+                draggedProcess.reduceBurst(toSlotDuration);
+                if (existingInTarget != null) {
+                    existingInTarget.restoreBurst(toSlotDuration);
+                    existingValid = isValidPlacement(existingInTarget, fromSlot);
+                    existingInTarget.reduceBurst(fromSlotDuration);
+                }
+            }
+
             if (existingInTarget != null) {
                 putProcessInSlot(fromSlot, existingInTarget);
             } else {
@@ -202,17 +231,44 @@ public class SchedulerDragController implements ProcessSquareFactory.ProcessSqua
             }
             putProcessInSlot(slotIndex, draggedProcess);
             dragView.setVisibility(View.GONE);
+
+            if (isRoundRobin) {
+                setSlotError(slotIndex, !draggedValid);
+                if (existingInTarget != null) {
+                    setSlotError(fromSlot, !existingValid);
+                }
+                updatePoolVisibility(draggedProcess);
+                if (existingInTarget != null) {
+                    updatePoolVisibility(existingInTarget);
+                }
+            }
         } else if (poolIndex != null) {
             ProcessInfo existingInTarget = slotProcesses[slotIndex];
             slotProcesses[slotIndex] = draggedProcess;
 
-            if (!isRoundRobin) {
+            boolean draggedValid = true;
+
+            if (isRoundRobin) {
+                int slotDuration = correctEndTimes[slotIndex] - correctStartTimes[slotIndex];
+                if (existingInTarget != null) {
+                    int existingSlotDuration = correctEndTimes[slotIndex] - correctStartTimes[slotIndex];
+                    existingInTarget.restoreBurst(existingSlotDuration);
+                    updatePoolVisibility(existingInTarget);
+                }
+                draggedValid = isValidPlacement(draggedProcess, slotIndex);
+                draggedProcess.reduceBurst(slotDuration);
+            } else {
                 if (existingInTarget != null) {
                     returnProcessToPool(existingInTarget);
                 }
                 poolContainer.removeView(dragView);
             }
             putProcessInSlot(slotIndex, draggedProcess);
+
+            if (isRoundRobin) {
+                setSlotError(slotIndex, !draggedValid);
+                updatePoolVisibility(draggedProcess);
+            }
         }
 
         callback.onSlotDropCompleted();
@@ -238,11 +294,24 @@ public class SchedulerDragController implements ProcessSquareFactory.ProcessSqua
             return;
         }
 
+        if (isRoundRobin) {
+            int slotDuration = correctEndTimes[fromSlot] - correctStartTimes[fromSlot];
+            process.restoreBurst(slotDuration);
+        }
+
         slotProcesses[fromSlot] = null;
         clearSlot(fromSlot);
 
         if (!isRoundRobin) {
             returnProcessToPool(process);
+        } else {
+            View poolSquare = viewFactory.findPoolSquare(poolContainer, process);
+            if (poolSquare == null) {
+                addProcessBackToPool(process);
+            } else {
+                poolSquare.setVisibility(View.VISIBLE);
+                viewFactory.updatePoolBurstDisplay(poolContainer, process);
+            }
         }
 
         callback.onReturnToPool();
@@ -277,11 +346,30 @@ public class SchedulerDragController implements ProcessSquareFactory.ProcessSqua
         if (placedSquare != null) {
             slotView.removeView(placedSquare);
         }
+        resetSlotBackground(slotIndex);
         TextView slotLabel = slotView.findViewById(R.id.slotLabel);
         slotLabel.setVisibility(View.VISIBLE);
     }
 
     public void returnProcessToPool(ProcessInfo process) {
+        View square = viewFactory.createProcessSquare(process, poolContainer.getChildCount());
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
+        int margin = (int) (4 * poolContainer.getContext().getResources().getDisplayMetrics().density);
+        lp.setMargins(margin, 0, margin, 0);
+        square.setLayoutParams(lp);
+        attachPoolDragListener(square, poolContainer.getChildCount());
+        poolContainer.addView(square);
+    }
+
+    private void updatePoolVisibility(ProcessInfo process) {
+        viewFactory.updatePoolBurstDisplay(poolContainer, process);
+        View poolSquare = viewFactory.findPoolSquare(poolContainer, process);
+        if (poolSquare != null) {
+            poolSquare.setVisibility(process.getRemainingBurstTime() > 0 ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    private void addProcessBackToPool(ProcessInfo process) {
         View square = viewFactory.createProcessSquare(process, poolContainer.getChildCount());
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
         int margin = (int) (4 * poolContainer.getContext().getResources().getDisplayMetrics().density);
