@@ -74,7 +74,6 @@ public class LogicBuildView extends View {
         COLOR_SELECTION       = ContextCompat.getColor(getContext(), R.color.logic_selection);
     }
 
-    private final boolean deleteMode = false;
     private Component selectedComponent = null;
 
     public void deleteSelectedComponent() {
@@ -88,14 +87,6 @@ public class LogicBuildView extends View {
             evaluateCircuit();
             invalidate();
         }
-    }
-
-    public void setSelectedComponent(Component c) {
-        selectedComponent = c;
-    }
-
-    public Component getSelectedComponent() {
-        return selectedComponent;
     }
 
     public static class Port {

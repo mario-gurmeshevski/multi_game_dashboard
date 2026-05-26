@@ -61,7 +61,6 @@ public class LogicLevelPlayActivity extends AppCompatActivity {
 
     // Level
     private LogicLevelConfig currentLevel;
-    private ComponentState componentState;
     private int levelId;
     private AppDatabase db;
 
@@ -164,22 +163,16 @@ public class LogicLevelPlayActivity extends AppCompatActivity {
 
         levelTitle.setText(getString(R.string.level_title, levelNumber));
         instructionText.setText("");
-        componentState = new ComponentState(currentLevel.getGateType());
 
         if (levelNumber <= 3) {
-            if (currentLevel.getGateType() == LogicEngine.GateType.NOT) {
-                componentState.setInputB(true);
-            }
             gameView.setGateType(currentLevel.getGateType());
             gameView.setOnInputChangedListener(new LogicGameView.OnInputChangedListener() {
                 @Override
                 public void onInputAChanged(boolean value) {
-                    componentState.setInputA(value);
                     checkButton.setEnabled(true);
                 }
                 @Override
                 public void onInputBChanged(boolean value) {
-                    componentState.setInputB(value);
                     checkButton.setEnabled(true);
                 }
             });

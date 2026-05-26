@@ -18,7 +18,6 @@
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
         <item name="textAppearanceHeadlineMedium">@style/TextAppearance.EducationGame.Title</item>
-        <item name="textInputStyle">@style/Widget.EducationGame.TextInputLayout</item>
     </style>
 
     <style name="Theme.EducationGame" parent="Base.Theme.EducationGame" />

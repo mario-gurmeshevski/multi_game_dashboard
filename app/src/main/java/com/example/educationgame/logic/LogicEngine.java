@@ -15,7 +15,5 @@ public class LogicEngine {
         }
     }
 
-    public static boolean evaluateNot(boolean inputA) {
-        return !inputA;
-    }
+
 }

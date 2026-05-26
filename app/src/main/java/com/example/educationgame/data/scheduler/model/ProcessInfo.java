@@ -52,7 +52,5 @@ public class ProcessInfo {
         if (remainingBurstTime > burstTime) remainingBurstTime = burstTime;
     }
 
-    public void resetBurst() {
-        remainingBurstTime = burstTime;
-    }
+
 }

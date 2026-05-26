@@ -16,7 +16,7 @@ public class LogicLevelConfig {
         this.twoStarSeconds = twoStarSeconds;
     }
 
-    public int getLevelNumber()      { return levelNumber; }
+
     public LogicEngine.GateType getGateType() { return gateType; }
     public String getDescription()   { return description; }
     public int getThreeStarSeconds() { return threeStarSeconds; }
