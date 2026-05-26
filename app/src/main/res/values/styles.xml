@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Widget.EducationGame.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
-        <item name="boxCornerRadiusTopStart">8dp</item>
-        <item name="boxCornerRadiusTopEnd">8dp</item>
-        <item name="boxCornerRadiusBottomStart">8dp</item>
-        <item name="boxCornerRadiusBottomEnd">8dp</item>
-        <item name="boxStrokeColor">@color/accent</item>
-        <item name="hintTextColor">@color/accent</item>
-    </style>
-
     <style name="Widget.EducationGame.Button.Primary" parent="Widget.Material3.Button">
         <item name="android:background">@drawable/btn_primary_flat</item>
         <item name="android:textColor">@color/text_on_accent</item>
