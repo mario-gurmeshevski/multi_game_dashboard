@@ -46,9 +46,9 @@ public class LevelCompleteDialog {
 
         // Наслов
         TextView title = view.findViewById(R.id.dialogTitle);
-        if (stars == 3)      title.setText("Perfect!");
-        else if (stars == 2) title.setText("Great job!");
-        else                 title.setText("Level complete!");
+        if (stars == 3)      title.setText(R.string.perfect);
+        else if (stars == 2) title.setText(R.string.great_job);
+        else                 title.setText(R.string.level_complete);
 
         // Копчиња
         Button btnNext  = view.findViewById(R.id.btnNextLevel);

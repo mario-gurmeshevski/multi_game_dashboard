@@ -50,18 +50,16 @@ public class LevelTaskDialog {
         // Постави содржина според нивото
         switch (levelNumber) {
             case 7:
-                taskTitle.setText("🎯 Level 7 — Task");
-                taskDescription.setText(
-                        "Build a circuit that lights the bulb using exactly 4 logic gates.");
+                taskTitle.setText(R.string.level_7_task);
+                taskDescription.setText(R.string.level_7_text);
                 addRule(context, rulesLayout, "✅ Must use at least 1 AND gate");
                 addRule(context, rulesLayout, "✅ Must use at least 1 NOT gate");
                 addRule(context, rulesLayout, "✅ All gates must be connected");
                 addRule(context, rulesLayout, "✅ Bulb must be ON");
                 break;
             case 8:
-                taskTitle.setText("🎯 Level 8 — Task");
-                taskDescription.setText(
-                        "Build a circuit using exactly 5 logic gates.");
+                taskTitle.setText(R.string.level_8_task);
+                taskDescription.setText(R.string.level_8_text);
                 addRule(context, rulesLayout, "✅ Must use at least 1 AND gate");
                 addRule(context, rulesLayout, "✅ Must use at least 1 NOT gate");
                 addRule(context, rulesLayout, "✅ Must use at least 1 OR gate");
@@ -69,9 +67,8 @@ public class LevelTaskDialog {
                 addRule(context, rulesLayout, "✅ Bulb must be ON");
                 break;
             case 9:
-                taskTitle.setText("🎯 Level 9 — Task");
-                taskDescription.setText(
-                        "Build a complex circuit using at least 6 logic gates.");
+                taskTitle.setText(R.string.level_9_task);
+                taskDescription.setText(R.string.level_9_text);
                 addRule(context, rulesLayout, "✅ Must use at least 2 AND gates");
                 addRule(context, rulesLayout, "✅ Must use at least 2 NOT gates");
                 addRule(context, rulesLayout, "✅ Must use at least 1 OR gate");
@@ -111,7 +108,7 @@ public class LevelTaskDialog {
         TextView tv = new TextView(context);
         tv.setText(text);
         tv.setTextSize(11f);
-        tv.setTextColor(0xFF7eb8f7);
+        tv.setTextColor(context.getColor(R.color.task_desc_text));
         tv.setPadding(0, 4, 0, 4);
         layout.addView(tv);
     }

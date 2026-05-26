@@ -8,9 +8,7 @@
     <string name="completed_levels">Completed Levels</string>
     <string name="level_locked">Locked</string>
     <string name="level_play">Play</string>
-    <string name="stars_three">★★★</string>
-    <string name="stars_two">★★☆</string>
-    <string name="stars_one">★☆☆</string>
+    <string name="star">★</string>
     <string name="percent_format">%1$d%%</string>
     <string name="percent_zero">0%</string>
 
@@ -50,4 +48,33 @@
     <string name="content_desc_star">Star</string>
     <string name="content_desc_scheduler">Scheduler game icon</string>
     <string name="content_desc_logic">Logic circuit game icon</string>
+    <string name="hint_text_here">Hint text here</string>
+    <string name="arrow">Arrow pointing down</string>
+    <string name="timer_initial">00:00</string>
+    <string name="drag">Drag:</string>
+    <string name="btn">BTN</string>
+    <string name="button">Button</string>
+    <string name="and">AND</string>
+    <string name="gate">Gate</string>
+    <string name="or">OR</string>
+    <string name="not">NOT</string>
+    <string name="hint">Hint</string>
+    <string name="trash">🗑</string>
+    <string name="check_circuit">Check circuit</string>
+    <string name="next_level">Next Level</string>
+    <string name="level_complete">Level Complete!</string>
+    <string name="try_again">Try Again</string>
+    <string name="back_to_menu">Back to Menu</string>
+    <string name="target_task">🎯 Task</string>
+    <string name="ten">10</string>
+    <string name="timer_starts_when_popup_closes">Timer starts when popup closes</string>
+    <string name="got_it_start_timer">Got it! Start timer</string>
+    <string name="perfect">Perfect!</string>
+    <string name="great_job">Great Job!</string>
+    <string name="level_7_task">🎯 Level 7 — Task</string>
+    <string name="level_7_text">Build a circuit that lights the bulb using exactly 4 logic gates.</string>
+    <string name="level_8_task">🎯 Level 8 — Task</string>
+    <string name="level_8_text">Build a circuit using exactly 5 logic gates.</string>
+    <string name="level_9_task">🎯 Level 9 — Task</string>
+    <string name="level_9_text">Build a complex circuit using at least 6 logic gates.</string>
 </resources>

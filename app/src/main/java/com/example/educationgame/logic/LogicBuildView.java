@@ -1,6 +1,7 @@
 package com.example.educationgame.logic;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -8,39 +9,80 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.core.content.ContextCompat;
+
+import com.example.educationgame.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class LogicBuildView extends View {
 
-    // ── Бои ──────────────────────────────────────────────────
-    private static final int COLOR_BG          = 0xFF12102a;
-    private static final int COLOR_PORT        = 0xFF7c6fcd;
-    private static final int COLOR_PORT_HOVER  = 0xFF1de9b6;
-    private static final int COLOR_WIRE_ON     = 0xFF1de9b6;
-    private static final int COLOR_WIRE_OFF    = 0xFF3a5a80;
-    private static final int COLOR_WIRE_DRAG   = 0xAA7c6fcd;
-    private static final int COLOR_GATE_BG     = 0xFF1e1145;
-    private static final int COLOR_GATE_BORDER = 0xFF7c6fcd;
-    private static final int COLOR_GATE_TEXT   = 0xFFc0b0ff;
-    private static final int COLOR_BTN_BG      = 0xFF0d2137;
-    private static final int COLOR_BTN_ON      = 0xFF1de9b6;
-    private static final int COLOR_BTN_OFF     = 0xFF3a5a80;
-    private static final int COLOR_BULB_ON     = 0xFFFFD700;
-    private static final int COLOR_BULB_OFF    = 0xFF2a2255;
-    private boolean deleteMode = false;
-    private Component selectedComponent = null;
+    private int COLOR_BG;
+    private int COLOR_PORT;
+    private int COLOR_PORT_HOVER;
+    private int COLOR_WIRE_ON;
+    private int COLOR_WIRE_OFF;
+    private int COLOR_WIRE_DRAG;
+    private int COLOR_GATE_BG;
+    private int COLOR_GATE_BORDER;
+    private int COLOR_GATE_TEXT;
+    private int COLOR_BTN_BG;
+    private int COLOR_BTN_ON;
+    private int COLOR_BTN_OFF;
+    private int COLOR_BULB_ON;
+    private int COLOR_BULB_OFF;
+    private int COLOR_SWITCH_ON;
+    private int COLOR_SWITCH_OFF;
+    private int COLOR_BULB_GLOW;
+    private int COLOR_BULB_INNER_ON;
+    private int COLOR_BULB_INNER_OFF;
+    private int COLOR_BULB_HI_ON;
+    private int COLOR_BULB_HI_OFF;
+    private int COLOR_BULB_TEXT_OFF;
+    private int COLOR_SWITCH_TEXT_OFF;
+    private int COLOR_PORT_BG;
+    private int COLOR_BUILD_CANVAS;
+    private int COLOR_SELECTION;
 
+    private void loadColors() {
+        COLOR_BG              = ContextCompat.getColor(getContext(), R.color.logic_bg);
+        COLOR_PORT            = ContextCompat.getColor(getContext(), R.color.logic_port_border);
+        COLOR_PORT_HOVER      = ContextCompat.getColor(getContext(), R.color.logic_port_hover);
+        COLOR_WIRE_ON         = ContextCompat.getColor(getContext(), R.color.logic_wire_on);
+        COLOR_WIRE_OFF        = ContextCompat.getColor(getContext(), R.color.logic_wire_off);
+        COLOR_WIRE_DRAG       = ContextCompat.getColor(getContext(), R.color.logic_wire_drag);
+        COLOR_GATE_BG         = ContextCompat.getColor(getContext(), R.color.logic_gate_bg);
+        COLOR_GATE_BORDER     = ContextCompat.getColor(getContext(), R.color.logic_gate_border);
+        COLOR_GATE_TEXT       = ContextCompat.getColor(getContext(), R.color.logic_gate_text);
+        COLOR_BTN_BG          = ContextCompat.getColor(getContext(), R.color.logic_btn_bg);
+        COLOR_BTN_ON          = ContextCompat.getColor(getContext(), R.color.logic_on);
+        COLOR_BTN_OFF         = ContextCompat.getColor(getContext(), R.color.logic_off);
+        COLOR_BULB_ON         = ContextCompat.getColor(getContext(), R.color.logic_bulb_on);
+        COLOR_BULB_OFF        = ContextCompat.getColor(getContext(), R.color.logic_bulb_off);
+        COLOR_SWITCH_ON       = ContextCompat.getColor(getContext(), R.color.logic_switch_on);
+        COLOR_SWITCH_OFF      = ContextCompat.getColor(getContext(), R.color.logic_switch_off);
+        COLOR_BULB_GLOW       = ContextCompat.getColor(getContext(), R.color.logic_bulb_glow);
+        COLOR_BULB_INNER_ON   = ContextCompat.getColor(getContext(), R.color.logic_bulb_inner_on);
+        COLOR_BULB_INNER_OFF  = ContextCompat.getColor(getContext(), R.color.logic_bulb_inner_off);
+        COLOR_BULB_HI_ON      = ContextCompat.getColor(getContext(), R.color.logic_bulb_hi_on);
+        COLOR_BULB_HI_OFF     = ContextCompat.getColor(getContext(), R.color.logic_bulb_hi_off);
+        COLOR_BULB_TEXT_OFF   = ContextCompat.getColor(getContext(), R.color.logic_bulb_text_off);
+        COLOR_SWITCH_TEXT_OFF = ContextCompat.getColor(getContext(), R.color.logic_switch_text_off);
+        COLOR_PORT_BG         = ContextCompat.getColor(getContext(), R.color.logic_port_bg);
+        COLOR_BUILD_CANVAS    = ContextCompat.getColor(getContext(), R.color.logic_build_canvas);
+        COLOR_SELECTION       = ContextCompat.getColor(getContext(), R.color.logic_selection);
+    }
+
+    private final boolean deleteMode = false;
+    private Component selectedComponent = null;
 
     public void deleteSelectedComponent() {
         if (selectedComponent != null && !selectedComponent.id.equals("bulb")) {
-            // Избриши ги жиците поврзани со оваа компонента
             wires.removeIf(w ->
                     w.from.componentId.equals(selectedComponent.id) ||
                             w.to.componentId.equals(selectedComponent.id));
-            // Избриши ги портовите
             allPorts.removeIf(p -> p.componentId.equals(selectedComponent.id));
-            // Избриши ја компонентата
             components.remove(selectedComponent);
             selectedComponent = null;
             evaluateCircuit();
@@ -56,11 +98,11 @@ public class LogicBuildView extends View {
         return selectedComponent;
     }
 
-    // ── Модел ─────────────────────────────────────────────────
     public static class Port {
-        public String id, componentId;
+        public final String id;
+        public final String componentId;
         public float x, y;
-        public boolean isOutput;
+        public final boolean isOutput;
 
         public Port(String id, String componentId, float x, float y, boolean isOutput) {
             this.id = id; this.componentId = componentId;
@@ -69,10 +111,14 @@ public class LogicBuildView extends View {
     }
 
     public static class Component {
-        public String id, type;
-        public float x, y, w, h;
+        public final String id;
+        public final String type;
+        public float x;
+        public float y;
+        public final float w;
+        public final float h;
         public boolean value = false;
-        public List<Port> ports = new ArrayList<>();
+        public final List<Port> ports = new ArrayList<>();
         public boolean dragging = false;
 
         public Component(String id, String type, float x, float y, float w, float h) {
@@ -82,28 +128,23 @@ public class LogicBuildView extends View {
     }
 
     public static class Wire {
-        public Port from, to;
+        public final Port from;
+        public final Port to;
         public boolean active = false;
         public Wire(Port from, Port to) { this.from = from; this.to = to; }
     }
 
-    // ── Состојба ─────────────────────────────────────────────
     private final List<Component> components = new ArrayList<>();
     private final List<Wire> wires = new ArrayList<>();
     private final List<Port> allPorts = new ArrayList<>();
 
-    // Drag жица
     private Port dragFromPort = null;
     private float dragX, dragY;
     private Port hoveredPort = null;
 
-    // Drag компонента
     private Component dragComponent = null;
     private float dragOffsetX, dragOffsetY;
-    private long touchDownTime;
-    private float touchDownX, touchDownY;
 
-    // Level config
     private int requiredGates = 0;
     private boolean requireAnd = false;
     private boolean requireNot = false;
@@ -116,12 +157,17 @@ public class LogicBuildView extends View {
         void onCircuitChanged(boolean bulbOn);
     }
 
-    public LogicBuildView(Context context) { super(context); }
-    public LogicBuildView(Context context, AttributeSet attrs) { super(context, attrs); }
+    public LogicBuildView(Context context) { super(context); loadColors(); }
+    public LogicBuildView(Context context, AttributeSet attrs) { super(context, attrs); loadColors(); }
+
+    @Override
+    protected void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        loadColors();
+        invalidate();
+    }
 
     public void setOnCircuitChangedListener(OnCircuitChangedListener l) { this.listener = l; }
-
-    // ── Setup ─────────────────────────────────────────────────
 
     public void setupLevel(int levelNumber) {
         components.clear();
@@ -152,7 +198,6 @@ public class LogicBuildView extends View {
         post(() -> {
             float w = getWidth();
             float h = getHeight();
-            // Постави ја сијалицата на десната страна
             float bulbSize = Math.min(w, h) * 0.28f;
             Component bulb = makeBulb("bulb",
                     w * 0.82f, h / 2f - bulbSize / 2f, bulbSize);
@@ -161,27 +206,22 @@ public class LogicBuildView extends View {
         });
     }
 
-    // Додај компонента од toolbar
     public void addComponentToCanvas(String type) {
         float w = getWidth();
         float h = getHeight();
         float gw = w * 0.14f;
         float gh = h * 0.28f;
 
-        // Постави ја на средината
         float cx = w * 0.3f + (float)(Math.random() * w * 0.2f);
         float cy = h * 0.2f + (float)(Math.random() * h * 0.5f);
 
         Component c;
-        switch (type) {
-            case "BUTTON":
-                c = makeButton("btn_" + System.currentTimeMillis(),
-                        "BUTTON_A", cx, cy, gw, gh, true);
-                break;
-            default:
-                c = makeGate("gate_" + System.currentTimeMillis(),
-                        type, cx, cy, gw, gh);
-                break;
+        if (type.equals("BUTTON")) {
+            c = makeButton("btn_" + System.currentTimeMillis(),
+                    "BUTTON_A", cx, cy, gw, gh, true);
+        } else {
+            c = makeGate("gate_" + System.currentTimeMillis(),
+                    type, cx, cy, gw, gh);
         }
         addComponent(c);
         invalidate();
@@ -189,10 +229,8 @@ public class LogicBuildView extends View {
 
     private void addComponent(Component c) {
         components.add(c);
-        for (Port p : c.ports) allPorts.add(p);
+        allPorts.addAll(c.ports);
     }
-
-    // ── Helper методи ─────────────────────────────────────────
 
     private Component makeButton(String id, String type,
                                  float x, float y, float w, float h, boolean value) {
@@ -250,8 +288,6 @@ public class LogicBuildView extends View {
         }
     }
 
-    // ── Touch ─────────────────────────────────────────────────
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float x = event.getX();
@@ -259,11 +295,6 @@ public class LogicBuildView extends View {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                touchDownTime = System.currentTimeMillis();
-                touchDownX = x;
-                touchDownY = y;
-
-                // Провери дали е порт
                 Port port = findPort(x, y, 35f);
                 if (port != null && port.isOutput) {
                     dragFromPort = port;
@@ -271,7 +302,6 @@ public class LogicBuildView extends View {
                     return true;
                 }
 
-                // Провери дали е компонента (не сијалица)
                 Component comp = findComponent(x, y);
                 if (comp != null && !comp.id.equals("bulb")) {
                     dragComponent = comp;
@@ -289,13 +319,6 @@ public class LogicBuildView extends View {
                     dragComponent.x = x - dragOffsetX;
                     dragComponent.y = y - dragOffsetY;
                     updatePortPositions(dragComponent);
-                    // Ажурирај жици поврзани со оваа компонента
-                    for (Wire wire : wires) {
-                        if (wire.from.componentId.equals(dragComponent.id) ||
-                                wire.to.componentId.equals(dragComponent.id)) {
-                            // Жиците автоматски се ажурираат бидејќи користат port референци
-                        }
-                    }
                     invalidate();
                 }
                 break;
@@ -317,7 +340,6 @@ public class LogicBuildView extends View {
                     hoveredPort = null;
                     invalidate();
                 } else if (dragComponent != null) {
-                    // Селектирај компонентата
                     selectedComponent = dragComponent;
                     invalidate();
                 }
@@ -349,8 +371,6 @@ public class LogicBuildView extends View {
         for (Component c : components) if (c.id.equals(id)) return c;
         return null;
     }
-
-    // ── Евалуација ────────────────────────────────────────────
 
     private void evaluateCircuit() {
         for (Component c : components) {
@@ -392,10 +412,7 @@ public class LogicBuildView extends View {
         return false;
     }
 
-    // ── Валидација ────────────────────────────────────────────
-
     public String validate() {
-        // Провери дали сите гејти се поврзани
         for (Component c : components) {
             if (c.type.equals("AND") || c.type.equals("OR") || c.type.equals("NOT")) {
                 boolean hasIn = false, hasOut = false;
@@ -408,7 +425,6 @@ public class LogicBuildView extends View {
             }
         }
 
-        // Провери број на гејти
         int gateCount = 0, andCount = 0, orCount = 0, notCount = 0;
         for (Component c : components) {
             if (c.type.equals("AND")) { gateCount++; andCount++; }
@@ -425,20 +441,17 @@ public class LogicBuildView extends View {
         if (requireOr && orCount == 0)
             return "You must use at least one OR gate!";
 
-        // Провери сијалица
         Component bulb = findComponentById("bulb");
         if (bulb == null || !bulb.value)
             return "The bulb is not ON! Check your connections.";
 
-        return null; // Се е точно
+        return null;
     }
 
     public boolean getBulbState() {
         Component bulb = findComponentById("bulb");
         return bulb != null && bulb.value;
     }
-
-    // ── Draw ──────────────────────────────────────────────────
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -453,7 +466,7 @@ public class LogicBuildView extends View {
 
     private void drawGrid(Canvas canvas) {
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(0xFF1a1835);
+        paint.setColor(COLOR_BUILD_CANVAS);
         float step = 24f;
         for (float x = 0; x < getWidth(); x += step) {
             for (float y = 0; y < getHeight(); y += step) {
@@ -497,7 +510,7 @@ public class LogicBuildView extends View {
             canvas.drawCircle(p.x, p.y, 10f, paint);
             paint.setStyle(Paint.Style.STROKE);
             paint.setStrokeWidth(2f);
-            paint.setColor(0xFF12102a);
+            paint.setColor(COLOR_PORT_BG);
             canvas.drawCircle(p.x, p.y, 10f, paint);
         }
     }
@@ -522,7 +535,7 @@ public class LogicBuildView extends View {
         float cx = c.x + c.w * 0.25f, cy = c.y + c.h * 0.45f;
         float r = Math.min(c.w, c.h) * 0.16f;
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(c.value ? 0xFF0b3d30 : 0xFF111827);
+        paint.setColor(c.value ? COLOR_SWITCH_ON : COLOR_SWITCH_OFF);
         canvas.drawCircle(cx, cy, r, paint);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(2f);
@@ -533,14 +546,13 @@ public class LogicBuildView extends View {
         canvas.drawCircle(cx, cy, r * 0.5f, paint);
 
         paint.setTextSize(c.h * 0.20f);
-        paint.setColor(c.value ? COLOR_BTN_ON : 0xFF4a6a8a);
+        paint.setColor(c.value ? COLOR_BTN_ON : COLOR_SWITCH_TEXT_OFF);
         paint.setTextAlign(Paint.Align.CENTER);
         canvas.drawText(label, c.x + c.w * 0.65f, c.y + c.h * 0.42f, paint);
         canvas.drawText(c.value ? "TRUE" : "FALSE", c.x + c.w * 0.65f, c.y + c.h * 0.68f, paint);
-        // Во drawGate — замени го stroke делот
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(c == selectedComponent ? 4f : 2.5f);
-        paint.setColor(c == selectedComponent ? 0xFFFF5555 :
+        paint.setColor(c == selectedComponent ? COLOR_SELECTION :
                 (c.value ? COLOR_WIRE_ON : COLOR_GATE_BORDER));
         canvas.drawRoundRect(c.x, c.y, c.x+c.w, c.y+c.h, 16, 16, paint);
     }
@@ -558,10 +570,9 @@ public class LogicBuildView extends View {
         paint.setColor(COLOR_GATE_TEXT);
         paint.setTextAlign(Paint.Align.CENTER);
         canvas.drawText(c.type, c.x + c.w / 2f, c.y + c.h / 2f + c.h * 0.08f, paint);
-        // Во drawGate — замени го stroke делот
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(c == selectedComponent ? 4f : 2.5f);
-        paint.setColor(c == selectedComponent ? 0xFFFF5555 :
+        paint.setColor(c == selectedComponent ? COLOR_SELECTION :
                 (c.value ? COLOR_WIRE_ON : COLOR_GATE_BORDER));
         canvas.drawRoundRect(c.x, c.y, c.x+c.w, c.y+c.h, 16, 16, paint);
     }
@@ -570,21 +581,21 @@ public class LogicBuildView extends View {
         float cx = c.x + c.w / 2f, cy = c.y + c.h / 2f, r = c.w / 2f;
         if (c.value) {
             paint.setStyle(Paint.Style.FILL);
-            paint.setColor(0x44FFD700);
+            paint.setColor(COLOR_BULB_GLOW);
             canvas.drawCircle(cx, cy, r * 1.4f, paint);
         }
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(c.value ? 0xFF1a2a1a : 0xFF111122);
+        paint.setColor(c.value ? COLOR_BULB_INNER_ON : COLOR_BULB_INNER_OFF);
         canvas.drawCircle(cx, cy, r, paint);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(3f);
         paint.setColor(c.value ? COLOR_BULB_ON : COLOR_BULB_OFF);
         canvas.drawCircle(cx, cy, r, paint);
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(c.value ? 0xFF2a4a1a : 0xFF1a1830);
+        paint.setColor(c.value ? COLOR_BULB_HI_ON : COLOR_BULB_HI_OFF);
         canvas.drawCircle(cx, cy - r * 0.1f, r * 0.55f, paint);
         paint.setTextSize(r * 0.38f);
-        paint.setColor(c.value ? COLOR_BULB_ON : 0xFF555577);
+        paint.setColor(c.value ? COLOR_BULB_ON : COLOR_BULB_TEXT_OFF);
         paint.setTextAlign(Paint.Align.CENTER);
         canvas.drawText(c.value ? "ON" : "OFF", cx, cy + r + r * 0.4f, paint);
     }

@@ -1,44 +1,49 @@
 package com.example.educationgame.logic;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import androidx.core.content.ContextCompat;
+import com.example.educationgame.R;
 
 public class LogicGameView extends View {
 
-    // ── Бои ──────────────────────────────────────────────────
-    private static final int COLOR_BG           = 0xFF12102a;
-    private static final int COLOR_PANEL        = 0xFF1d3557;
-    private static final int COLOR_PANEL_BORDER = 0xFF4a90d9;
-    private static final int COLOR_ON           = 0xFF1de9b6;
-    private static final int COLOR_OFF          = 0xFF3a5a80;
-    private static final int COLOR_GATE_BG      = 0xFF1e1145;
-    private static final int COLOR_GATE_BORDER  = 0xFF7c6fcd;
-    private static final int COLOR_GATE_TEXT    = 0xFFc0b0ff;
-    private static final int COLOR_WIRE_ON      = 0xFF1de9b6;
-    private static final int COLOR_WIRE_OFF     = 0xFF3a5a80;
-    private static final int COLOR_BULB_ON      = 0xFFFFD700;
-    private static final int COLOR_BULB_OFF     = 0xFF2a2255;
-    private static final int COLOR_TEXT_ON      = 0xFF1de9b6;
-    private static final int COLOR_TEXT_OFF     = 0xFF6a8aaa;
-    private static final int COLOR_WHITE        = 0xFFE0E0E0;
+    private int COLOR_BG;
+    private int COLOR_PANEL;
+    private int COLOR_PANEL_BORDER;
+    private int COLOR_ON;
+    private int COLOR_OFF;
+    private int COLOR_GATE_BG;
+    private int COLOR_GATE_BORDER;
+    private int COLOR_GATE_TEXT;
+    private int COLOR_WIRE_ON;
+    private int COLOR_WIRE_OFF;
+    private int COLOR_BULB_ON;
+    private int COLOR_BULB_OFF;
+    private int COLOR_TEXT_ON;
+    private int COLOR_TEXT_OFF;
+    private int COLOR_SWITCH_ON;
+    private int COLOR_SWITCH_OFF;
+    private int COLOR_BULB_INNER_ON;
+    private int COLOR_BULB_INNER_OFF;
+    private int COLOR_BULB_HI_ON;
+    private int COLOR_BULB_HI_OFF;
+    private int COLOR_BULB_GLOW;
+    private int COLOR_BULB_TEXT_OFF;
 
-    // ── Состојба ─────────────────────────────────────────────
     private boolean inputA = false;
     private boolean inputB = false;
     private boolean output = false;
     private LogicEngine.GateType gateType = LogicEngine.GateType.AND;
     private boolean isNotGate = false;
 
-    // ── Paint ─────────────────────────────────────────────────
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
-    // ── Listener ─────────────────────────────────────────────
     private OnInputChangedListener listener;
 
     public interface OnInputChangedListener {
@@ -46,15 +51,47 @@ public class LogicGameView extends View {
         void onInputBChanged(boolean value);
     }
 
+    private void loadColors() {
+        COLOR_BG             = ContextCompat.getColor(getContext(), R.color.logic_bg);
+        COLOR_PANEL          = ContextCompat.getColor(getContext(), R.color.logic_panel_bg);
+        COLOR_PANEL_BORDER   = ContextCompat.getColor(getContext(), R.color.logic_panel_border);
+        COLOR_ON             = ContextCompat.getColor(getContext(), R.color.logic_on);
+        COLOR_OFF            = ContextCompat.getColor(getContext(), R.color.logic_off);
+        COLOR_GATE_BG        = ContextCompat.getColor(getContext(), R.color.logic_gate_bg);
+        COLOR_GATE_BORDER    = ContextCompat.getColor(getContext(), R.color.logic_gate_border);
+        COLOR_GATE_TEXT      = ContextCompat.getColor(getContext(), R.color.logic_gate_text);
+        COLOR_WIRE_ON        = ContextCompat.getColor(getContext(), R.color.logic_wire_on);
+        COLOR_WIRE_OFF       = ContextCompat.getColor(getContext(), R.color.logic_wire_off);
+        COLOR_BULB_ON        = ContextCompat.getColor(getContext(), R.color.logic_bulb_on);
+        COLOR_BULB_OFF       = ContextCompat.getColor(getContext(), R.color.logic_bulb_off);
+        COLOR_TEXT_ON        = ContextCompat.getColor(getContext(), R.color.logic_on);
+        COLOR_TEXT_OFF       = ContextCompat.getColor(getContext(), R.color.logic_text_off);
+        COLOR_SWITCH_ON      = ContextCompat.getColor(getContext(), R.color.logic_switch_on);
+        COLOR_SWITCH_OFF     = ContextCompat.getColor(getContext(), R.color.logic_switch_off);
+        COLOR_BULB_INNER_ON  = ContextCompat.getColor(getContext(), R.color.logic_bulb_inner_on);
+        COLOR_BULB_INNER_OFF = ContextCompat.getColor(getContext(), R.color.logic_bulb_inner_off);
+        COLOR_BULB_HI_ON     = ContextCompat.getColor(getContext(), R.color.logic_bulb_hi_on);
+        COLOR_BULB_HI_OFF    = ContextCompat.getColor(getContext(), R.color.logic_bulb_hi_off);
+        COLOR_BULB_GLOW      = ContextCompat.getColor(getContext(), R.color.logic_bulb_glow);
+        COLOR_BULB_TEXT_OFF  = ContextCompat.getColor(getContext(), R.color.logic_bulb_text_off);
+    }
+
     public LogicGameView(Context context) {
         super(context);
+        loadColors();
     }
 
     public LogicGameView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        loadColors();
     }
 
-    // ── Јавни методи ─────────────────────────────────────────
+    @Override
+    protected void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        loadColors();
+        invalidate();
+    }
 
     public void setGateType(LogicEngine.GateType type) {
         this.gateType = type;
@@ -62,7 +99,7 @@ public class LogicGameView extends View {
         this.inputA = false;
         this.inputB = false;
         if (isNotGate) {
-            inputA = true; // почнуваме со TRUE за да биде NOT true = FALSE
+            inputA = true;
             inputB = true;
         }
         recalcOutput();
@@ -77,8 +114,6 @@ public class LogicGameView extends View {
         return output;
     }
 
-    // ── Touch ─────────────────────────────────────────────────
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() != MotionEvent.ACTION_DOWN) return true;
@@ -88,12 +123,10 @@ public class LogicGameView extends View {
         float x = event.getX();
         float y = event.getY();
 
-        // Button A hitbox
         float aLeft = w * 0.05f, aRight = w * 0.22f;
         float aTop  = isNotGate ? h * 0.35f : h * 0.15f;
         float aBot  = isNotGate ? h * 0.65f : h * 0.45f;
 
-        // Button B hitbox (само за AND/OR)
         float bLeft = w * 0.05f, bRight = w * 0.22f;
         float bTop  = h * 0.55f, bBot = h * 0.85f;
 
@@ -120,8 +153,6 @@ public class LogicGameView extends View {
         output = LogicEngine.evaluate(gateType, inputA, inputB);
     }
 
-    // ── Draw ──────────────────────────────────────────────────
-
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -137,10 +168,7 @@ public class LogicGameView extends View {
         }
     }
 
-    // ── AND / OR layout ───────────────────────────────────────
-
     private void drawAndOrLayout(Canvas canvas, float w, float h) {
-        // Позиции
         float btnW = w * 0.17f, btnH = h * 0.28f;
         float aX = w * 0.05f, aY = h * 0.15f;
         float bX = w * 0.05f, bY = h * 0.55f;
@@ -151,34 +179,15 @@ public class LogicGameView extends View {
         float bulbCX = w * 0.80f, bulbCY = h * 0.50f;
         float bulbR  = Math.min(w, h) * 0.13f;
 
-        // Жици
-        drawWire(canvas,
-                aX + btnW, aY + btnH / 2f,
-                gateX, gateY + gateH * 0.30f,
-                inputA);
+        drawWire(canvas, aX + btnW, aY + btnH / 2f, gateX, gateY + gateH * 0.30f, inputA);
+        drawWire(canvas, bX + btnW, bY + btnH / 2f, gateX, gateY + gateH * 0.70f, inputB);
+        drawWire(canvas, gateX + gateW, gateY + gateH / 2f, bulbCX - bulbR, bulbCY, output);
 
-        drawWire(canvas,
-                bX + btnW, bY + btnH / 2f,
-                gateX, gateY + gateH * 0.70f,
-                inputB);
-
-        drawWire(canvas,
-                gateX + gateW, gateY + gateH / 2f,
-                bulbCX - bulbR, bulbCY,
-                output);
-
-        // Копчиња
         drawButton(canvas, aX, aY, btnW, btnH, "Button A", inputA);
         drawButton(canvas, bX, bY, btnW, btnH, "Button B", inputB);
-
-        // Гејт
         drawGate(canvas, gateX, gateY, gateW, gateH);
-
-        // Сијалица
         drawBulb(canvas, bulbCX, bulbCY, bulbR);
     }
-
-    // ── NOT layout ────────────────────────────────────────────
 
     private void drawNotLayout(Canvas canvas, float w, float h) {
         float btnW = w * 0.17f, btnH = h * 0.28f;
@@ -190,22 +199,13 @@ public class LogicGameView extends View {
         float bulbCX = w * 0.80f, bulbCY = h * 0.50f;
         float bulbR  = Math.min(w, h) * 0.13f;
 
-        drawWire(canvas,
-                aX + btnW, aY + btnH / 2f,
-                gateX, gateY + gateH / 2f,
-                inputA);
-
-        drawWire(canvas,
-                gateX + gateW, gateY + gateH / 2f,
-                bulbCX - bulbR, bulbCY,
-                output);
+        drawWire(canvas, aX + btnW, aY + btnH / 2f, gateX, gateY + gateH / 2f, inputA);
+        drawWire(canvas, gateX + gateW, gateY + gateH / 2f, bulbCX - bulbR, bulbCY, output);
 
         drawButton(canvas, aX, aY, btnW, btnH, "Button A", inputA);
         drawGate(canvas, gateX, gateY, gateW, gateH);
         drawBulb(canvas, bulbCX, bulbCY, bulbR);
     }
-
-    // ── Помошни Draw методи ───────────────────────────────────
 
     private void drawButton(Canvas canvas, float x, float y,
                             float w, float h, String label, boolean on) {
@@ -219,10 +219,9 @@ public class LogicGameView extends View {
         paint.setColor(on ? COLOR_PANEL_BORDER : COLOR_OFF);
         canvas.drawRoundRect(rect, 16, 16, paint);
 
-        // LED круг
         float cx = x + w * 0.28f, cy = y + h * 0.42f, r = Math.min(w, h) * 0.18f;
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(on ? 0xFF0b3d30 : 0xFF111827);
+        paint.setColor(on ? COLOR_SWITCH_ON : COLOR_SWITCH_OFF);
         canvas.drawCircle(cx, cy, r, paint);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(2.5f);
@@ -232,7 +231,6 @@ public class LogicGameView extends View {
         paint.setColor(on ? COLOR_ON : COLOR_OFF);
         canvas.drawCircle(cx, cy, r * 0.5f, paint);
 
-        // Текст
         paint.setStyle(Paint.Style.FILL);
         paint.setTextSize(h * 0.18f);
         paint.setColor(on ? COLOR_TEXT_ON : COLOR_TEXT_OFF);
@@ -260,9 +258,8 @@ public class LogicGameView extends View {
     }
 
     private void drawBulb(Canvas canvas, float cx, float cy, float r) {
-        // Надворешен круг
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(output ? 0xFF1a2a1a : 0xFF111122);
+        paint.setColor(output ? COLOR_BULB_INNER_ON : COLOR_BULB_INNER_OFF);
         canvas.drawCircle(cx, cy, r, paint);
 
         paint.setStyle(Paint.Style.STROKE);
@@ -270,23 +267,20 @@ public class LogicGameView extends View {
         paint.setColor(output ? COLOR_BULB_ON : COLOR_BULB_OFF);
         canvas.drawCircle(cx, cy, r, paint);
 
-        // Сијалица форма
         float bR = r * 0.55f;
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(output ? 0xFF2a4a1a : 0xFF1a1830);
+        paint.setColor(output ? COLOR_BULB_HI_ON : COLOR_BULB_HI_OFF);
         canvas.drawCircle(cx, cy - r * 0.1f, bR, paint);
 
-        // Светлина ако е ON
         if (output) {
             paint.setStyle(Paint.Style.FILL);
-            paint.setColor(0x44FFD700);
+            paint.setColor(COLOR_BULB_GLOW);
             canvas.drawCircle(cx, cy, r * 1.2f, paint);
         }
 
-        // ON/OFF текст
         paint.setStyle(Paint.Style.FILL);
         paint.setTextSize(r * 0.4f);
-        paint.setColor(output ? COLOR_BULB_ON : 0xFF555577);
+        paint.setColor(output ? COLOR_BULB_ON : COLOR_BULB_TEXT_OFF);
         paint.setTextAlign(Paint.Align.CENTER);
         canvas.drawText(output ? "ON" : "OFF", cx, cy + r * 1.5f, paint);
     }

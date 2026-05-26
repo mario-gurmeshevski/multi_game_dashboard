@@ -1,13 +1,13 @@
 package com.example.educationgame.scheduler;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.example.educationgame.R;
 import com.example.educationgame.data.scheduler.model.ProcessInfo;
 
 import java.util.ArrayList;
@@ -42,20 +42,12 @@ public class GanttChartView extends View {
     }
 
     private void init() {
-        boolean isDarkMode = (getContext().getResources().getConfiguration().uiMode
-                & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
-
-        textPaint.setColor(0xFFFFFFFF);
+        textPaint.setColor(getContext().getColor(R.color.gantt_text));
         textPaint.setTextAlign(Paint.Align.CENTER);
         textPaint.setFakeBoldText(true);
 
-        if (isDarkMode) {
-            timePaint.setColor(0xFFE2E8F0);
-            linePaint.setColor(0xFF4A5568);
-        } else {
-            timePaint.setColor(0xFF1A202C);
-            linePaint.setColor(0xFFD1D5DB);
-        }
+        timePaint.setColor(getContext().getColor(R.color.gantt_time_text));
+        linePaint.setColor(getContext().getColor(R.color.gantt_grid_line));
 
         linePaint.setStrokeWidth(1f);
     }

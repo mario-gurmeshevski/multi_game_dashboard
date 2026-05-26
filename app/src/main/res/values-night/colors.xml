@@ -29,4 +29,103 @@
     <color name="game_progress_fill">#FF4CAF50</color>
     <color name="star_color">#FFFFD700</color>
     <color name="locked_text">#FFAAAAAA</color>
+
+    <!-- Logic game backgrounds -->
+    <color name="logic_bg">#FF12102A</color>
+    <color name="logic_bar_bg">#FF16213E</color>
+    <color name="logic_toolbar_bg">#FF0F3460</color>
+    <color name="logic_bottom_bar_bg">#FF16213E</color>
+    <color name="logic_canvas_bg">#FF12102A</color>
+    <color name="logic_build_canvas">#FF1A1835</color>
+
+    <!-- Logic game panels & gates -->
+    <color name="logic_panel_bg">#FF1D3557</color>
+    <color name="logic_panel_border">#FF4A90D9</color>
+    <color name="logic_gate_bg">#FF1E1145</color>
+    <color name="logic_gate_border">#FF7C6FCD</color>
+    <color name="logic_gate_text">#FFC0B0FF</color>
+
+    <!-- Logic game states -->
+    <color name="logic_on">#FF1DE9B6</color>
+    <color name="logic_off">#FF3A5A80</color>
+    <color name="logic_wire_on">#FF1DE9B6</color>
+    <color name="logic_wire_off">#FF3A5A80</color>
+    <color name="logic_wire_drag">#AA7C6FCD</color>
+
+    <!-- Logic game buttons -->
+    <color name="logic_btn_bg">#FF0D2137</color>
+    <color name="logic_btn_primary">#FF533AB7</color>
+    <color name="logic_btn_primary_text">#FFFFFFFF</color>
+    <color name="logic_btn_hint_bg">#FF2A2255</color>
+    <color name="logic_btn_hint_text">#FFAAAAAA</color>
+    <color name="logic_btn_delete_bg">#FF3A1A1A</color>
+    <color name="logic_btn_delete_text">#FFFF5555</color>
+
+    <!-- Logic game bulb -->
+    <color name="logic_bulb_on">#FFFFD700</color>
+    <color name="logic_bulb_off">#FF2A2255</color>
+    <color name="logic_bulb_glow">#44FFD700</color>
+    <color name="logic_bulb_inner_on">#FF1A2A1A</color>
+    <color name="logic_bulb_inner_off">#FF111122</color>
+    <color name="logic_bulb_hi_on">#FF2A4A1A</color>
+    <color name="logic_bulb_hi_off">#FF1A1830</color>
+    <color name="logic_bulb_text_off">#FF555577</color>
+
+    <!-- Logic game switch -->
+    <color name="logic_switch_on">#FF0B3D30</color>
+    <color name="logic_switch_off">#FF111827</color>
+    <color name="logic_switch_text_off">#FF4A6A8A</color>
+
+    <!-- Logic game ports -->
+    <color name="logic_port_bg">#FF12102A</color>
+    <color name="logic_port_border">#FF7C6FCD</color>
+    <color name="logic_port_hover">#FF1DE9B6</color>
+
+    <!-- Logic game text -->
+    <color name="logic_text_primary">#FFE0E0E0</color>
+    <color name="logic_text_secondary">#FF7EB8F7</color>
+    <color name="logic_text_muted">#FFAAAAAA</color>
+    <color name="logic_text_off">#FF6A8AAA</color>
+
+    <!-- Logic game stars -->
+    <color name="logic_star_active">#FFFFD700</color>
+    <color name="logic_star_inactive">#FF444466</color>
+
+    <!-- Logic game timer -->
+    <color name="logic_timer_good">#FFFFFFFF</color>
+    <color name="logic_timer_warn">#FFF6C90E</color>
+    <color name="logic_timer_bad">#FFE05A5A</color>
+
+    <!-- Logic game selection -->
+    <color name="logic_selection">#FFFF5555</color>
+
+    <!-- Logic game chip labels -->
+    <color name="logic_chip_label">#FF1DE9B6</color>
+    <color name="logic_chip_subtext">#FF7C6FCD</color>
+
+    <!-- Tooltip -->
+    <color name="tooltip_bg">#FF1E1145</color>
+    <color name="tooltip_border">#FF7C6FCD</color>
+    <color name="tooltip_text">#FFE0E0E0</color>
+
+    <!-- Dialog -->
+    <color name="dialog_title_text">#FFE0E0E0</color>
+    <color name="dialog_btn_next_bg">#FF3A2577</color>
+    <color name="dialog_btn_next_text">#FFFFFFFF</color>
+
+    <!-- Target slots -->
+    <color name="target_slot_fill">#0D5A67D8</color>
+    <color name="target_slot_error_fill">#0DFF0000</color>
+    <color name="target_slot_error_border">#FFFF4444</color>
+
+    <!-- Gantt chart -->
+    <color name="gantt_text">#FFFFFFFF</color>
+    <color name="gantt_time_text">#FFE2E8F0</color>
+    <color name="gantt_grid_line">#FF4A5568</color>
+
+    <!-- Level task dialog -->
+    <color name="task_label_text">#FFC0B0FF</color>
+    <color name="task_desc_text">#FF7EB8F7</color>
+    <color name="task_hint_text">#FF555555</color>
+
 </resources>
