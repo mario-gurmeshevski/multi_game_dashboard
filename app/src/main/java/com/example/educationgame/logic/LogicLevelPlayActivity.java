@@ -43,7 +43,6 @@ public class LogicLevelPlayActivity extends AppCompatActivity {
     private TextView levelTitle;
     private Button checkButton;
     private Button hintButton;
-    private HorizontalScrollView componentToolbar;
     private LogicGameView gameView;
     private LogicWireView wireView;
     private LogicBuildView buildView;
@@ -62,7 +61,7 @@ public class LogicLevelPlayActivity extends AppCompatActivity {
 
     // Level
     private LogicLevelConfig currentLevel;
-    private ComponentState   componentState;
+    private ComponentState componentState;
     private int levelId;
     private AppDatabase db;
 
@@ -116,8 +115,6 @@ public class LogicLevelPlayActivity extends AppCompatActivity {
         levelTitle       = findViewById(R.id.levelTitle);
         checkButton      = findViewById(R.id.checkButton);
         hintButton       = findViewById(R.id.hintButton);
-        componentToolbar = findViewById(R.id.componentToolbar);
-
         ImageView backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> finish());
 
@@ -129,9 +126,7 @@ public class LogicLevelPlayActivity extends AppCompatActivity {
 
         if (levelNumber >= 7) {
             taskInfoButton.setVisibility(View.VISIBLE);
-            taskInfoButton.setOnClickListener(v -> {
-                LevelTaskDialog.show(this, levelNumber, () -> {});
-            });
+            taskInfoButton.setOnClickListener(v -> LevelTaskDialog.show(this, levelNumber, () -> {}));
         }
 
         if (levelNumber <= 3) {
@@ -143,6 +138,7 @@ public class LogicLevelPlayActivity extends AppCompatActivity {
         } else {
             buildView = new LogicBuildView(this);
             canvas.addView(buildView);
+            HorizontalScrollView componentToolbar = findViewById(R.id.componentToolbar);
             componentToolbar.setVisibility(View.VISIBLE);
             setupToolbarChips();
         }
@@ -159,9 +155,7 @@ public class LogicLevelPlayActivity extends AppCompatActivity {
         chipNot.setOnClickListener(v    -> buildView.addComponentToCanvas("NOT"));
         Button deleteButton = findViewById(R.id.deleteButton);
         deleteButton.setVisibility(View.VISIBLE);
-        deleteButton.setOnClickListener(v -> {
-            buildView.deleteSelectedComponent();
-        });
+        deleteButton.setOnClickListener(v -> buildView.deleteSelectedComponent());
     }
 
     private void setupLevel(int levelNumber) {
@@ -191,9 +185,7 @@ public class LogicLevelPlayActivity extends AppCompatActivity {
             });
         } else if (levelNumber <= 6) {
             wireView.setupLevel(levelNumber);
-            wireView.setOnCircuitChangedListener(bulbOn -> {
-                checkButton.setEnabled(true);
-            });
+            wireView.setOnCircuitChangedListener(bulbOn -> checkButton.setEnabled(true));
             checkButton.setEnabled(true);
         } else {
             // Нивоа 7-9 — прикажи popup прво
@@ -214,10 +206,8 @@ public class LogicLevelPlayActivity extends AppCompatActivity {
         checkButton.setOnClickListener(v -> onCheckPressed());
         hintButton.setOnClickListener(v -> onHintPressed());
 
-        LevelTaskDialog.show(this, levelNumber, () -> {
-            // Popup исчезна — почни тајмер
-            startTimer();
-        });
+        // Popup исчезна — почни тајмер
+        LevelTaskDialog.show(this, levelNumber, this::startTimer);
     }
 
     // ── Тајмер ───────────────────────────────────────────────
@@ -235,15 +225,18 @@ public class LogicLevelPlayActivity extends AppCompatActivity {
         int three = currentLevel.getThreeStarSeconds();
         int two   = currentLevel.getTwoStarSeconds();
 
+        int starActive   = getColor(R.color.logic_star_active);
+        int starInactive = getColor(R.color.logic_star_inactive);
+
         if (elapsed < three) {
-            setStarColors(0xFFFFD700, 0xFFFFD700, 0xFFFFD700);
-            timerText.setTextColor(0xFFFFFFFF);
+            setStarColors(starActive, starActive, starActive);
+            timerText.setTextColor(getColor(R.color.logic_timer_good));
         } else if (elapsed < two) {
-            setStarColors(0xFFFFD700, 0xFFFFD700, 0xFF444466);
-            timerText.setTextColor(0xFFF6C90E);
+            setStarColors(starActive, starActive, starInactive);
+            timerText.setTextColor(getColor(R.color.logic_timer_warn));
         } else {
-            setStarColors(0xFFFFD700, 0xFF444466, 0xFF444466);
-            timerText.setTextColor(0xFFE05A5A);
+            setStarColors(starActive, starInactive, starInactive);
+            timerText.setTextColor(getColor(R.color.logic_timer_bad));
         }
     }
 

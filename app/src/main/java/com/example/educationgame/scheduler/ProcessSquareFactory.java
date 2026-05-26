@@ -17,7 +17,7 @@ public class ProcessSquareFactory {
 
     private final Context context;
     private final SchedulingAlgorithm algorithm;
-    private boolean isRoundRobin;
+    private final boolean isRoundRobin;
 
     public ProcessSquareFactory(Context context, SchedulingAlgorithm algorithm) {
         this.context = context;
@@ -47,7 +47,7 @@ public class ProcessSquareFactory {
     }
 
     public View createProcessSquare(ProcessInfo process, int index) {
-        View square = LayoutInflater.from(context).inflate(R.layout.item_process_square, (ViewGroup) null, false);
+        View square = LayoutInflater.from(context).inflate(R.layout.item_process_square, null, false);
         bindProcessSquare(square, process);
         square.setTag(R.id.tag_process_info, process);
         square.setTag(R.id.tag_pool_index, index);
@@ -89,7 +89,7 @@ public class ProcessSquareFactory {
     }
 
     public View createPlacedProcessSquare(ProcessInfo process, int slotIndex) {
-        View square = LayoutInflater.from(context).inflate(R.layout.item_process_square, (ViewGroup) null, false);
+        View square = LayoutInflater.from(context).inflate(R.layout.item_process_square, null, false);
 
         TextView name = square.findViewById(R.id.processName);
         TextView arrival = square.findViewById(R.id.processArrival);

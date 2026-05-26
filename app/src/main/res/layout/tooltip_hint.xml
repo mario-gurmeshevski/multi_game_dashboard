@@ -12,15 +12,16 @@
         android:layout_height="wrap_content"
         android:maxWidth="200dp"
         android:padding="12dp"
-        android:textColor="#E0E0E0"
+        android:textColor="@color/tooltip_text"
         android:textSize="13sp"
         android:background="@drawable/tooltip_bg"
-        android:text="Hint text here"/>
+        android:text="@string/hint_text_here"/>
 
     <!-- Триаголник стрелка надолу -->
     <ImageView
         android:layout_width="16dp"
         android:layout_height="8dp"
+        android:contentDescription="@string/arrow"
         android:src="@drawable/tooltip_arrow"
         android:layout_gravity="center_horizontal"/>
 
