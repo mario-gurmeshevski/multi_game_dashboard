@@ -18,6 +18,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.educationgame.data.scheduler.LevelStarConfig;
+import com.example.educationgame.logic.LevelCompleteDialog;
 import com.example.educationgame.data.scheduler.ProcessColorGenerator;
 import com.example.educationgame.data.scheduler.SchedulerLevels;
 import com.example.educationgame.data.enums.GameTypeEnum;
@@ -312,13 +313,63 @@ public class LevelSchedulerPlayActivity extends AppCompatActivity implements Sch
             progress.setAttempts(1);
             progress.setFinishedAt(new Date());
             AppDatabase.getInstance(this).levelProgressDao().insert(progress);
-
-            runOnUiThread(() -> {
-                Intent result = new Intent();
-                setResult(RESULT_OK, result);
-                finish();
-            });
+            runOnUiThread(() -> showCompleteDialog(stars));
         });
+    }
+
+    private void showCompleteDialog(int stars) {
+        LevelCompleteDialog.show(this, stars, levelNumber,
+                SchedulerLevels.getLevelCount(),
+                new LevelCompleteDialog.OnDialogActionListener() {
+                    @Override
+                    public void onNextLevel() {
+                        int next = levelNumber + 1;
+                        AppExecutors.getInstance().diskIO().execute(() -> {
+                            int nextLevelId = -1;
+                            try {
+                                java.util.List<com.example.educationgame.data.local.entity.GameEntity> games =
+                                        AppDatabase.getInstance(LevelSchedulerPlayActivity.this)
+                                                .gameDao().getGamesByType(gameType);
+                                if (!games.isEmpty()) {
+                                    int gameId = games.get(0).getId();
+                                    java.util.List<com.example.educationgame.data.local.entity.LevelEntity> levels =
+                                            AppDatabase.getInstance(LevelSchedulerPlayActivity.this)
+                                                    .levelDao().getLevelsByGameId(gameId);
+                                    for (com.example.educationgame.data.local.entity.LevelEntity level : levels) {
+                                        if (level.getLevelNumber() == next) {
+                                            nextLevelId = level.getId();
+                                            break;
+                                        }
+                                    }
+                                }
+                            } catch (Exception e) { e.printStackTrace(); }
+
+                            int finalNextLevelId = nextLevelId;
+                            runOnUiThread(() -> {
+                                Intent intent = new Intent(LevelSchedulerPlayActivity.this,
+                                        LevelSchedulerPlayActivity.class);
+                                intent.putExtra(EXTRA_LEVEL_NUMBER, next);
+                                intent.putExtra(EXTRA_LEVEL_ID, finalNextLevelId);
+                                intent.putExtra(EXTRA_GAME_TYPE, gameType.name());
+                                setResult(RESULT_OK);
+                                startActivity(intent);
+                                finish();
+                            });
+                        });
+                    }
+
+                    @Override
+                    public void onRetry() {
+                        setResult(RESULT_OK);
+                        recreate();
+                    }
+
+                    @Override
+                    public void onBack() {
+                        setResult(RESULT_OK);
+                        finish();
+                    }
+                });
     }
 
     @Override
