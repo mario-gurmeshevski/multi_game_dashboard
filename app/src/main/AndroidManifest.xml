@@ -16,7 +16,7 @@
             android:screenOrientation="landscape"
             android:exported="false" />
         <activity
-            android:name=".LogicActivity"
+            android:name=".logic.LogicActivity"
             android:screenOrientation="landscape"
             android:exported="false" />
         <activity
@@ -33,6 +33,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".logic.LogicLevelPlayActivity"
+            android:screenOrientation="landscape"
+            android:exported="false" />
     </application>
 
 </manifest>

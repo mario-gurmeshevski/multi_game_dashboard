@@ -10,8 +10,8 @@ android {
         applicationId = "com.example.educationgame"
         minSdk = 24
         targetSdk = 36
-        versionCode = System.getenv("VERSION_CODE")?.toIntOrNull() ?: 3
-        versionName = System.getenv("VERSION_NAME") ?: "1.5.2"
+        versionCode = System.getenv("VERSION_CODE")?.toIntOrNull() ?: 4
+        versionName = System.getenv("VERSION_NAME") ?: "1.6.3"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 

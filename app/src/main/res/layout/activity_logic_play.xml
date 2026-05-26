@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#12102a">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="#16213e"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp">
+
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_back_arrow"
+            android:contentDescription="@string/content_desc_back"/>
+
+        <!-- ЛЕВО — наслов -->
+        <TextView
+            android:id="@+id/levelTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#E0E0E0"
+            android:text="@string/level_1"/>
+
+        <!-- СРЕДИНА — тајмер -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/timerText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:textSize="24sp"
+                android:textColor="#FFFFFF"
+                android:fontFamily="monospace"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+        <!-- ДЕСНО — ѕвезди -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="end|center_vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/taskInfoButton"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:textSize="14sp"
+                    android:textColor="#FFFFFF"
+                    android:backgroundTint="#533ab7"
+                    android:visibility="gone"
+                    android:padding="0dp"
+                    android:text=""/>
+
+                <TextView
+                    android:id="@+id/star1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="★"
+                    android:textSize="28sp"
+                    android:textColor="#FFD700"/>
+
+                <TextView
+                    android:id="@+id/star2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="★"
+                    android:textSize="28sp"
+                    android:textColor="#FFD700"
+                    android:layout_marginHorizontal="4dp"/>
+
+                <TextView
+                    android:id="@+id/star3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="★"
+                    android:textSize="28sp"
+                    android:textColor="#FFD700"/>
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/instructionText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="10sp"
+                android:textColor="#7eb8f7"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- GAME AREA -->
+    <FrameLayout
+        android:id="@+id/gameCanvas"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#12102a"/>
+    <!-- COMPONENT TOOLBAR — само за нивоа 7-9 -->
+    <HorizontalScrollView
+        android:id="@+id/componentToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="#0f3460"
+        android:visibility="gone"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Drag:"
+                android:textSize="11sp"
+                android:textColor="#555"
+                android:layout_marginEnd="8dp"/>
+
+            <LinearLayout
+                android:id="@+id/chipButton"
+                android:layout_width="64dp"
+                android:layout_height="40dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@drawable/level_bg"
+                android:layout_marginEnd="8dp"
+                android:clickable="true"
+                android:focusable="true">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BTN"
+                    android:textSize="12sp"
+                    android:textColor="#1de9b6"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Button"
+                    android:textSize="9sp"
+                    android:textColor="#7c6fcd"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/chipAnd"
+                android:layout_width="64dp"
+                android:layout_height="40dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@drawable/level_bg"
+                android:layout_marginEnd="8dp"
+                android:clickable="true"
+                android:focusable="true">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="AND"
+                    android:textSize="12sp"
+                    android:textColor="#c0b0ff"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gate"
+                    android:textSize="9sp"
+                    android:textColor="#7c6fcd"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/chipOr"
+                android:layout_width="64dp"
+                android:layout_height="40dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@drawable/level_bg"
+                android:layout_marginEnd="8dp"
+                android:clickable="true"
+                android:focusable="true">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="OR"
+                    android:textSize="12sp"
+                    android:textColor="#c0b0ff"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gate"
+                    android:textSize="9sp"
+                    android:textColor="#7c6fcd"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/chipNot"
+                android:layout_width="64dp"
+                android:layout_height="40dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@drawable/level_bg"
+                android:clickable="true"
+                android:focusable="true">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NOT"
+                    android:textSize="12sp"
+                    android:textColor="#c0b0ff"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gate"
+                    android:textSize="9sp"
+                    android:textColor="#7c6fcd"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- BOTTOM BAR -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#16213e"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp">
+
+        <Button
+            android:id="@+id/hintButton"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:text="Hint"
+            android:textSize="11sp"
+            android:backgroundTint="#2a2255"
+            android:textColor="#AAAAAA"/>
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:text="🗑"
+            android:textSize="16sp"
+            android:backgroundTint="#3a1a1a"
+            android:textColor="#FF5555"
+            android:visibility="gone"
+            android:layout_marginStart="8dp"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/checkButton"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:text="Check circuit"
+            android:textSize="11sp"
+            android:backgroundTint="#533ab7"
+            android:textColor="#FFFFFF"
+            android:enabled="false"/>
+
+    </LinearLayout>
+
+</LinearLayout>
