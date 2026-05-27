@@ -18,7 +18,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.educationgame.data.scheduler.LevelStarConfig;
-import com.example.educationgame.logic.LevelCompleteDialog;
+import com.example.educationgame.common.LevelCompleteDialog;
 import com.example.educationgame.data.scheduler.ProcessColorGenerator;
 import com.example.educationgame.data.scheduler.SchedulerLevels;
 import com.example.educationgame.data.enums.GameTypeEnum;

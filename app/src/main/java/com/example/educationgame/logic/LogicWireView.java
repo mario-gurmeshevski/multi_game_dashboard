@@ -1,73 +1,19 @@
 package com.example.educationgame.logic;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
 
-import androidx.core.content.ContextCompat;
+public class LogicWireView extends BaseCircuitView {
 
-import com.example.educationgame.R;
+    public LogicWireView(Context context) { super(context); }
+    public LogicWireView(Context context, AttributeSet attrs) { super(context, attrs); }
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class LogicWireView extends View {
-
-    private int COLOR_BG;
-    private int COLOR_PORT;
-    private int COLOR_PORT_HOVER;
-    private int COLOR_WIRE_ON;
-    private int COLOR_WIRE_OFF;
-    private int COLOR_WIRE_DRAG;
-    private int COLOR_GATE_BG;
-    private int COLOR_GATE_BORDER;
-    private int COLOR_GATE_TEXT;
-    private int COLOR_BTN_BG;
-    private int COLOR_BTN_ON;
-    private int COLOR_BTN_OFF;
-    private int COLOR_BULB_ON;
-    private int COLOR_BULB_OFF;
-    private int COLOR_SWITCH_ON;
-    private int COLOR_SWITCH_OFF;
-    private int COLOR_BULB_GLOW;
-    private int COLOR_BULB_INNER_ON;
-    private int COLOR_BULB_INNER_OFF;
-    private int COLOR_BULB_HI_ON;
-    private int COLOR_BULB_HI_OFF;
-    private int COLOR_BULB_TEXT_OFF;
-    private int COLOR_SWITCH_TEXT_OFF;
-    private int COLOR_PORT_BG;
-
-    private void loadColors() {
-        COLOR_BG             = ContextCompat.getColor(getContext(), R.color.logic_bg);
-        COLOR_PORT           = ContextCompat.getColor(getContext(), R.color.logic_port_border);
-        COLOR_PORT_HOVER     = ContextCompat.getColor(getContext(), R.color.logic_port_hover);
-        COLOR_WIRE_ON        = ContextCompat.getColor(getContext(), R.color.logic_wire_on);
-        COLOR_WIRE_OFF       = ContextCompat.getColor(getContext(), R.color.logic_wire_off);
-        COLOR_WIRE_DRAG      = ContextCompat.getColor(getContext(), R.color.logic_wire_drag);
-        COLOR_GATE_BG        = ContextCompat.getColor(getContext(), R.color.logic_gate_bg);
-        COLOR_GATE_BORDER    = ContextCompat.getColor(getContext(), R.color.logic_gate_border);
-        COLOR_GATE_TEXT      = ContextCompat.getColor(getContext(), R.color.logic_gate_text);
-        COLOR_BTN_BG         = ContextCompat.getColor(getContext(), R.color.logic_btn_bg);
-        COLOR_BTN_ON         = ContextCompat.getColor(getContext(), R.color.logic_on);
-        COLOR_BTN_OFF        = ContextCompat.getColor(getContext(), R.color.logic_off);
-        COLOR_BULB_ON        = ContextCompat.getColor(getContext(), R.color.logic_bulb_on);
-        COLOR_BULB_OFF       = ContextCompat.getColor(getContext(), R.color.logic_bulb_off);
-        COLOR_SWITCH_ON      = ContextCompat.getColor(getContext(), R.color.logic_switch_on);
-        COLOR_SWITCH_OFF     = ContextCompat.getColor(getContext(), R.color.logic_switch_off);
-        COLOR_BULB_GLOW      = ContextCompat.getColor(getContext(), R.color.logic_bulb_glow);
-        COLOR_BULB_INNER_ON  = ContextCompat.getColor(getContext(), R.color.logic_bulb_inner_on);
-        COLOR_BULB_INNER_OFF = ContextCompat.getColor(getContext(), R.color.logic_bulb_inner_off);
-        COLOR_BULB_HI_ON     = ContextCompat.getColor(getContext(), R.color.logic_bulb_hi_on);
-        COLOR_BULB_HI_OFF    = ContextCompat.getColor(getContext(), R.color.logic_bulb_hi_off);
-        COLOR_BULB_TEXT_OFF  = ContextCompat.getColor(getContext(), R.color.logic_bulb_text_off);
-        COLOR_SWITCH_TEXT_OFF = ContextCompat.getColor(getContext(), R.color.logic_switch_text_off);
-        COLOR_PORT_BG        = ContextCompat.getColor(getContext(), R.color.logic_port_bg);
+    @Override
+    protected boolean isCircuitValid() {
+        return allGatesConnected();
     }
 
     public String getUnconnectedGateMessage() {
@@ -91,123 +37,6 @@ public class LogicWireView extends View {
             }
         }
         return null;
-    }
-    public static class Port {
-        public final String id;
-        public final float x;
-        public final float y;
-        public final boolean isOutput;
-        public final String componentId;
-
-        public Port(String id, String componentId, float x, float y, boolean isOutput) {
-            this.id = id;
-            this.componentId = componentId;
-            this.x = x;
-            this.y = y;
-            this.isOutput = isOutput;
-        }
-    }
-
-    public static class Component {
-        public final String id;
-        public final String type;
-        public final float x;
-        public final float y;
-        public final float w;
-        public final float h;
-        public boolean value = false;
-        public final List<Port> ports = new ArrayList<>();
-
-        public Component(String id, String type, float x, float y, float w, float h) {
-            this.id = id;
-            this.type = type;
-            this.x = x;
-            this.y = y;
-            this.w = w;
-            this.h = h;
-        }
-    }
-
-    public static class Wire {
-        public final Port from;
-        public final Port to;
-        public boolean active = false;
-
-        public Wire(Port from, Port to) {
-            this.from = from;
-            this.to = to;
-        }
-    }
-
-    private final List<Component> components = new ArrayList<>();
-    private final List<Wire> wires = new ArrayList<>();
-    private final List<Port> allPorts = new ArrayList<>();
-
-    private Port dragFromPort = null;
-    private float dragX, dragY;
-    private Port hoveredPort = null;
-
-    private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private OnCircuitChangedListener listener;
-
-    public interface OnCircuitChangedListener {
-        void onCircuitChanged(boolean bulbOn);
-    }
-
-    public LogicWireView(Context context) { super(context); loadColors(); }
-    public LogicWireView(Context context, AttributeSet attrs) { super(context, attrs); loadColors(); }
-
-    @Override
-    protected void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        loadColors();
-        invalidate();
-    }
-
-    public void setOnCircuitChangedListener(OnCircuitChangedListener l) {
-        this.listener = l;
-    }
-
-    private Component makeButton(String id, String type,
-                                 float x, float y, float w, float h, boolean value) {
-        Component c = new Component(id, type, x, y, w, h);
-        c.value = value;
-        Port out = new Port(id+"_out", id, x+w, y+h/2f, true);
-        c.ports.add(out);
-        return c;
-    }
-
-    private Component makeGate(String id, String type,
-                               float x, float y, float w, float h) {
-        Component c = new Component(id, type, x, y, w, h);
-        if (type.equals("NOT")) {
-            Port in  = new Port(id+"_in",  id, x,   y+h/2f, false);
-            Port out = new Port(id+"_out", id, x+w, y+h/2f, true);
-            c.ports.add(in);
-            c.ports.add(out);
-        } else {
-            Port in1 = new Port(id+"_in1", id, x, y+h*0.30f, false);
-            Port in2 = new Port(id+"_in2", id, x, y+h*0.70f, false);
-            Port out = new Port(id+"_out", id, x+w, y+h/2f,  true);
-            c.ports.add(in1);
-            c.ports.add(in2);
-            c.ports.add(out);
-        }
-        return c;
-    }
-
-    private Component makeBulb(String id, float x, float y, float size) {
-        Component c = new Component(id, "BULB", x, y, size, size);
-        Port in = new Port(id+"_in", id, x, y+size/2f, false);
-        c.ports.add(in);
-        return c;
-    }
-
-    private void addAll(Component... comps) {
-        for (Component c : comps) {
-            components.add(c);
-            allPorts.addAll(c.ports);
-        }
     }
 
     public void setupLevel(int levelNumber) {
@@ -392,187 +221,39 @@ public class LogicWireView extends View {
         return true;
     }
 
-    private Port findPort(float x, float y, float radius) {
-        Port closest = null;
-        float minDist = radius;
-        for (Port p : allPorts) {
-            float dist = (float) Math.sqrt(Math.pow(p.x - x, 2) + Math.pow(p.y - y, 2));
-            if (dist < minDist) {
-                minDist = dist;
-                closest = p;
-            }
-        }
-        return closest;
-    }
-
-    private void evaluateCircuit() {
-        for (Component c : components) {
-            if (!c.type.startsWith("BUTTON")) {
-                c.value = false;
-            }
-        }
-
-        for (int pass = 0; pass < 10; pass++) {
-            for (Wire wire : wires) {
-                Component fromComp = findComponent(wire.from.componentId);
-                Component toComp   = findComponent(wire.to.componentId);
-                if (fromComp == null || toComp == null) continue;
-
-                boolean signal = fromComp.value;
-
-                if (toComp.type.equals("AND")) {
-                    boolean in1 = getInputValue(toComp, "in1");
-                    boolean in2 = getInputValue(toComp, "in2");
-                    toComp.value = in1 && in2;
-                } else if (toComp.type.equals("OR")) {
-                    boolean in1 = getInputValue(toComp, "in1");
-                    boolean in2 = getInputValue(toComp, "in2");
-                    toComp.value = in1 || in2;
-                } else if (toComp.type.equals("NOT")) {
-                    toComp.value = !signal;
-                } else if (toComp.type.equals("BULB")) {
-                    toComp.value = signal;
-                }
-
-                wire.active = fromComp.value;
-            }
-        }
-
-        boolean allGatesUsed = allGatesConnected();
-        Component bulb = findComponent("bulb");
-        boolean bulbOn = bulb != null && bulb.value && allGatesUsed;
-        if (listener != null) listener.onCircuitChanged(bulbOn);
-        invalidate();
-    }
-
-    private boolean allGatesConnected() {
-        for (Component c : components) {
-            if (c.type.equals("AND") || c.type.equals("OR") || c.type.equals("NOT")) {
-                boolean hasInput  = false;
-                boolean hasOutput = false;
-                for (Wire wire : wires) {
-                    if (wire.to.componentId.equals(c.id))   hasInput  = true;
-                    if (wire.from.componentId.equals(c.id)) hasOutput = true;
-                }
-                if (!hasInput || !hasOutput) return false;
-            }
-        }
-        return true;
-    }
-
-    private boolean getInputValue(Component gate, String inputSuffix) {
-        for (Wire wire : wires) {
-            if (wire.to.componentId.equals(gate.id)
-                    && wire.to.id.contains(inputSuffix)) {
-                Component from = findComponent(wire.from.componentId);
-                return from != null && from.value;
-            }
-        }
-        return false;
-    }
-
-    private Component findComponent(String id) {
-        for (Component c : components) {
-            if (c.id.equals(id)) return c;
-        }
-        return null;
-    }
-
-    public boolean getBulbState() {
-        Component bulb = findComponent("bulb");
-        return bulb != null && bulb.value;
-    }
-
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawColor(COLOR_BG);
+        canvas.drawColor(colorBg);
         drawWires(canvas);
         for (Component c : components) drawComponent(canvas, c);
         drawDragWire(canvas);
         drawPorts(canvas);
     }
 
-    private void drawWires(Canvas canvas) {
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(4f);
-        paint.setPathEffect(null);
-        for (Wire wire : wires) {
-            paint.setColor(wire.active ? COLOR_WIRE_ON : COLOR_WIRE_OFF);
-            Path path = new Path();
-            float midX = (wire.from.x + wire.to.x) / 2f;
-            path.moveTo(wire.from.x, wire.from.y);
-            path.cubicTo(midX, wire.from.y, midX, wire.to.y, wire.to.x, wire.to.y);
-            canvas.drawPath(path, paint);
-        }
-    }
-
-    private void drawDragWire(Canvas canvas) {
-        if (dragFromPort == null) return;
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(3f);
-        paint.setColor(COLOR_WIRE_DRAG);
-        paint.setPathEffect(new android.graphics.DashPathEffect(new float[]{12f, 8f}, 0));
-        Path path = new Path();
-        float midX = (dragFromPort.x + dragX) / 2f;
-        path.moveTo(dragFromPort.x, dragFromPort.y);
-        path.cubicTo(midX, dragFromPort.y, midX, dragY, dragX, dragY);
-        canvas.drawPath(path, paint);
-        paint.setPathEffect(null);
-    }
-
-    private void drawPorts(Canvas canvas) {
-        for (Port p : allPorts) {
-            boolean isHovered    = p == hoveredPort;
-            boolean isDragSource = p == dragFromPort;
-            paint.setStyle(Paint.Style.FILL);
-            paint.setColor(isHovered || isDragSource ? COLOR_PORT_HOVER : COLOR_PORT);
-            canvas.drawCircle(p.x, p.y, 10f, paint);
-            paint.setStyle(Paint.Style.STROKE);
-            paint.setStrokeWidth(2f);
-            paint.setColor(COLOR_PORT_BG);
-            canvas.drawCircle(p.x, p.y, 10f, paint);
-        }
-    }
-
-    private void drawComponent(Canvas canvas, Component c) {
-        switch (c.type) {
-            case "BUTTON_A":
-            case "BUTTON_B":
-            case "BUTTON_C":
-            case "BUTTON_D":
-                drawButton(canvas, c); break;
-            case "AND":
-            case "OR":
-            case "NOT":
-                drawGate(canvas, c); break;
-            case "BULB":
-                drawBulb(canvas, c); break;
-        }
-    }
-
-    private void drawButton(Canvas canvas, Component c) {
+    @Override
+    protected void drawButton(Canvas canvas, Component c) {
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(COLOR_BTN_BG);
+        paint.setColor(colorBtnBg);
         canvas.drawRoundRect(c.x, c.y, c.x+c.w, c.y+c.h, 14, 14, paint);
 
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(2.5f);
-        paint.setColor(c.value ? COLOR_BTN_ON : COLOR_BTN_OFF);
+        paint.setColor(c.value ? colorBtnOn : colorBtnOff);
         canvas.drawRoundRect(c.x, c.y, c.x+c.w, c.y+c.h, 14, 14, paint);
 
         float cx = c.x + c.w * 0.25f;
         float cy = c.y + c.h * 0.45f;
         float r  = Math.min(c.w, c.h) * 0.16f;
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(c.value ? COLOR_SWITCH_ON : COLOR_SWITCH_OFF);
+        paint.setColor(c.value ? colorSwitchOn : colorSwitchOff);
         canvas.drawCircle(cx, cy, r, paint);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(2f);
-        paint.setColor(c.value ? COLOR_BTN_ON : COLOR_BTN_OFF);
+        paint.setColor(c.value ? colorBtnOn : colorBtnOff);
         canvas.drawCircle(cx, cy, r, paint);
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(c.value ? COLOR_BTN_ON : COLOR_BTN_OFF);
+        paint.setColor(c.value ? colorBtnOn : colorBtnOff);
         canvas.drawCircle(cx, cy, r * 0.5f, paint);
 
         String label;
@@ -584,56 +265,27 @@ public class LogicWireView extends View {
             default: label = "Btn";
         }
         paint.setTextSize(c.h * 0.22f);
-        paint.setColor(c.value ? COLOR_BTN_ON : COLOR_SWITCH_TEXT_OFF);
+        paint.setColor(c.value ? colorBtnOn : colorSwitchTextOff);
         paint.setTextAlign(Paint.Align.CENTER);
         canvas.drawText(label, c.x + c.w * 0.65f, c.y + c.h * 0.42f, paint);
         canvas.drawText(c.value ? "T" : "F", c.x + c.w * 0.65f, c.y + c.h * 0.72f, paint);
     }
 
-    private void drawGate(Canvas canvas, Component c) {
+    @Override
+    protected void drawGate(Canvas canvas, Component c) {
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(COLOR_GATE_BG);
+        paint.setColor(colorGateBg);
         canvas.drawRoundRect(c.x, c.y, c.x+c.w, c.y+c.h, 16, 16, paint);
 
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(2.5f);
-        paint.setColor(c.value ? COLOR_WIRE_ON : COLOR_GATE_BORDER);
+        paint.setColor(c.value ? colorWireOn : colorGateBorder);
         canvas.drawRoundRect(c.x, c.y, c.x+c.w, c.y+c.h, 16, 16, paint);
 
         paint.setStyle(Paint.Style.FILL);
         paint.setTextSize(c.h * 0.22f);
-        paint.setColor(COLOR_GATE_TEXT);
+        paint.setColor(colorGateText);
         paint.setTextAlign(Paint.Align.CENTER);
         canvas.drawText(c.type, c.x + c.w/2f, c.y + c.h/2f + c.h*0.08f, paint);
-    }
-
-    private void drawBulb(Canvas canvas, Component c) {
-        float cx = c.x + c.w/2f;
-        float cy = c.y + c.h/2f;
-        float r  = c.w/2f;
-
-        if (c.value) {
-            paint.setStyle(Paint.Style.FILL);
-            paint.setColor(COLOR_BULB_GLOW);
-            canvas.drawCircle(cx, cy, r*1.4f, paint);
-        }
-
-        paint.setStyle(Paint.Style.FILL);
-        paint.setColor(c.value ? COLOR_BULB_INNER_ON : COLOR_BULB_INNER_OFF);
-        canvas.drawCircle(cx, cy, r, paint);
-
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(3f);
-        paint.setColor(c.value ? COLOR_BULB_ON : COLOR_BULB_OFF);
-        canvas.drawCircle(cx, cy, r, paint);
-
-        paint.setStyle(Paint.Style.FILL);
-        paint.setColor(c.value ? COLOR_BULB_HI_ON : COLOR_BULB_HI_OFF);
-        canvas.drawCircle(cx, cy - r*0.1f, r*0.55f, paint);
-
-        paint.setTextSize(r * 0.38f);
-        paint.setColor(c.value ? COLOR_BULB_ON : COLOR_BULB_TEXT_OFF);
-        paint.setTextAlign(Paint.Align.CENTER);
-        canvas.drawText(c.value ? "ON" : "OFF", cx, cy + r + r*0.4f, paint);
     }
 }

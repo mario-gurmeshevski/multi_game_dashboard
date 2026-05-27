@@ -27,6 +27,7 @@ public class SchedulerDragController implements ProcessSquareFactory.ProcessSqua
     private final Callback callback;
 
     private final ProcessInfo[] slotProcesses;
+    private final int[] slotBurstReductions;
     private final int timeQuantum;
     private float dragStartX, dragStartY;
     private boolean isDragging = false;
@@ -47,6 +48,7 @@ public class SchedulerDragController implements ProcessSquareFactory.ProcessSqua
         this.viewFactory = viewFactory;
         this.isRoundRobin = isRoundRobin;
         this.slotProcesses = slotProcesses;
+        this.slotBurstReductions = new int[slotProcesses.length];
         this.correctStartTimes = correctStartTimes;
         this.correctEndTimes = correctEndTimes;
         this.touchSlop = touchSlop;
@@ -210,26 +212,33 @@ public class SchedulerDragController implements ProcessSquareFactory.ProcessSqua
 
             boolean draggedValid = true;
             boolean existingValid = true;
+            int draggedDisplayBurst = 0;
+            int existingDisplayBurst = 0;
 
             if (isRoundRobin) {
                 int fromSlotDuration = correctEndTimes[fromSlot] - correctStartTimes[fromSlot];
                 int toSlotDuration = correctEndTimes[slotIndex] - correctStartTimes[slotIndex];
-                draggedProcess.restoreBurst(fromSlotDuration);
+                int oldTargetReduction = slotBurstReductions[slotIndex];
+                draggedProcess.restoreBurst(slotBurstReductions[fromSlot]);
                 draggedValid = isValidPlacement(draggedProcess, slotIndex);
-                draggedProcess.reduceBurst(toSlotDuration);
+                draggedDisplayBurst = Math.min(draggedProcess.getRemainingBurstTime(), toSlotDuration);
+                draggedProcess.reduceBurst(draggedDisplayBurst);
+                slotBurstReductions[slotIndex] = draggedDisplayBurst;
                 if (existingInTarget != null) {
-                    existingInTarget.restoreBurst(toSlotDuration);
+                    existingInTarget.restoreBurst(oldTargetReduction);
                     existingValid = isValidPlacement(existingInTarget, fromSlot);
-                    existingInTarget.reduceBurst(fromSlotDuration);
+                    existingDisplayBurst = Math.min(existingInTarget.getRemainingBurstTime(), fromSlotDuration);
+                    existingInTarget.reduceBurst(existingDisplayBurst);
+                    slotBurstReductions[fromSlot] = existingDisplayBurst;
                 }
             }
 
             if (existingInTarget != null) {
-                putProcessInSlot(fromSlot, existingInTarget);
+                putProcessInSlot(fromSlot, existingInTarget, existingDisplayBurst);
             } else {
                 clearSlot(fromSlot);
             }
-            putProcessInSlot(slotIndex, draggedProcess);
+            putProcessInSlot(slotIndex, draggedProcess, draggedDisplayBurst);
             dragView.setVisibility(View.GONE);
 
             if (isRoundRobin) {
@@ -247,23 +256,25 @@ public class SchedulerDragController implements ProcessSquareFactory.ProcessSqua
             slotProcesses[slotIndex] = draggedProcess;
 
             boolean draggedValid = true;
+            int displayBurst = 0;
 
             if (isRoundRobin) {
                 int slotDuration = correctEndTimes[slotIndex] - correctStartTimes[slotIndex];
                 if (existingInTarget != null) {
-                    int existingSlotDuration = correctEndTimes[slotIndex] - correctStartTimes[slotIndex];
-                    existingInTarget.restoreBurst(existingSlotDuration);
+                    existingInTarget.restoreBurst(slotBurstReductions[slotIndex]);
                     updatePoolVisibility(existingInTarget);
                 }
                 draggedValid = isValidPlacement(draggedProcess, slotIndex);
-                draggedProcess.reduceBurst(slotDuration);
+                displayBurst = Math.min(draggedProcess.getRemainingBurstTime(), slotDuration);
+                draggedProcess.reduceBurst(displayBurst);
+                slotBurstReductions[slotIndex] = displayBurst;
             } else {
                 if (existingInTarget != null) {
                     returnProcessToPool(existingInTarget);
                 }
                 poolContainer.removeView(dragView);
             }
-            putProcessInSlot(slotIndex, draggedProcess);
+            putProcessInSlot(slotIndex, draggedProcess, displayBurst);
 
             if (isRoundRobin) {
                 setSlotError(slotIndex, !draggedValid);
@@ -295,8 +306,7 @@ public class SchedulerDragController implements ProcessSquareFactory.ProcessSqua
         }
 
         if (isRoundRobin) {
-            int slotDuration = correctEndTimes[fromSlot] - correctStartTimes[fromSlot];
-            process.restoreBurst(slotDuration);
+            process.restoreBurst(slotBurstReductions[fromSlot]);
         }
 
         slotProcesses[fromSlot] = null;
@@ -317,7 +327,7 @@ public class SchedulerDragController implements ProcessSquareFactory.ProcessSqua
         callback.onReturnToPool();
     }
 
-    public void putProcessInSlot(int slotIndex, ProcessInfo process) {
+    public void putProcessInSlot(int slotIndex, ProcessInfo process, int displayBurst) {
         ViewGroup slotView = (ViewGroup) slotsContainer.getChildAt(slotIndex);
         if (slotView == null) return;
 
@@ -329,7 +339,7 @@ public class SchedulerDragController implements ProcessSquareFactory.ProcessSqua
             slotView.removeView(existingSquare);
         }
 
-        View square = viewFactory.createPlacedProcessSquare(process, slotIndex);
+        View square = viewFactory.createPlacedProcessSquare(process, slotIndex, displayBurst);
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         square.setLayoutParams(lp);

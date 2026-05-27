@@ -88,7 +88,7 @@ public class ProcessSquareFactory {
         }
     }
 
-    public View createPlacedProcessSquare(ProcessInfo process, int slotIndex) {
+    public View createPlacedProcessSquare(ProcessInfo process, int slotIndex, int displayBurst) {
         View square = LayoutInflater.from(context).inflate(R.layout.item_process_square, null, false);
 
         TextView name = square.findViewById(R.id.processName);
@@ -100,7 +100,7 @@ public class ProcessSquareFactory {
         name.setText(process.getName());
         arrival.setText(context.getString(R.string.process_arrival, process.getArrivalTime()));
         if (isRoundRobin) {
-            burst.setText(context.getString(R.string.process_burst, process.getRemainingBurstTime()));
+            burst.setText(context.getString(R.string.process_burst, displayBurst));
         } else {
             burst.setText(context.getString(R.string.process_burst, process.getBurstTime()));
         }

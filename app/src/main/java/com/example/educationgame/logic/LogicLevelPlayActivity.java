@@ -25,6 +25,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.educationgame.R;
+import com.example.educationgame.common.LevelCompleteDialog;
 import com.example.educationgame.data.local.AppDatabase;
 import com.example.educationgame.data.local.AppExecutors;
 import com.example.educationgame.data.local.entity.LevelProgressEntity;
