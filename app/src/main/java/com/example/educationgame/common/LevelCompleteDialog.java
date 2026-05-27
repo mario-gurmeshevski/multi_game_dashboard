@@ -1,4 +1,4 @@
-package com.example.educationgame.logic;
+package com.example.educationgame.common;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -32,7 +32,6 @@ public class LevelCompleteDialog {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
 
-        // Ѕвезди
         TextView s1 = view.findViewById(R.id.dialogStar1);
         TextView s2 = view.findViewById(R.id.dialogStar2);
         TextView s3 = view.findViewById(R.id.dialogStar3);
@@ -44,13 +43,11 @@ public class LevelCompleteDialog {
         s2.setTextColor(stars >= 2 ? activeColor : inactiveColor);
         s3.setTextColor(stars >= 3 ? activeColor : inactiveColor);
 
-        // Наслов
         TextView title = view.findViewById(R.id.dialogTitle);
         if (stars == 3)      title.setText(R.string.perfect);
         else if (stars == 2) title.setText(R.string.great_job);
         else                 title.setText(R.string.level_complete);
 
-        // Копчиња
         Button btnNext  = view.findViewById(R.id.btnNextLevel);
         Button btnRetry = view.findViewById(R.id.btnRetry);
         Button btnBack  = view.findViewById(R.id.btnBack);
