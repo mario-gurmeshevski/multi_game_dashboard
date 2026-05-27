@@ -5,7 +5,7 @@
 ![Min SDK](https://img.shields.io/badge/minSDK-24-orange)
 ![Platform](https://img.shields.io/badge/platform-Android-3DDC84)
 
-An educational Android game app that teaches operating system CPU scheduling algorithms and boolean logic gates through interactive, gamified puzzles. Players progress through timed levels, earning up to 3 stars per level based on completion speed.
+An educational Android game app that teaches operating system CPU scheduling algorithms and boolean logic gates through interactive puzzles. Players progress through timed levels, earning up to 3 stars per level based on completion speed.
 
 ## Screenshots
 
