@@ -56,21 +56,21 @@ public final class LogicLevels {
         LEVELS.put(7, new LogicLevelConfig(
                 7,
                 LogicEngine.GateType.AND,
-                "Build a circuit with 4 gates — AND and NOT required",
+                "Build a circuit with exactly 4 gates — AND and NOT required",
                 180, 360
         ));
 
         LEVELS.put(8, new LogicLevelConfig(
                 8,
                 LogicEngine.GateType.OR,
-                "Build a circuit with 5 gates — AND, NOT and OR required",
+                "Build a circuit with exactly 5 gates — AND, NOT and OR required",
                 240, 480
         ));
 
         LEVELS.put(9, new LogicLevelConfig(
                 9,
                 LogicEngine.GateType.AND,
-                "Build a complex circuit with 6+ gates",
+                "Build a complex circuit with exactly 6 gates",
                 300, 600
         ));
     }

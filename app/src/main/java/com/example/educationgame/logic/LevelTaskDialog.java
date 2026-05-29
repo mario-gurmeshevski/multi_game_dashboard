@@ -20,7 +20,7 @@ public class LevelTaskDialog {
         void onDismissed();
     }
 
-    public static void show(Context context, int levelNumber, OnDismissListener listener) {
+    public static void show(Context context, int levelNumber, boolean isInfoOnly, OnDismissListener listener) {
         Dialog dialog = new Dialog(context);
         dialog.setCancelable(false);
 
@@ -45,13 +45,14 @@ public class LevelTaskDialog {
         TextView taskDescription = view.findViewById(R.id.taskDescription);
         LinearLayout rulesLayout = view.findViewById(R.id.rulesLayout);
         TextView countdownText   = view.findViewById(R.id.countdownText);
+        TextView timerHintText   = view.findViewById(R.id.timerHintText);
         Button btnGotIt          = view.findViewById(R.id.btnGotIt);
 
-        // Постави содржина според нивото
         switch (levelNumber) {
             case 7:
                 taskTitle.setText(R.string.level_7_task);
                 taskDescription.setText(R.string.level_7_text);
+                addRule(context, rulesLayout, "✅ Must use exactly 4 gates");
                 addRule(context, rulesLayout, "✅ Must use at least 1 AND gate");
                 addRule(context, rulesLayout, "✅ Must use at least 1 NOT gate");
                 addRule(context, rulesLayout, "✅ All gates must be connected");
@@ -60,6 +61,7 @@ public class LevelTaskDialog {
             case 8:
                 taskTitle.setText(R.string.level_8_task);
                 taskDescription.setText(R.string.level_8_text);
+                addRule(context, rulesLayout, "✅ Must use exactly 5 gates");
                 addRule(context, rulesLayout, "✅ Must use at least 1 AND gate");
                 addRule(context, rulesLayout, "✅ Must use at least 1 NOT gate");
                 addRule(context, rulesLayout, "✅ Must use at least 1 OR gate");
@@ -69,6 +71,7 @@ public class LevelTaskDialog {
             case 9:
                 taskTitle.setText(R.string.level_9_task);
                 taskDescription.setText(R.string.level_9_text);
+                addRule(context, rulesLayout, "✅ Must use exactly 6 gates");
                 addRule(context, rulesLayout, "✅ Must use at least 2 AND gates");
                 addRule(context, rulesLayout, "✅ Must use at least 2 NOT gates");
                 addRule(context, rulesLayout, "✅ Must use at least 1 OR gate");
@@ -77,29 +80,38 @@ public class LevelTaskDialog {
                 break;
         }
 
-        // Countdown
-        final int[] countdown = {10};
-        Handler handler = new Handler(Looper.getMainLooper());
-        Runnable countdownRunnable = new Runnable() {
-            @Override
-            public void run() {
-                countdown[0]--;
-                countdownText.setText(String.valueOf(countdown[0]));
-                if (countdown[0] <= 0) {
-                    dialog.dismiss();
-                    listener.onDismissed();
-                } else {
-                    handler.postDelayed(this, 1000);
+        if (isInfoOnly) {
+            countdownText.setVisibility(View.GONE);
+            timerHintText.setVisibility(View.GONE);
+            btnGotIt.setText(R.string.close);
+            btnGotIt.setOnClickListener(v -> {
+                dialog.dismiss();
+                listener.onDismissed();
+            });
+        } else {
+            final int[] countdown = {10};
+            Handler handler = new Handler(Looper.getMainLooper());
+            Runnable countdownRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    countdown[0]--;
+                    countdownText.setText(String.valueOf(countdown[0]));
+                    if (countdown[0] <= 0) {
+                        dialog.dismiss();
+                        listener.onDismissed();
+                    } else {
+                        handler.postDelayed(this, 1000);
+                    }
                 }
-            }
-        };
-        handler.postDelayed(countdownRunnable, 1000);
+            };
+            handler.postDelayed(countdownRunnable, 1000);
 
-        btnGotIt.setOnClickListener(v -> {
-            handler.removeCallbacks(countdownRunnable);
-            dialog.dismiss();
-            listener.onDismissed();
-        });
+            btnGotIt.setOnClickListener(v -> {
+                handler.removeCallbacks(countdownRunnable);
+                dialog.dismiss();
+                listener.onDismissed();
+            });
+        }
 
         dialog.show();
     }

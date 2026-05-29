@@ -15,4 +15,7 @@ public interface LevelProgressDao {
 
     @Query("SELECT * FROM level_progress WHERE levelId = :levelId ORDER BY score DESC LIMIT 1")
     LevelProgressEntity getBestProgressByLevelId(int levelId);
+
+    @Query("SELECT MIN(completionTime) FROM level_progress WHERE levelId = :levelId AND isFinished = 1")
+    Integer getBestTimeByLevelId(int levelId);
 }

@@ -10,20 +10,6 @@ import com.example.educationgame.data.scheduler.SchedulerLevels;
 
 public class SchedulerActivity extends BaseLevelSelectActivity {
 
-    private static final int[] LEVEL_CARD_IDS = {
-            R.id.levelCard1, R.id.levelCard2, R.id.levelCard3,
-            R.id.levelCard4, R.id.levelCard5, R.id.levelCard6,
-            R.id.levelCard7, R.id.levelCard8, R.id.levelCard9,
-            R.id.levelCard10, R.id.levelCard11, R.id.levelCard12
-    };
-
-    private static final int[] LEVEL_STATUS_IDS = {
-            R.id.levelStatus1, R.id.levelStatus2, R.id.levelStatus3,
-            R.id.levelStatus4, R.id.levelStatus5, R.id.levelStatus6,
-            R.id.levelStatus7, R.id.levelStatus8, R.id.levelStatus9,
-            R.id.levelStatus10, R.id.levelStatus11, R.id.levelStatus12
-    };
-
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_scheduler;
@@ -40,13 +26,8 @@ public class SchedulerActivity extends BaseLevelSelectActivity {
     }
 
     @Override
-    protected int[] getLevelCardIds() {
-        return LEVEL_CARD_IDS;
-    }
-
-    @Override
-    protected int[] getLevelStatusIds() {
-        return LEVEL_STATUS_IDS;
+    protected int getLevelGridContainerId() {
+        return R.id.levelGridContainer;
     }
 
     @Override

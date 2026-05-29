@@ -126,7 +126,7 @@ public class LogicLevelPlayActivity extends AppCompatActivity {
 
         if (levelNumber >= 7) {
             taskInfoButton.setVisibility(View.VISIBLE);
-            taskInfoButton.setOnClickListener(v -> LevelTaskDialog.show(this, levelNumber, () -> {}));
+            taskInfoButton.setOnClickListener(v -> LevelTaskDialog.show(this, levelNumber, true, () -> {}));
         }
 
         if (levelNumber <= 3) {
@@ -201,7 +201,7 @@ public class LogicLevelPlayActivity extends AppCompatActivity {
         hintButton.setOnClickListener(v -> onHintPressed());
 
         // Popup исчезна — почни тајмер
-        LevelTaskDialog.show(this, levelNumber, this::startTimer);
+        LevelTaskDialog.show(this, levelNumber, false, this::startTimer);
     }
 
     // ── Тајмер ───────────────────────────────────────────────
@@ -307,7 +307,7 @@ public class LogicLevelPlayActivity extends AppCompatActivity {
             switch (levelNumber) {
                 case 7: hintText = "Try: Button→AND→NOT→AND2→Bulb. Use 4 gates total!"; break;
                 case 8: hintText = "Try: 2 Buttons→AND→NOT, another Button→OR→AND→NOT2→AND3→Bulb!"; break;
-                case 9: hintText = "Use 2 AND, 2 NOT, 1 OR minimum. Chain them carefully!"; break;
+                case 9: hintText = "Use 2 AND, 2 NOT, 1 OR minimum. Exactly 6 gates total! Chain them carefully!"; break;
                 default: hintText = "Think carefully!";
             }
         }
@@ -339,22 +339,23 @@ public class LogicLevelPlayActivity extends AppCompatActivity {
     // ── Зачувување ───────────────────────────────────────────
 
     private void saveProgress(int stars) {
+        int seconds = (int) elapsedSeconds;
         AppExecutors.getInstance().diskIO().execute(() -> {
             LevelProgressEntity progress = new LevelProgressEntity();
             progress.setLevelId(levelId);
             progress.setScore(stars);
             progress.setFinished(true);
-            progress.setCompletionTime((int) elapsedSeconds);
+            progress.setCompletionTime(seconds);
             progress.setFinishedAt(new Date());
             db.levelProgressDao().insert(progress);
-            runOnUiThread(() -> showCompleteDialog(stars));
+            runOnUiThread(() -> showCompleteDialog(stars, seconds));
         });
     }
 
-    private void showCompleteDialog(int stars) {
+    private void showCompleteDialog(int stars, int seconds) {
         int levelNumber = getIntent().getIntExtra(EXTRA_LEVEL_NUMBER, 1);
         LevelCompleteDialog.show(this, stars, levelNumber,
-                LogicLevels.getLevelCount(),
+                LogicLevels.getLevelCount(), seconds,
                 new LevelCompleteDialog.OnDialogActionListener() {
                     @Override
                     public void onNextLevel() {

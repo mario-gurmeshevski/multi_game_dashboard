@@ -28,6 +28,8 @@ public class LogicBuildView extends BaseCircuitView {
 
     private Component dragComponent = null;
     private float dragOffsetX, dragOffsetY;
+    private float touchDownX, touchDownY;
+    private static final float TAP_THRESHOLD = 15f;
 
     private int requiredGates = 0;
     private boolean requireAnd = false;
@@ -96,7 +98,7 @@ public class LogicBuildView extends BaseCircuitView {
         Component c;
         if (type.equals("BUTTON")) {
             c = makeButton("btn_" + System.currentTimeMillis(),
-                    "BUTTON_A", cx, cy, gw, gh, true);
+                    "BUTTON_A", cx, cy, gw, gh, false);
         } else {
             c = makeGate("gate_" + System.currentTimeMillis(),
                     type, cx, cy, gw, gh);
@@ -148,11 +150,16 @@ public class LogicBuildView extends BaseCircuitView {
                     return true;
                 }
 
+                touchDownX = x;
+                touchDownY = y;
                 Component comp = findComponent(x, y);
                 if (comp != null && !comp.id.equals("bulb")) {
                     dragComponent = comp;
                     dragOffsetX = x - comp.x;
                     dragOffsetY = y - comp.y;
+                } else if (comp == null) {
+                    selectedComponent = null;
+                    invalidate();
                 }
                 break;
 
@@ -162,8 +169,8 @@ public class LogicBuildView extends BaseCircuitView {
                     hoveredPort = findPort(x, y, 35f);
                     invalidate();
                 } else if (dragComponent != null) {
-                    dragComponent.x = x - dragOffsetX;
-                    dragComponent.y = y - dragOffsetY;
+                    dragComponent.x = Math.max(0, Math.min(x - dragOffsetX, getWidth() - dragComponent.w));
+                    dragComponent.y = Math.max(0, Math.min(y - dragOffsetY, getHeight() - dragComponent.h));
                     updatePortPositions(dragComponent);
                     invalidate();
                 }
@@ -186,8 +193,29 @@ public class LogicBuildView extends BaseCircuitView {
                     hoveredPort = null;
                     invalidate();
                 } else if (dragComponent != null) {
-                    selectedComponent = dragComponent;
-                    invalidate();
+                    float dx = x - touchDownX;
+                    float dy = y - touchDownY;
+                    if (dx * dx + dy * dy < TAP_THRESHOLD * TAP_THRESHOLD) {
+                        if (dragComponent.type.startsWith("BUTTON")) {
+                            float circleX = dragComponent.x + dragComponent.w * 0.25f;
+                            float circleY = dragComponent.y + dragComponent.h * 0.45f;
+                            float circleR = Math.min(dragComponent.w, dragComponent.h) * 0.16f;
+                            float hitR = circleR * 3f;
+                            if ((x - circleX) * (x - circleX) + (y - circleY) * (y - circleY) <= hitR * hitR) {
+                                dragComponent.value = !dragComponent.value;
+                                evaluateCircuit();
+                            } else {
+                                selectedComponent = (dragComponent == selectedComponent) ? null : dragComponent;
+                                invalidate();
+                            }
+                        } else {
+                            selectedComponent = (dragComponent == selectedComponent) ? null : dragComponent;
+                            invalidate();
+                        }
+                    } else {
+                        selectedComponent = (dragComponent == selectedComponent) ? null : dragComponent;
+                        invalidate();
+                    }
                 }
                 dragComponent = null;
                 break;
@@ -223,8 +251,8 @@ public class LogicBuildView extends BaseCircuitView {
             if (c.type.equals("NOT")) { gateCount++; notCount++; }
         }
 
-        if (gateCount < requiredGates)
-            return "Use at least " + requiredGates + " gates! You have " + gateCount + ".";
+        if (gateCount != requiredGates)
+            return "You must use exactly " + requiredGates + " gates! You have " + gateCount + ".";
         if (requireAnd && andCount == 0)
             return "You must use at least one AND gate!";
         if (requireNot && notCount == 0)

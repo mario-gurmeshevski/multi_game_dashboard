@@ -40,7 +40,6 @@
             android:text="@string/dialog_submit"
             android:textSize="13sp"
             android:minWidth="80dp"
-            android:visibility="gone"
             android:layout_marginEnd="8dp" />
 
         <TextView
@@ -101,6 +100,11 @@
                 android:paddingHorizontal="8dp" />
         </HorizontalScrollView>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
         <com.example.educationgame.scheduler.GanttChartView
             android:id="@+id/ganttChart"
             android:layout_width="match_parent"
@@ -109,16 +113,6 @@
             android:paddingTop="8dp"
             android:paddingBottom="4dp"
             android:layout_marginBottom="4dp" />
-
-        <TextView
-            android:id="@+id/errorText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/error"
-            android:textSize="13sp"
-            android:visibility="gone"
-            android:gravity="center"
-            android:layout_marginTop="4dp" />
 
     </LinearLayout>
 
