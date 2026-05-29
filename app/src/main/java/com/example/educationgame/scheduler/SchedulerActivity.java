@@ -52,7 +52,7 @@ public class SchedulerActivity extends BaseLevelSelectActivity {
     }
 
     @Override
-    protected Intent buildPlayIntent(int index, int levelNum, int levelId) {
+    protected Intent buildPlayIntent(int levelNum, int levelId) {
         Intent intent = new Intent(this, LevelSchedulerPlayActivity.class);
         intent.putExtra(LevelSchedulerPlayActivity.EXTRA_LEVEL_NUMBER, levelNum);
         intent.putExtra(LevelSchedulerPlayActivity.EXTRA_LEVEL_ID, levelId);

@@ -26,12 +26,6 @@
     <string name="process_priority">Priority: %1$d</string>
     <string name="slot_time_range">t=%1$d–%2$d</string>
     <string name="timer_format">%1$02d:%2$02d</string>
-    <string name="wrong_order">Wrong order — a process with earlier arrival should run first</string>
-    <string name="wrong_order_sjf">Wrong order — among arrived processes, the shortest burst should run first</string>
-    <string name="wrong_order_ljf">Wrong order — among arrived processes, the longest burst should run first</string>
-    <string name="wrong_order_priority">Wrong order — among arrived processes, the highest priority should run first</string>
-    <string name="wrong_order_rr">Wrong process in this slot — follow Round Robin order</string>
-
     <string name="content_desc_back">Back</string>
     <string name="content_desc_star">Star</string>
     <string name="content_desc_scheduler">Scheduler game icon</string>

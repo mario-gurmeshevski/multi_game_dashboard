@@ -12,14 +12,6 @@ public class LevelConfig {
     private final int threeStarSeconds;
     private final int twoStarSeconds;
 
-    public LevelConfig(SchedulingAlgorithm algorithm, List<ProcessDef> processes) {
-        this(algorithm, processes, 0, 0, 0);
-    }
-
-    public LevelConfig(SchedulingAlgorithm algorithm, List<ProcessDef> processes, int timeQuantum) {
-        this(algorithm, processes, timeQuantum, 0, 0);
-    }
-
     public LevelConfig(SchedulingAlgorithm algorithm, List<ProcessDef> processes,
                        int threeStarSeconds, int twoStarSeconds) {
         this(algorithm, processes, 0, threeStarSeconds, twoStarSeconds);
