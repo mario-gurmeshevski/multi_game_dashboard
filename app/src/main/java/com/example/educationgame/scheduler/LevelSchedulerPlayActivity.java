@@ -242,21 +242,6 @@ public class LevelSchedulerPlayActivity extends AppCompatActivity implements Sch
         return true;
     }
 
-    private String getWrongOrderMessage() {
-        switch (algorithm) {
-            case SJF:
-                return getString(R.string.wrong_order_sjf);
-            case LJF:
-                return getString(R.string.wrong_order_ljf);
-            case PRIORITY:
-                return getString(R.string.wrong_order_priority);
-            case ROUND_ROBIN:
-                return getString(R.string.wrong_order_rr);
-            default:
-                return getString(R.string.wrong_order);
-        }
-    }
-
     private void updateGanttAndStats() {
         List<ProcessInfo> ordered = new ArrayList<>();
         for (int i = 0; i < totalSlots; i++) {

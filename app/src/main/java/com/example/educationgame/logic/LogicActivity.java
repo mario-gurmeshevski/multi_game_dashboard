@@ -50,7 +50,7 @@ public class LogicActivity extends BaseLevelSelectActivity {
     }
 
     @Override
-    protected Intent buildPlayIntent(int index, int levelNum, int levelId) {
+    protected Intent buildPlayIntent(int levelNum, int levelId) {
         Intent intent = new Intent(this, LogicLevelPlayActivity.class);
         intent.putExtra(LogicLevelPlayActivity.EXTRA_LEVEL_NUMBER, levelNum);
         intent.putExtra(LogicLevelPlayActivity.EXTRA_LEVEL_ID, levelId);

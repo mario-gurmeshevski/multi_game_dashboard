@@ -47,8 +47,8 @@ public class LogicGameView extends View {
     private OnInputChangedListener listener;
 
     public interface OnInputChangedListener {
-        void onInputAChanged(boolean value);
-        void onInputBChanged(boolean value);
+        void onInputAChanged();
+        void onInputBChanged();
     }
 
     private void loadColors() {
@@ -134,7 +134,7 @@ public class LogicGameView extends View {
             inputA = !inputA;
             recalcOutput();
             invalidate();
-            if (listener != null) listener.onInputAChanged(inputA);
+            if (listener != null) listener.onInputAChanged();
             return true;
         }
 
@@ -142,7 +142,7 @@ public class LogicGameView extends View {
             inputB = !inputB;
             recalcOutput();
             invalidate();
-            if (listener != null) listener.onInputBChanged(inputB);
+            if (listener != null) listener.onInputBChanged();
             return true;
         }
 

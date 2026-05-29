@@ -11,11 +11,6 @@ public class LogicWireView extends BaseCircuitView {
     public LogicWireView(Context context) { super(context); }
     public LogicWireView(Context context, AttributeSet attrs) { super(context, attrs); }
 
-    @Override
-    protected boolean isCircuitValid() {
-        return allGatesConnected();
-    }
-
     public String getUnconnectedGateMessage() {
         for (Component c : components) {
             if (c.type.equals("AND") || c.type.equals("OR") || c.type.equals("NOT")) {
@@ -89,7 +84,7 @@ public class LogicWireView extends BaseCircuitView {
         Component not2 = makeGate("not2", "NOT", col4x, or1y + gh*0.4f, gw, gh);
 
         float bulbSize = Math.min(w, h) * 0.22f;
-        Component bulb = makeBulb("bulb", w*0.86f, h/2f - bulbSize/2f, bulbSize);
+        Component bulb = makeBulb(w*0.86f, h/2f - bulbSize/2f, bulbSize);
 
         addAll(btnA, btnB, btnC, btnD, and1, not1, and2, or1, not2, bulb);
     }
@@ -128,7 +123,7 @@ public class LogicWireView extends BaseCircuitView {
         Component and4 = makeGate("and4", "AND", col4x, h/2f - gh*1.3f/2f, gw, gh*1.3f);
 
         float bulbSize = Math.min(w, h) * 0.20f;
-        Component bulb = makeBulb("bulb", w*0.86f, h/2f - bulbSize/2f, bulbSize);
+        Component bulb = makeBulb(w*0.86f, h/2f - bulbSize/2f, bulbSize);
 
         addAll(btnA, btnB, btnC, btnD, or1, not1, and1, and2, and3, or2, not2, and4, bulb);
     }
@@ -164,7 +159,7 @@ public class LogicWireView extends BaseCircuitView {
         Component and4 = makeGate("and4", "AND", col5x, h/2f - gh*1.3f/2f, gw, gh*1.3f);
 
         float bulbSize = Math.min(w, h) * 0.18f;
-        Component bulb = makeBulb("bulb", w*0.92f, h/2f - bulbSize/2f, bulbSize);
+        Component bulb = makeBulb(w*0.92f, h/2f - bulbSize/2f, bulbSize);
 
         addAll(btnA, btnB, btnC, and1, not1, and2, not2, not3, or1, and3, not4, or2, or3, and4, bulb);
     }

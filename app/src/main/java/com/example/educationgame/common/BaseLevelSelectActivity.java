@@ -62,7 +62,7 @@ public abstract class BaseLevelSelectActivity extends AppCompatActivity {
     protected abstract String getGameDescription();
     protected abstract String getLevelDescription(int levelNumber);
     protected abstract int getTotalPossibleStars();
-    protected abstract Intent buildPlayIntent(int index, int levelNum, int levelId);
+    protected abstract Intent buildPlayIntent(int levelNum, int levelId);
 
     protected void onLevelsSeeded(int gameId) {
     }
@@ -288,7 +288,7 @@ public abstract class BaseLevelSelectActivity extends AppCompatActivity {
                 statusView.setText(R.string.level_locked);
                 statusView.setTextColor(getColor(R.color.locked_text));
                 bestTimeView.setVisibility(View.GONE);
-                levelCards[i].setOnClickListener(null);
+                setCardClickListener(i, false);
             }
         }
     }
@@ -305,7 +305,7 @@ public abstract class BaseLevelSelectActivity extends AppCompatActivity {
         }
         int levelNum = index + 1;
         levelCards[index].setOnClickListener(v -> {
-            Intent intent = buildPlayIntent(index, levelNum, levelIds[index]);
+            Intent intent = buildPlayIntent(levelNum, levelIds[index]);
             levelPlayLauncher.launch(intent);
         });
     }

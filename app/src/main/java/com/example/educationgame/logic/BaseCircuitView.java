@@ -40,7 +40,6 @@ public abstract class BaseCircuitView extends View {
         public final float h;
         public boolean value = false;
         public final List<Port> ports = new ArrayList<>();
-        public boolean dragging = false;
 
         public Component(String id, String type, float x, float y, float w, float h) {
             this.id = id;
@@ -63,10 +62,6 @@ public abstract class BaseCircuitView extends View {
         }
     }
 
-    public interface OnCircuitChangedListener {
-        void onCircuitChanged(boolean bulbOn);
-    }
-
     protected final List<Component> components = new ArrayList<>();
     protected final List<Wire> wires = new ArrayList<>();
     protected final List<Port> allPorts = new ArrayList<>();
@@ -76,7 +71,7 @@ public abstract class BaseCircuitView extends View {
     protected Port hoveredPort = null;
 
     protected final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    protected OnCircuitChangedListener listener;
+    protected Runnable onCircuitChanged;
 
     protected int colorBg;
     protected int colorPort;
@@ -120,8 +115,8 @@ public abstract class BaseCircuitView extends View {
         invalidate();
     }
 
-    public void setOnCircuitChangedListener(OnCircuitChangedListener l) {
-        this.listener = l;
+    public void setOnCircuitChangedListener(Runnable l) {
+        this.onCircuitChanged = l;
     }
 
     private void loadColors() {
@@ -183,9 +178,9 @@ public abstract class BaseCircuitView extends View {
         return c;
     }
 
-    protected Component makeBulb(String id, float x, float y, float size) {
-        Component c = new Component(id, "BULB", x, y, size, size);
-        Port in = new Port(id + "_in", id, x, y + size / 2f, false);
+    protected Component makeBulb(float x, float y, float size) {
+        Component c = new Component("bulb", "BULB", x, y, size, size);
+        Port in = new Port("bulb" + "_in", "bulb", x, y + size / 2f, false);
         c.ports.add(in);
         return c;
     }
@@ -208,42 +203,26 @@ public abstract class BaseCircuitView extends View {
                 Component toComp   = findComponentById(wire.to.componentId);
                 if (fromComp == null || toComp == null) continue;
 
-                if (toComp.type.equals("AND")) {
-                    toComp.value = getInputValue(toComp, "in1") && getInputValue(toComp, "in2");
-                } else if (toComp.type.equals("OR")) {
-                    toComp.value = getInputValue(toComp, "in1") || getInputValue(toComp, "in2");
-                } else if (toComp.type.equals("NOT")) {
-                    toComp.value = !fromComp.value;
-                } else if (toComp.type.equals("BULB")) {
-                    toComp.value = fromComp.value;
+                switch (toComp.type) {
+                    case "AND":
+                        toComp.value = getInputValue(toComp, "in1") && getInputValue(toComp, "in2");
+                        break;
+                    case "OR":
+                        toComp.value = getInputValue(toComp, "in1") || getInputValue(toComp, "in2");
+                        break;
+                    case "NOT":
+                        toComp.value = !fromComp.value;
+                        break;
+                    case "BULB":
+                        toComp.value = fromComp.value;
+                        break;
                 }
                 wire.active = fromComp.value;
             }
         }
 
-        Component bulb = findComponentById("bulb");
-        boolean bulbOn = bulb != null && bulb.value && isCircuitValid();
-        if (listener != null) listener.onCircuitChanged(bulbOn);
+        if (onCircuitChanged != null) onCircuitChanged.run();
         invalidate();
-    }
-
-    protected boolean isCircuitValid() {
-        return true;
-    }
-
-    protected boolean allGatesConnected() {
-        for (Component c : components) {
-            if (c.type.equals("AND") || c.type.equals("OR") || c.type.equals("NOT")) {
-                boolean hasInput  = false;
-                boolean hasOutput = false;
-                for (Wire wire : wires) {
-                    if (wire.to.componentId.equals(c.id))   hasInput  = true;
-                    if (wire.from.componentId.equals(c.id)) hasOutput = true;
-                }
-                if (!hasInput || !hasOutput) return false;
-            }
-        }
-        return true;
     }
 
     protected boolean getInputValue(Component gate, String suffix) {

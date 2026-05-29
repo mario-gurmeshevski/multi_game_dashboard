@@ -79,7 +79,7 @@ public class LogicBuildView extends BaseCircuitView {
             float w = getWidth();
             float h = getHeight();
             float bulbSize = Math.min(w, h) * 0.28f;
-            Component bulb = makeBulb("bulb",
+            Component bulb = makeBulb(
                     w * 0.82f, h / 2f - bulbSize / 2f, bulbSize);
             addComponent(bulb);
             invalidate();

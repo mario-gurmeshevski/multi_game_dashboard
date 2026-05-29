@@ -1,11 +1,11 @@
 # Logic OS
 
-![Version](https://img.shields.io/badge/version-1.8.0-blue)
+![Version](https://img.shields.io/badge/version-1.9.1-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Min SDK](https://img.shields.io/badge/minSDK-24-orange)
 ![Platform](https://img.shields.io/badge/platform-Android-3DDC84)
 
-An educational Android game app that teaches operating system CPU scheduling algorithms and boolean logic gates through interactive puzzles. Players progress through timed levels, earning up to 3 stars per level based on completion speed.
+An educational Android game app that teaches operating system CPU scheduling algorithms and boolean logic gates through interactive puzzles. Players progress through 18 timed levels across two games, earning up to 3 stars per level based on completion speed.
 
 ## Screenshots
 
@@ -27,12 +27,11 @@ Learn 5 CPU scheduling algorithms through drag-and-drop puzzles. Arrange process
 
 | Levels | Algorithm                          | Description                                            |
 |--------|------------------------------------|--------------------------------------------------------|
-| 1–2    | **FCFS** (First Come First Served) | Processes execute in order of arrival                  |
-| 3–4    | **SJF** (Shortest Job First)       | Shortest burst time among arrived processes goes first |
-| 5–6    | **LJF** (Longest Job First)        | Longest burst time among arrived processes goes first  |
-| 7–8    | **Priority**                       | Highest priority among arrived processes goes first    |
-| 9      | **FCFS** (Advanced)                | 6 processes with staggered arrivals                    |
-| 10–12  | **Round Robin**                    | Fill time slots with the correct process (quantum = 2) |
+| 1      | **FCFS** (First Come First Served) | Processes execute in order of arrival                  |
+| 2–3    | **SJF** (Shortest Job First)       | Shortest burst time among arrived processes goes first |
+| 4–5    | **LJF** (Longest Job First)        | Longest burst time among arrived processes goes first  |
+| 6–7    | **Priority**                       | Highest priority among arrived processes goes first    |
+| 8–9    | **Round Robin**                    | Fill time slots with the correct process (quantum = 2) |
 
 Each level presents named processes (Chrome, Spotify, VSCode, etc.) with arrival time, burst time, and (where applicable) priority values. Drag them into the correct execution slots.
 
@@ -48,15 +47,18 @@ Learn boolean logic gates (AND, OR, NOT) through three progressive gameplay mode
 
 ## Features
 
-- **21 levels** across two games with progressive difficulty
+- **18 levels** across two games with progressive difficulty
 - **Star-based scoring** — earn 1–3 stars per level based on completion time
+- **Best time tracking** — shows the best completion time per level on the level-select screen
 - **Sequential unlocking** — complete a level to unlock the next
 - **Progress tracking** — circular progress bar showing overall completion
+- **Dynamic level grid** — level cards generated programmatically in a 3-column grid
 - **Drag-and-drop** interaction for the scheduler game
 - **Custom Canvas rendering** for circuit building with curved wires
 - **Light and dark theme** support
 - **Offline** — no internet connection required
 - **Hint system** — hints unlock after 30 seconds on logic levels
+- **Exact gate validation** — build-mode levels require the precise number of logic gates
 
 ## Tech Stack
 
@@ -78,7 +80,6 @@ Learn boolean logic gates (AND, OR, NOT) through three progressive gameplay mode
 - Android Studio (latest stable recommended)
 - Android SDK with API 36
 
-### Build & Run
 
 ```bash
 git clone https://github.com/mario-gurmeshevski/multi_game_dashboard.git
@@ -129,7 +130,7 @@ app/src/main/java/com/example/educationgame/
 │   └── LevelTaskDialog.java                   # Pre-game task popup with countdown
 │
 ├── scheduler/
-│   ├── SchedulerActivity.java                 # Level select (12 levels, extends Base)
+│   ├── SchedulerActivity.java                 # Level select (9 levels, extends Base)
 │   ├── LevelSchedulerPlayActivity.java        # Gameplay host (drag-and-drop, timer)
 │   ├── SchedulerSolver.java                   # Algorithm engine (FCFS, SJF, LJF, etc.)
 │   ├── SchedulerDragController.java           # Drag-and-drop logic & validation

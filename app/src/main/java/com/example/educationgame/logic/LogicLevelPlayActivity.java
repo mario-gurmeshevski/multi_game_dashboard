@@ -168,18 +168,16 @@ public class LogicLevelPlayActivity extends AppCompatActivity {
         if (levelNumber <= 3) {
             gameView.setGateType(currentLevel.getGateType());
             gameView.setOnInputChangedListener(new LogicGameView.OnInputChangedListener() {
-                @Override
-                public void onInputAChanged(boolean value) {
+                public void onInputAChanged() {
                     checkButton.setEnabled(true);
                 }
-                @Override
-                public void onInputBChanged(boolean value) {
+                public void onInputBChanged() {
                     checkButton.setEnabled(true);
                 }
             });
         } else if (levelNumber <= 6) {
             wireView.setupLevel(levelNumber);
-            wireView.setOnCircuitChangedListener(bulbOn -> checkButton.setEnabled(true));
+            wireView.setOnCircuitChangedListener(() -> checkButton.setEnabled(true));
             checkButton.setEnabled(true);
         } else {
             // Нивоа 7-9 — прикажи popup прво
