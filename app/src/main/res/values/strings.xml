@@ -12,18 +12,6 @@
     <string name="percent_format">%1$d%%</string>
     <string name="percent_zero">0%</string>
 
-    <string name="level_1">Level 1</string>
-    <string name="level_2">Level 2</string>
-    <string name="level_3">Level 3</string>
-    <string name="level_4">Level 4</string>
-    <string name="level_5">Level 5</string>
-    <string name="level_6">Level 6</string>
-    <string name="level_7">Level 7</string>
-    <string name="level_8">Level 8</string>
-    <string name="level_9">Level 9</string>
-    <string name="level_10">Level 10</string>
-    <string name="level_11">Level 11</string>
-    <string name="level_12">Level 12</string>
     <string name="level_title">Level %1$d</string>
 
     <string name="dialog_submit">Submit</string>
@@ -59,7 +47,7 @@
     <string name="or">OR</string>
     <string name="not">NOT</string>
     <string name="hint">Hint</string>
-    <string name="trash">🗑</string>
+    <string name="delete">Delete</string>
     <string name="check_circuit">Check circuit</string>
     <string name="next_level">Next Level</string>
     <string name="level_complete">Level Complete!</string>
@@ -69,8 +57,11 @@
     <string name="ten">10</string>
     <string name="timer_starts_when_popup_closes">Timer starts when popup closes</string>
     <string name="got_it_start_timer">Got it! Start timer</string>
+    <string name="close">Close</string>
     <string name="perfect">Perfect!</string>
     <string name="great_job">Great Job!</string>
+    <string name="best_time_format">Best: %1$d:%2$02d</string>
+    <string name="score_time_format">Time: %1$d:%2$02d</string>
     <string name="level_7_task">🎯 Level 7 — Task</string>
     <string name="level_7_text">Build a circuit that lights the bulb using exactly 4 logic gates.</string>
     <string name="level_8_task">🎯 Level 8 — Task</string>

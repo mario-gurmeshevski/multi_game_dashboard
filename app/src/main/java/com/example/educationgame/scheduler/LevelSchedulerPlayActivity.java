@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,7 +53,6 @@ public class LevelSchedulerPlayActivity extends AppCompatActivity implements Sch
 
     private GanttChartView ganttChart;
     private TextView timerText;
-    private TextView errorText;
     private MaterialButton submitButton;
 
     private final List<ProcessInfo> allProcesses = new ArrayList<>();
@@ -120,7 +120,6 @@ public class LevelSchedulerPlayActivity extends AppCompatActivity implements Sch
         gameContainer.setVisibility(View.VISIBLE);
 
         timerText = findViewById(R.id.timerText);
-        errorText = findViewById(R.id.errorText);
         submitButton = findViewById(R.id.submitButton);
         submitButton.setOnClickListener(v -> onSubmit());
         LinearLayout poolContainer = findViewById(R.id.poolContainer);
@@ -192,15 +191,11 @@ public class LevelSchedulerPlayActivity extends AppCompatActivity implements Sch
     @Override
     public void onSlotDropCompleted() {
         updateGanttAndStats();
-        errorText.setVisibility(View.GONE);
-        checkAllSlotsFilled();
     }
 
     @Override
     public void onReturnToPool() {
-        submitButton.setVisibility(View.GONE);
         updateGanttAndStats();
-        errorText.setVisibility(View.GONE);
     }
 
     @Override
@@ -208,23 +203,34 @@ public class LevelSchedulerPlayActivity extends AppCompatActivity implements Sch
         return completed;
     }
 
-    private void checkAllSlotsFilled() {
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void onSubmit() {
+        if (completed) return;
+
         for (int i = 0; i < totalSlots; i++) {
             if (slotProcesses[i] == null) {
-                submitButton.setVisibility(View.GONE);
+                showToast("Fill all slots first!");
                 return;
             }
         }
 
         if (!isOrderCorrect()) {
-            errorText.setText(getWrongOrderMessage());
-            errorText.setVisibility(View.VISIBLE);
-            submitButton.setVisibility(View.GONE);
+            showToast("Wrong order!");
             return;
         }
 
-        errorText.setVisibility(View.GONE);
-        submitButton.setVisibility(View.VISIBLE);
+        completed = true;
+        timerRunning = false;
+        timerHandler.removeCallbacks(timerRunnable);
+        submitButton.setVisibility(View.GONE);
+
+        long elapsedSec = (System.currentTimeMillis() - startTimeMs) / 1000;
+        int seconds = (int) elapsedSec;
+        int stars = LevelStarConfig.getStars(gameType, levelNumber, seconds);
+        saveProgress(stars, seconds);
     }
 
     private boolean isOrderCorrect() {
@@ -249,19 +255,6 @@ public class LevelSchedulerPlayActivity extends AppCompatActivity implements Sch
             default:
                 return getString(R.string.wrong_order);
         }
-    }
-
-    private void onSubmit() {
-        if (completed) return;
-        completed = true;
-        timerRunning = false;
-        timerHandler.removeCallbacks(timerRunnable);
-        submitButton.setVisibility(View.GONE);
-
-        long elapsedSec = (System.currentTimeMillis() - startTimeMs) / 1000;
-        int seconds = (int) elapsedSec;
-        int stars = LevelStarConfig.getStars(gameType, levelNumber, seconds);
-        saveProgress(stars, seconds);
     }
 
     private void updateGanttAndStats() {
@@ -313,13 +306,13 @@ public class LevelSchedulerPlayActivity extends AppCompatActivity implements Sch
             progress.setAttempts(1);
             progress.setFinishedAt(new Date());
             AppDatabase.getInstance(this).levelProgressDao().insert(progress);
-            runOnUiThread(() -> showCompleteDialog(stars));
+            runOnUiThread(() -> showCompleteDialog(stars, seconds));
         });
     }
 
-    private void showCompleteDialog(int stars) {
+    private void showCompleteDialog(int stars, int seconds) {
         LevelCompleteDialog.show(this, stars, levelNumber,
-                SchedulerLevels.getLevelCount(),
+                SchedulerLevels.getLevelCount(), seconds,
                 new LevelCompleteDialog.OnDialogActionListener() {
                     @Override
                     public void onNextLevel() {

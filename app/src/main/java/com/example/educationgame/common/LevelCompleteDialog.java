@@ -20,7 +20,8 @@ public class LevelCompleteDialog {
     }
 
     public static void show(Context context, int stars, int levelNumber,
-                            int totalLevels, OnDialogActionListener listener) {
+                            int totalLevels, int completionTimeSeconds,
+                            OnDialogActionListener listener) {
         Dialog dialog = new Dialog(context);
         dialog.setCancelable(false);
 
@@ -42,6 +43,15 @@ public class LevelCompleteDialog {
         s1.setTextColor(stars >= 1 ? activeColor : inactiveColor);
         s2.setTextColor(stars >= 2 ? activeColor : inactiveColor);
         s3.setTextColor(stars >= 3 ? activeColor : inactiveColor);
+
+        TextView dialogTime = view.findViewById(R.id.dialogTime);
+        if (completionTimeSeconds >= 0) {
+            int m = completionTimeSeconds / 60;
+            int s = completionTimeSeconds % 60;
+            dialogTime.setText(context.getString(R.string.score_time_format, m, s));
+        } else {
+            dialogTime.setVisibility(View.GONE);
+        }
 
         TextView title = view.findViewById(R.id.dialogTitle);
         if (stars == 3)      title.setText(R.string.perfect);
