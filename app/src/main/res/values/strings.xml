@@ -61,5 +61,5 @@
     <string name="level_8_task">🎯 Level 8 — Task</string>
     <string name="level_8_text">Build a circuit using exactly 5 logic gates.</string>
     <string name="level_9_task">🎯 Level 9 — Task</string>
-    <string name="level_9_text">Build a complex circuit using at least 6 logic gates.</string>
+    <string name="level_9_text">Build a complex circuit using exactly 6 logic gates.</string>
 </resources>

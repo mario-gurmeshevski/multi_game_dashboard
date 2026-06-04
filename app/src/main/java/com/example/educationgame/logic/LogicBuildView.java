@@ -35,6 +35,9 @@ public class LogicBuildView extends BaseCircuitView {
     private boolean requireAnd = false;
     private boolean requireNot = false;
     private boolean requireOr  = false;
+    private int minAnd = 0;
+    private int minNot = 0;
+    private int minOr  = 0;
 
     public void deleteSelectedComponent() {
         if (selectedComponent != null && !selectedComponent.id.equals("bulb")) {
@@ -60,18 +63,27 @@ public class LogicBuildView extends BaseCircuitView {
                 requireAnd = true;
                 requireNot = true;
                 requireOr  = false;
+                minAnd = 1;
+                minNot = 1;
+                minOr  = 0;
                 break;
             case 8:
                 requiredGates = 5;
                 requireAnd = true;
                 requireNot = true;
                 requireOr  = true;
+                minAnd = 1;
+                minNot = 1;
+                minOr  = 1;
                 break;
             case 9:
                 requiredGates = 6;
                 requireAnd = true;
                 requireNot = true;
                 requireOr  = true;
+                minAnd = 2;
+                minNot = 2;
+                minOr  = 1;
                 break;
         }
 
@@ -253,12 +265,12 @@ public class LogicBuildView extends BaseCircuitView {
 
         if (gateCount != requiredGates)
             return "You must use exactly " + requiredGates + " gates! You have " + gateCount + ".";
-        if (requireAnd && andCount == 0)
-            return "You must use at least one AND gate!";
-        if (requireNot && notCount == 0)
-            return "You must use at least one NOT gate!";
-        if (requireOr && orCount == 0)
-            return "You must use at least one OR gate!";
+        if (requireAnd && andCount < minAnd)
+            return "You must use at least " + minAnd + " AND gate" + (minAnd > 1 ? "s" : "") + "!";
+        if (requireNot && notCount < minNot)
+            return "You must use at least " + minNot + " NOT gate" + (minNot > 1 ? "s" : "") + "!";
+        if (requireOr && orCount < minOr)
+            return "You must use at least " + minOr + " OR gate" + (minOr > 1 ? "s" : "") + "!";
 
         Component bulb = findComponentById("bulb");
         if (bulb == null || !bulb.value)
