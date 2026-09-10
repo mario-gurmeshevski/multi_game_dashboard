@@ -38,6 +38,8 @@ public class LogicBuildView extends BaseCircuitView {
     private int minAnd = 0;
     private int minNot = 0;
     private int minOr  = 0;
+    private int minButtonsOn  = 0;
+    private int minButtonsOff = 0;
 
     public void deleteSelectedComponent() {
         if (selectedComponent != null && !selectedComponent.id.equals("bulb")) {
@@ -56,34 +58,51 @@ public class LogicBuildView extends BaseCircuitView {
         components.clear();
         wires.clear();
         allPorts.clear();
+        minButtonsOn  = 0;
+        minButtonsOff = 0;
 
         switch (levelNumber) {
             case 7:
-                requiredGates = 4;
-                requireAnd = true;
-                requireNot = true;
-                requireOr  = false;
-                minAnd = 1;
-                minNot = 1;
-                minOr  = 0;
+                requiredGates = 4; requireAnd = true; requireNot = true; requireOr = false;
+                minAnd = 1; minNot = 1; minOr = 0;
                 break;
             case 8:
-                requiredGates = 5;
-                requireAnd = true;
-                requireNot = true;
-                requireOr  = true;
-                minAnd = 1;
-                minNot = 1;
-                minOr  = 1;
+                requiredGates = 5; requireAnd = true; requireNot = true; requireOr = true;
+                minAnd = 1; minNot = 1; minOr = 1;
                 break;
             case 9:
-                requiredGates = 6;
-                requireAnd = true;
-                requireNot = true;
-                requireOr  = true;
-                minAnd = 2;
-                minNot = 2;
-                minOr  = 1;
+                requiredGates = 6; requireAnd = true; requireNot = true; requireOr = true;
+                minAnd = 2; minNot = 2; minOr = 1;
+                break;
+            case 10:
+                requiredGates = 6; requireAnd = false; requireNot = true; requireOr = true;
+                minAnd = 0; minNot = 1; minOr = 1;
+                minButtonsOn = 1; minButtonsOff = 1;
+                break;
+            case 11:
+                requiredGates = 7; requireAnd = true; requireNot = true; requireOr = false;
+                minAnd = 2; minNot = 2; minOr = 0;
+                minButtonsOn = 2;
+                break;
+            case 12:
+                requiredGates = 7; requireAnd = false; requireNot = true; requireOr = true;
+                minAnd = 0; minNot = 2; minOr = 2;
+                minButtonsOn = 1; minButtonsOff = 1;
+                break;
+            case 13:
+                requiredGates = 8; requireAnd = true; requireNot = true; requireOr = true;
+                minAnd = 1; minNot = 1; minOr = 1;
+                minButtonsOn = 2; minButtonsOff = 1;
+                break;
+            case 14:
+                requiredGates = 9; requireAnd = true; requireNot = true; requireOr = true;
+                minAnd = 2; minNot = 2; minOr = 2;
+                minButtonsOn = 2;
+                break;
+            case 15:
+                requiredGates = 10; requireAnd = true; requireNot = true; requireOr = true;
+                minAnd = 2; minNot = 2; minOr = 2;
+                minButtonsOn = 2; minButtonsOff = 2;
                 break;
         }
 
@@ -91,8 +110,7 @@ public class LogicBuildView extends BaseCircuitView {
             float w = getWidth();
             float h = getHeight();
             float bulbSize = Math.min(w, h) * 0.28f;
-            Component bulb = makeBulb(
-                    w * 0.82f, h / 2f - bulbSize / 2f, bulbSize);
+            Component bulb = makeBulb(w * 0.82f, h / 2f - bulbSize / 2f, bulbSize);
             addComponent(bulb);
             invalidate();
         });
@@ -244,6 +262,8 @@ public class LogicBuildView extends BaseCircuitView {
     }
 
     public String validate() {
+        evaluateCircuit();
+
         for (Component c : components) {
             if (c.type.equals("AND") || c.type.equals("OR") || c.type.equals("NOT")) {
                 boolean hasIn = false, hasOut = false;
@@ -257,10 +277,15 @@ public class LogicBuildView extends BaseCircuitView {
         }
 
         int gateCount = 0, andCount = 0, orCount = 0, notCount = 0;
+        int buttonsOn = 0, buttonsOff = 0;
         for (Component c : components) {
             if (c.type.equals("AND")) { gateCount++; andCount++; }
             if (c.type.equals("OR"))  { gateCount++; orCount++;  }
             if (c.type.equals("NOT")) { gateCount++; notCount++; }
+            if (c.type.startsWith("BUTTON")) {
+                if (c.value) buttonsOn++;
+                else buttonsOff++;
+            }
         }
 
         if (gateCount != requiredGates)
@@ -271,6 +296,10 @@ public class LogicBuildView extends BaseCircuitView {
             return "You must use at least " + minNot + " NOT gate" + (minNot > 1 ? "s" : "") + "!";
         if (requireOr && orCount < minOr)
             return "You must use at least " + minOr + " OR gate" + (minOr > 1 ? "s" : "") + "!";
+        if (minButtonsOn > 0 && buttonsOn < minButtonsOn)
+            return "You must have at least " + minButtonsOn + " button" + (minButtonsOn > 1 ? "s" : "") + " that are ON!";
+        if (minButtonsOff > 0 && buttonsOff < minButtonsOff)
+            return "You must have at least " + minButtonsOff + " button" + (minButtonsOff > 1 ? "s" : "") + " that are OFF!";
 
         Component bulb = findComponentById("bulb");
         if (bulb == null || !bulb.value)
