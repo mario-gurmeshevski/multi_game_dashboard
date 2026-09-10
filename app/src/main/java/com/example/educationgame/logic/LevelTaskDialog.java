@@ -78,6 +78,72 @@ public class LevelTaskDialog {
                 addRule(context, rulesLayout, "✅ All gates must be connected");
                 addRule(context, rulesLayout, "✅ Bulb must be ON");
                 break;
+            case 10:
+                taskTitle.setText("Level 10");
+                taskDescription.setText("Build a circuit without using AND gates.");
+                addRule(context, rulesLayout, "✅ Must use exactly 6 gates");
+                addRule(context, rulesLayout, "✅ AND gates are forbidden");
+                addRule(context, rulesLayout, "✅ Must use at least 1 OR gate");
+                addRule(context, rulesLayout, "✅ Must use at least 1 NOT gate");
+                addRule(context, rulesLayout, "✅ Must have 1 button that is ON");
+                addRule(context, rulesLayout, "✅ Must have 1 button that is OFF");
+                addRule(context, rulesLayout, "✅ All gates must be connected");
+                addRule(context, rulesLayout, "✅ Bulb must be ON");
+                break;
+            case 11:
+                taskTitle.setText("Level 11");
+                taskDescription.setText("Build a more complex circuit.");
+                addRule(context, rulesLayout, "✅ Must use exactly 7 gates");
+                addRule(context, rulesLayout, "✅ Must use at least 2 AND gates");
+                addRule(context, rulesLayout, "✅ Must use at least 2 NOT gates");
+                addRule(context, rulesLayout, "✅ Must have at least 2 buttons that are ON");
+                addRule(context, rulesLayout, "✅ All gates must be connected");
+                addRule(context, rulesLayout, "✅ Bulb must be ON");
+                break;
+            case 12:
+                taskTitle.setText("Level 12");
+                taskDescription.setText("Build a more complex circuit.");
+                addRule(context, rulesLayout, "✅ Must use exactly 7 gates");
+                addRule(context, rulesLayout, "✅ Must use at least 2 OR gates");
+                addRule(context, rulesLayout, "✅ Must use at least 2 NOT gates");
+                addRule(context, rulesLayout, "✅ Must have 1 button that is ON");
+                addRule(context, rulesLayout, "✅ Must have 1 button that is OFF");
+                addRule(context, rulesLayout, "✅ All gates must be connected");
+                addRule(context, rulesLayout, "✅ Bulb must be ON");
+                break;
+            case 13:
+                taskTitle.setText("Level 13");
+                taskDescription.setText("Combine all gate types.");
+                addRule(context, rulesLayout, "✅ Must use exactly 8 gates");
+                addRule(context, rulesLayout, "✅ Must use at least 1 AND gate");
+                addRule(context, rulesLayout, "✅ Must use at least 1 OR gate");
+                addRule(context, rulesLayout, "✅ Must use at least 1 NOT gate");
+                addRule(context, rulesLayout, "✅ Must have at least 2 buttons that are ON");
+                addRule(context, rulesLayout, "✅ Must have 1 button that is OFF");
+                addRule(context, rulesLayout, "✅ All gates must be connected");
+                addRule(context, rulesLayout, "✅ Bulb must be ON");
+                break;
+            case 14:
+                taskTitle.setText("Level 14");
+                taskDescription.setText("Advanced circuit design.");
+                addRule(context, rulesLayout, "✅ Must use exactly 9 gates");
+                addRule(context, rulesLayout, "✅ Must use at least 2 AND gates");
+                addRule(context, rulesLayout, "✅ Must use at least 2 OR gates");
+                addRule(context, rulesLayout, "✅ Must use at least 2 NOT gates");
+                addRule(context, rulesLayout, "✅ Must have at least 2 buttons that are ON");
+                addRule(context, rulesLayout, "✅ All gates must be connected");
+                addRule(context, rulesLayout, "✅ Bulb must be ON");
+                break;
+            case 15:
+                taskTitle.setText("Level 15 — Final Challenge");
+                taskDescription.setText("Put everything you've learned together.");
+                addRule(context, rulesLayout, "✅ Must use exactly 10 gates");
+                addRule(context, rulesLayout, "✅ Must use AND, OR and NOT gates");
+                addRule(context, rulesLayout, "✅ Must have at least 2 buttons that are ON");
+                addRule(context, rulesLayout, "✅ Must have at least 2 buttons that are OFF");
+                addRule(context, rulesLayout, "✅ All gates must be connected");
+                addRule(context, rulesLayout, "✅ Bulb must be ON");
+                break;
         }
 
         if (isInfoOnly) {

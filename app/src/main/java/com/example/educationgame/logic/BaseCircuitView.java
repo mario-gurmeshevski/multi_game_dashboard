@@ -178,11 +178,15 @@ public abstract class BaseCircuitView extends View {
         return c;
     }
 
-    protected Component makeBulb(float x, float y, float size) {
-        Component c = new Component("bulb", "BULB", x, y, size, size);
-        Port in = new Port("bulb" + "_in", "bulb", x, y + size / 2f, false);
+    protected Component makeBulb(String id, float x, float y, float size) {
+        Component c = new Component(id, "BULB", x, y, size, size);
+        Port in = new Port(id + "_in", id, x, y + size / 2f, false);
         c.ports.add(in);
         return c;
+    }
+
+    protected Component makeBulb(float x, float y, float size) {
+        return makeBulb("bulb", x, y, size);
     }
 
     protected void addAll(Component... comps) {

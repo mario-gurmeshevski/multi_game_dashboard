@@ -236,6 +236,19 @@ public abstract class BaseLevelSelectActivity extends AppCompatActivity {
                     levelIds[idx] = level.getId();
                 }
             }
+
+            for (int i = 1; i <= levelCount; i++) {
+                int idx = i - 1;
+                if (levelIds[idx] == 0) {
+                    LevelEntity level = new LevelEntity();
+                    level.setLevelNumber(i);
+                    level.setName("Level " + i);
+                    level.setDescription(getLevelDescription(i));
+                    level.setGameId(gameId);
+                    levelIds[idx] = (int) db.levelDao().insert(level);
+                }
+            }
+
             onLevelsSeeded(gameId);
         }
     }
